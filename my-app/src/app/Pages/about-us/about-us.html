@@ -1,1 +1,443 @@
-<p>about-us works!</p>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Về chúng tôi – Lightbooks</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0ece4;
+      color: #1a1a1a;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: #d6ddd4;
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      padding: 64px 80px;
+      min-height: 340px;
+    }
+
+    .hero-text { flex: 1; }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #2d3a2e;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      font-weight: 800;
+      color: #1a1a1a;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 28px;
+      max-width: 380px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #1a3a1e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: #0f2412; }
+
+    .btn-secondary {
+      background: transparent;
+      color: #1a1a1a;
+      border: 1.5px solid #1a1a1a;
+      border-radius: 8px;
+      padding: 12px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-secondary:hover { background: rgba(0,0,0,0.05); }
+
+    .hero-img {
+      width: 340px;
+      height: 240px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      padding: 64px 80px;
+    }
+
+    /* ── MISSION / VISION ── */
+    .mv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .mv-card {
+      border-radius: 14px;
+      padding: 32px;
+      border: 1px solid #e2ddd6;
+      background: #fff;
+    }
+
+    .mv-card.dark {
+      background: #1a3a1e;
+      border-color: #1a3a1e;
+      color: #fff;
+    }
+
+    .mv-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .mv-card.dark .mv-icon { background: rgba(255,255,255,0.12); }
+    .mv-card:not(.dark) .mv-icon { background: #eef3ee; }
+
+    .mv-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .mv-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: inherit;
+      opacity: 0.85;
+    }
+
+    /* ── CORE VALUES ── */
+    .values-section {
+      padding: 64px 80px;
+      background: #f0ece4;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 36px;
+      color: #1a1a1a;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .value-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 24px;
+      border: 1px solid #e2ddd6;
+    }
+
+    .value-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .value-icon.blue  { background: #e8f0fe; }
+    .value-icon.green { background: #e6f4ea; }
+    .value-icon.pink  { background: #fce8e6; }
+
+    .value-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .value-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.65;
+    }
+
+    /* ── SUPPORT ── */
+    .support-section {
+      padding: 64px 80px;
+      background: #f0ece4;
+    }
+
+    .support-header { margin-bottom: 28px; }
+
+    .support-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .support-sub {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .support-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 22px 24px;
+      border: 1px solid #e2ddd6;
+    }
+
+    .support-icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .support-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .support-card-desc {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.6;
+    }
+
+    /* hotline banner */
+    .hotline-banner {
+      background: #e8eeea;
+      border-radius: 12px;
+      padding: 20px 26px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hotline-icon {
+      width: 36px;
+      height: 36px;
+      background: #c8d8cc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hotline-text strong {
+      font-size: 14px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .hotline-text span {
+      font-size: 13px;
+      color: #555;
+    }
+
+    @media (max-width: 800px) {
+      .hero { flex-direction: column; padding: 40px 24px; }
+      .hero-img { width: 100%; height: 200px; }
+      .section, .values-section, .support-section { padding: 40px 24px; }
+      .mv-grid, .values-grid, .support-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Về chúng tôi</div>
+      <h1 class="hero-title">Thắp sáng tri thức, Gieo<br/>mầm tương lai</h1>
+      <p class="hero-desc">
+        Lightbooks không chỉ là một hiệu sách. Chúng tôi là cầu nối giữa tri thức nhân loại và lối sống bền vững để mang đến những cuốn sách ý nghĩa nhất cho hành trình phát triển của bạn.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-primary">Khám phá kho sách</button>
+        <button class="btn-secondary">Sứ mệnh và tầm nhìn</button>
+      </div>
+    </div>
+    <!-- Thay src bằng ảnh thật của bạn -->
+    <img class="hero-img" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=700&q=80" alt="Thư viện sách" />
+  </section>
+
+  <!-- ── MISSION / VISION ── -->
+  <section class="section">
+    <div class="mv-grid">
+      <!-- Sứ mệnh -->
+      <div class="mv-card dark">
+        <div class="mv-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <div class="mv-title">Sứ mệnh</div>
+        <p class="mv-desc">Thắp sáng tri thức Việt và bảo vệ môi trường thông qua việc tái sử dụng sách cũ, xây dựng cộng đồng đọc bền vững.</p>
+      </div>
+
+      <!-- Tầm nhìn -->
+      <div class="mv-card">
+        <div class="mv-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <div class="mv-title">Tầm nhìn</div>
+        <p class="mv-desc">Trở thành hệ thống thư viện sinh thái và trao đổi sách thông minh hàng đầu Việt Nam, nơi tri thức và màu xanh hòa quyện.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CORE VALUES ── -->
+  <section class="values-section">
+    <h2 class="section-title">Giá trị cốt lõi của Lightbooks</h2>
+    <div class="values-grid">
+
+      <div class="value-card">
+        <div class="value-icon blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a7ddb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="value-title">Giáo dục vì cộng đồng</div>
+        <p class="value-desc">Chúng tôi tin rằng tri thức là tài sản của mọi người. Lightbooks cam kết duy trì mức giá để tiếp cận và các chương trình tặng sách cho các vùng sâu vùng xa.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2d7a4f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="value-title">Vòng đời xanh</div>
+        <p class="value-desc">Mỗi cuốn sách ban ra là một lời hứa với thiên nhiên. Chúng tôi ưu tiên giấy tái chế và công nghệ in ấn ít phát thải, giảm thiểu việc khai thác rừng nguyên sinh.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon pink">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="value-title">Thấu hiểu độc giả</div>
+        <p class="value-desc">Tận dụng sức mạnh của công nghệ học máy để thấu hiểu sở thích riêng biệt của bạn.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SUPPORT ── -->
+  <section class="support-section">
+    <div class="support-header">
+      <h2 class="support-title">Hỗ trợ khách hàng</h2>
+      <p class="support-sub">Mọi thông tin bạn cần để có trải nghiệm mua sắm tuyệt vời nhất.</p>
+    </div>
+
+    <div class="support-grid">
+
+      <div class="support-card">
+        <div class="support-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <div class="support-card-title">Cẩm nang khách hàng</div>
+        <p class="support-card-desc">Hướng dẫn bảo quản sách và cách tận dụng tối đa hệ thống AI Lightbooks.</p>
+      </div>
+
+      <div class="support-card">
+        <div class="support-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="support-card-title">Chính sách bán hàng</div>
+        <p class="support-card-desc">Đổi trả trong 7 ngày nếu có lỗi sản phẩm. Chúng tôi luôn ưu tiên quyền lợi khách hàng.</p>
+      </div>
+
+      <div class="support-card">
+        <div class="support-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+        </div>
+        <div class="support-card-title">Chính sách thanh toán</div>
+        <p class="support-card-desc">Hỗ trợ đa dạng phương thức: MoMo, VNPay, thẻ tín dụng và COD nhanh chóng.</p>
+      </div>
+
+      <div class="support-card">
+        <div class="support-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="support-card-title">Chính sách bảo mật</div>
+        <p class="support-card-desc">Dữ liệu cá nhân và thói quen đọc của bạn được bảo mật tuyệt đối bởi AI mã hóa.</p>
+      </div>
+
+    </div>
+
+    <!-- Hotline banner -->
+    <div class="hotline-banner">
+      <div class="hotline-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      <div class="hotline-text">
+        <strong>Bạn cần hỗ trợ trực tiếp?</strong>
+        <span>Đội ngũ tư vấn luôn sẵn sàng hỗ trợ bạn 24/7 qua Hotline 012345678.</span>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>

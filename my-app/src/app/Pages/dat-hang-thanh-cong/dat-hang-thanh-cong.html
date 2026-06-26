@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đặt hàng thành công – Lightbooks</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0ece4;
+      color: #1a1a1a;
+      min-height: 100vh;
+      padding: 36px 16px 80px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ── STEPPER ── */
+    .stepper-wrap {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .stepper-inner {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .step-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-dot.done {
+      background: #fff;
+      border: 2px solid #2d3a2e;
+      color: #2d3a2e;
+    }
+    .step-dot.active {
+      background: #2d3a2e;
+      color: #fff;
+    }
+
+    .step-label {
+      font-size: 12px;
+      color: #888;
+      white-space: nowrap;
+    }
+    .step-label.active {
+      color: #1a1a1a;
+      font-weight: 700;
+    }
+    .step-label.done {
+      color: #2d3a2e;
+      font-weight: 600;
+    }
+
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: #2d3a2e;
+      margin-bottom: 18px;
+    }
+
+    /* ── LOGO ── */
+    .logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 32px;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 52px;
+      height: 52px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: #1a1a1a;
+    }
+
+    .logo-tagline {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    /* ── SUCCESS CONTENT ── */
+    .success-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1a3a1e;
+      text-align: center;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .success-sub {
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* ── INFO CARDS ── */
+    .info-cards {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .info-card {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #e2ddd6;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .info-card-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: #aaa;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .info-card-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card-value svg {
+      color: #2d3a2e;
+      flex-shrink: 0;
+    }
+
+    /* ── CTA BUTTON ── */
+    .cta-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-continue {
+      background: #1a3a1e;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 32px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-continue:hover {
+      background: #0f2412;
+      transform: translateX(2px);
+    }
+
+    @media (max-width: 500px) {
+      .info-cards { flex-direction: column; }
+      .success-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- STEPPER -->
+  <div class="stepper-wrap">
+    <div class="stepper-inner">
+      <div class="step-wrap">
+        <div class="step-dot done">✓</div>
+        <div class="step-label done">Giỏ hàng</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-wrap">
+        <div class="step-dot done">✓</div>
+        <div class="step-label done">Thanh toán</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-wrap">
+        <div class="step-dot active">⊙</div>
+        <div class="step-label active">Hoàn tất</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGO -->
+  <div class="logo-block">
+    <div class="logo-row">
+      <!-- Logo icon: để src="" để import hình sau -->
+      <img class="logo-icon" src="" alt="Lightbooks logo" />
+      <div class="logo-text">
+        <span class="logo-name">LIGHTBOOKS</span>
+        <span class="logo-tagline">Read light, think bright</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MESSAGE -->
+  <h1 class="success-title">Chúc mừng bạn đã đặt hàng thành công!</h1>
+  <p class="success-sub">
+    Đơn hàng của bạn đang được xử lý và sẽ sớm được giao<br/>
+    đến bạn bởi đội ngũ vận chuyển.
+  </p>
+
+  <!-- INFO CARDS -->
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-label">Mã đơn hàng</div>
+      <div class="info-card-value">#1902</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Dự kiến giao hàng</div>
+      <div class="info-card-value">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/>
+          <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+        </svg>
+        Thứ Năm, 24/10
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <button class="btn-continue">
+      Tiếp tục mua sắm
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+</body>
+</html>

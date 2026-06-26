@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thanh toán – Lightbooks</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0ece4;
+      color: #1a1a1a;
+      min-height: 100vh;
+      padding: 36px 16px 80px;
+    }
+
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+
+    /* ── STEPPER ── */
+    .stepper {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 36px;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: #2d3a2e;
+      margin-top: 14px;
+      min-width: 60px;
+    }
+    .step-line.inactive {
+      background: #ccc;
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-dot.done {
+      background: #fff;
+      border: 2px solid #2d3a2e;
+      color: #2d3a2e;
+    }
+    .step-dot.active {
+      background: #2d3a2e;
+      color: #fff;
+    }
+    .step-dot.pending {
+      background: #fff;
+      border: 2px solid #ccc;
+      color: #ccc;
+    }
+
+    .step-label {
+      font-size: 12px;
+      margin-top: 6px;
+      color: #888;
+      text-align: center;
+    }
+    .step-label.active { color: #1a1a1a; font-weight: 600; }
+    .step-label.done { color: #2d3a2e; font-weight: 600; }
+
+    .stepper-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 0;
+    }
+
+    .step-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .left-col {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .right-col {
+      width: 320px;
+      flex-shrink: 0;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e2ddd6;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+    .card-title img.icon { width: 20px; height: 20px; }
+
+    .title-action {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .btn-edit {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0;
+    }
+    .btn-edit:hover { color: #1a1a1a; }
+
+    /* ── INFO GRID ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 24px;
+    }
+
+    .info-item label {
+      font-size: 12px;
+      color: #999;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .info-item p {
+      font-size: 14px;
+      color: #1a1a1a;
+    }
+
+    .info-item.full {
+      grid-column: 1 / -1;
+    }
+
+    /* ── SHIPPING OPTIONS ── */
+    .shipping-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .shipping-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: border 0.15s, background 0.15s;
+    }
+    .shipping-option.selected {
+      border-color: #2d3a2e;
+      background: #f5f8f5;
+    }
+
+    .radio-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .radio-dot.selected {
+      border-color: #2d3a2e;
+    }
+    .radio-dot.selected::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2d3a2e;
+    }
+
+    .shipping-info { flex: 1; }
+    .shipping-name { font-size: 14px; font-weight: 600; }
+    .shipping-desc { font-size: 12px; color: #888; margin-top: 2px; }
+    .shipping-price { font-size: 14px; font-weight: 600; color: #1a1a1a; white-space: nowrap; }
+
+    /* ── PAYMENT OPTIONS ── */
+    .payment-options {
+      display: flex;
+      gap: 12px;
+    }
+
+    .payment-option {
+      flex: 1;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 18px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: border 0.15s, background 0.15s;
+      position: relative;
+    }
+    .payment-option.selected {
+      border-color: #2d3a2e;
+      background: #f5f8f5;
+    }
+
+    .payment-check {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2d3a2e;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .payment-option.selected .payment-check { display: flex; }
+    .payment-check::after {
+      content: '✓';
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .payment-icon {
+      font-size: 24px;
+      color: #2d3a2e;
+    }
+    .payment-icon img { width: 28px; height: 28px; }
+
+    .payment-name { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+    .payment-sub { font-size: 11px; color: #888; text-align: center; }
+
+    /* ── SUMMARY CARD ── */
+    .summary-card {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e2ddd6;
+      overflow: hidden;
+    }
+
+    .summary-header {
+      background: #2d3a2e;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 16px 22px;
+      text-align: center;
+    }
+
+    .summary-body { padding: 18px 22px; }
+
+    .summary-products {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f0ece4;
+      margin-bottom: 14px;
+    }
+
+    .summary-product {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .summary-product img {
+      width: 48px;
+      height: 62px;
+      border-radius: 5px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #e0dbd2;
+    }
+
+    .summary-product-info { flex: 1; }
+    .summary-product-name { font-size: 13px; font-weight: 600; }
+    .summary-product-qty { font-size: 12px; color: #888; margin-top: 2px; }
+    .summary-product-price { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-top: 2px; }
+
+    .summary-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #f0ece4;
+      margin-bottom: 14px;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #444;
+    }
+    .summary-line .red { color: #e53935; }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4px;
+    }
+    .total-label { font-size: 14px; font-weight: 700; }
+    .total-price { font-size: 22px; font-weight: 800; color: #1a1a1a; }
+    .total-vat { font-size: 11px; color: #999; text-align: right; margin-bottom: 18px; }
+
+    .btn-order {
+      display: block;
+      width: 100%;
+      background: #2d3a2e;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 14px;
+    }
+    .btn-order:hover { background: #1a241b; }
+
+    .terms-notice {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 11.5px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .terms-notice img.icon { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+    .terms-notice a { color: #2d3a2e; font-weight: 600; text-decoration: underline; }
+
+    @media (max-width: 700px) {
+      .layout { flex-direction: column; }
+      .right-col { width: 100%; }
+      .info-grid { grid-template-columns: 1fr; }
+      .payment-options { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- STEPPER -->
+  <div class="stepper">
+    <div class="stepper-inner">
+      <!-- Step 1: Giỏ hàng (done) -->
+      <div class="step-wrap">
+        <div class="step-dot done">✓</div>
+        <div class="step-label done">Giỏ hàng</div>
+      </div>
+
+      <div class="step-line"></div>
+
+      <!-- Step 2: Thanh toán (active) -->
+      <div class="step-wrap">
+        <div class="step-dot active">⊙</div>
+        <div class="step-label active">Thanh toán</div>
+      </div>
+
+      <div class="step-line inactive"></div>
+
+      <!-- Step 3: Hoàn tất  -->
+      <div class="step-wrap">
+        <div class="step-dot pending">✓</div>
+        <div class="step-label">Hoàn tất</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- LEFT -->
+    <div class="left-col">
+
+      <!-- Thông tin giao hàng -->
+      <div class="card">
+        <div class="title-action">
+          <div class="card-title" style="margin-bottom:0;">
+            <img class="icon" src="" alt="Icon giao hàng" />
+            Thông tin giao hàng
+          </div>
+          <button class="btn-edit">✏ Thay đổi</button>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Họ và tên</label>
+            <p>Nguyễn Anh Thư</p>
+          </div>
+          <div class="info-item">
+            <label>Số điện thoại</label>
+            <p>0901234567</p>
+          </div>
+          <div class="info-item full">
+            <label>Email nhận thông tin đơn hàng</label>
+            <p>anthu.ng@email.com</p>
+          </div>
+          <div class="info-item full">
+            <label>Địa chỉ giao hàng</label>
+            <p>123 Đường Lê Lợi, Quận 1, TP. Hồ Chí Minh</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phương thức vận chuyển -->
+      <div class="card">
+        <div class="card-title">
+          <img class="icon" src="" alt="Icon vận chuyển" />
+          Phương thức vận chuyển
+        </div>
+
+        <div class="shipping-options">
+          <div class="shipping-option selected">
+            <div class="radio-dot selected"></div>
+            <div class="shipping-info">
+              <div class="shipping-name">Giao hàng tiêu chuẩn</div>
+              <div class="shipping-desc">Dự kiến giao sau 3-5 ngày làm việc</div>
+            </div>
+            <div class="shipping-price">30.000đ</div>
+          </div>
+
+          <div class="shipping-option">
+            <div class="radio-dot"></div>
+            <div class="shipping-info">
+              <div class="shipping-name">Giao hàng nhanh (2h)</div>
+              <div class="shipping-desc">Áp dụng cho khu vực nội thành</div>
+            </div>
+            <div class="shipping-price">55.000đ</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phương thức thanh toán -->
+      <div class="card">
+        <div class="card-title">
+          <img class="icon" src="" alt="Icon thanh toán" />
+          Phương thức thanh toán
+        </div>
+
+        <div class="payment-options">
+          <!-- COD -->
+          <div class="payment-option selected">
+            <div class="payment-check"></div>
+            <div class="payment-icon">
+              <!-- COD icon -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <circle cx="12" cy="12" r="3"/>
+                <line x1="6" y1="12" x2="6" y2="12.01"/>
+                <line x1="18" y1="12" x2="18" y2="12.01"/>
+              </svg>
+            </div>
+            <div class="payment-name">COD</div>
+            <div class="payment-sub">Thanh toán khi nhận hàng</div>
+          </div>
+
+          <!-- Chuyển khoản -->
+          <div class="payment-option">
+            <div class="payment-check"></div>
+            <div class="payment-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="22" x2="21" y2="22"/>
+                <rect x="6" y="11" width="3" height="11"/>
+                <rect x="10.5" y="7" width="3" height="15"/>
+                <rect x="15" y="14" width="3" height="8"/>
+                <polyline points="3 7 9 1 15 7 21 1"/>
+              </svg>
+            </div>
+            <div class="payment-name">Chuyển khoản</div>
+            <div class="payment-sub">Ngân hàng nội địa</div>
+          </div>
+
+          <!-- Ví điện tử -->
+          <div class="payment-option">
+            <div class="payment-check"></div>
+            <div class="payment-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="6" width="20" height="14" rx="2"/>
+                <path d="M16 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                <line x1="2" y1="10" x2="22" y2="10"/>
+              </svg>
+            </div>
+            <div class="payment-name">Ví điện tử</div>
+            <div class="payment-sub">Momo, ZaloPay, VNPay</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end left-col -->
+
+    <!-- RIGHT: Summary -->
+    <div class="right-col">
+      <div class="summary-card">
+        <div class="summary-header">Tóm tắt đơn hàng</div>
+        <div class="summary-body">
+
+          <div class="summary-products">
+            <div class="summary-product">
+              <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/NorwegianWood.jpg" alt="Rừng Na Uy" />
+              <div class="summary-product-info">
+                <div class="summary-product-name">Rừng Na Uy</div>
+                <div class="summary-product-qty">Số lượng: 1</div>
+                <div class="summary-product-price">115.000đ</div>
+              </div>
+            </div>
+            <div class="summary-product">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/How_to_Win_Friends_and_Influence_People.jpg/220px-How_to_Win_Friends_and_Influence_People.jpg" alt="Đắc Nhân Tâm" />
+              <div class="summary-product-info">
+                <div class="summary-product-name">Đắc Nhân Tâm</div>
+                <div class="summary-product-qty">Số lượng: 1</div>
+                <div class="summary-product-price">85.000đ</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-lines">
+            <div class="summary-line"><span>Tạm tính</span><span>200.000đ</span></div>
+            <div class="summary-line"><span>Phí vận chuyển</span><span>30.000đ</span></div>
+            <div class="summary-line"><span>Giảm giá</span><span class="red">-0đ</span></div>
+          </div>
+
+          <div class="summary-total">
+            <span class="total-label">TỔNG CỘNG</span>
+            <span class="total-price">230.000đ</span>
+          </div>
+          <div class="total-vat">(Đã bao gồm VAT)</div>
+
+          <button class="btn-order">XÁC NHẬN ĐẶT HÀNG</button>
+
+          <div class="terms-notice">
+            <img class="icon" src="https://cdn-icons-png.flaticon.com/512/1828/1828940.png" alt="Info" />
+            <span>
+              Bằng việc đặt hàng, bạn đồng ý với các
+              <a href="#">điều khoản dịch vụ</a> của Lightbooks.
+              Cam kết bảo mật thông tin tuyệt đối.
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Shipping toggle
+  document.querySelectorAll('.shipping-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.shipping-option').forEach(o => {
+        o.classList.remove('selected');
+        o.querySelector('.radio-dot').classList.remove('selected');
+      });
+      opt.classList.add('selected');
+      opt.querySelector('.radio-dot').classList.add('selected');
+    });
+  });
+
+  // Payment toggle
+  document.querySelectorAll('.payment-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+</script>
+</body>
+</html>
