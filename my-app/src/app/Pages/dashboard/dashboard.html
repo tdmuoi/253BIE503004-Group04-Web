@@ -1,0 +1,52 @@
+<div class="dashboard-page-container" *ngIf="user">
+  <div class="dashboard-card-container">
+    <div class="profile-header">
+      <div class="avatar-wrapper">
+        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+      </div>
+      <div class="profile-info">
+        <span class="welcome-text">XIN CHÀO, MỪNG BẠN QUAY LẠI!</span>
+        <h1 class="username-display">{{ user.username }}</h1>
+        <p class="user-detail" *ngIf="user.email">
+          <span class="material-symbols-rounded">mail</span>
+          {{ user.email }}
+        </p>
+        <p class="user-detail" *ngIf="user.phone">
+          <span class="material-symbols-rounded">phone_android</span>
+          {{ user.phone }}
+        </p>
+      </div>
+    </div>
+
+    <div class="session-badge">
+      <span class="material-symbols-rounded shield-icon">verified_user</span>
+      <div class="session-badge-text">
+        <h3>Phiên đăng nhập bảo mật</h3>
+        <p>Bảo mật JWT chuẩn 7 ngày đang kích hoạt và bảo vệ tài khoản của bạn.</p>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-container">
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>ĐĂNG XUẤT TÀI KHOẢN</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Dashboard Shelf Mockup -->
+  <div class="shelf-container">
+    <div class="shelf-header">
+      <h2 class="shelf-title">Tủ sách cá nhân của bạn</h2>
+      <div class="title-underline"></div>
+    </div>
+
+    <div class="empty-shelf-card">
+      <span class="material-symbols-rounded empty-icon">auto_stories</span>
+      <h3>Tủ sách trống</h3>
+      <p>Bạn chưa thêm bất kỳ cuốn sách nào vào thư viện. Hãy khám phá cửa hàng sách để tìm những cuốn sách thú vị nhé!</p>
+      <button type="button" class="explore-btn">KHÁM PHÁ CỬA HÀNG</button>
+    </div>
+  </div>
+</div>
