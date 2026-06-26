@@ -1,0 +1,264 @@
+<div class="personal-page-container">
+  
+  <!-- LEFT COLUMN: NAVIGATION SIDEBAR -->
+  <aside class="sidebar-column">
+    <!-- User Profile Header Card -->
+    <div class="profile-card">
+      <div class="avatar-row">
+        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+        <div class="user-meta">
+          <h2 class="user-name">{{ user.username }}</h2>
+          <div class="vip-badge-row">
+            <span class="vip-badge">VIP 2</span>
+            <span class="user-id">ID: 7904217</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/personal-information')">
+          <span class="material-symbols-rounded">person</span>
+          <span>Thông tin cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-bookshelf')">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>Tủ sách cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/order-management')">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <span>Quản lý đơn hàng</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
+          <span class="material-symbols-rounded">workspace_premium</span>
+          <span>Thành tích đọc</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
+          <span class="material-symbols-rounded">history</span>
+          <span>Lịch sử giao dịch</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/customer-support')">
+          <span class="material-symbols-rounded">contact_support</span>
+          <span>Hỗ trợ khách hàng</span>
+        </button>
+      </nav>
+
+      <div class="divider"></div>
+
+      <!-- Logout Trigger -->
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>Đăng xuất</span>
+      </button>
+    </div>
+
+    <!-- Membership Upgrade Widget -->
+    <div class="membership-upgrade-card">
+      <div class="upgrade-info">
+        <h3>Gói Hội Viên</h3>
+        <p>Mở khóa 10.000+ đầu sách bản quyền ngay hôm nay.</p>
+      </div>
+      <button type="button" class="upgrade-btn">Nâng cấp ngay</button>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: PERSONAL INFO AND TABS -->
+  <main class="content-column">
+    <div class="page-header">
+      <h1 class="page-title">Thông tin cá nhân</h1>
+      <p class="page-subtitle">Quản lý thông tin hồ sơ cá nhân, bảo mật tài khoản và địa chỉ giao nhận hàng của bạn.</p>
+    </div>
+
+    <!-- INFO MANAGEMENT CARD -->
+    <div class="info-management-card">
+      
+      <!-- Internal Sidebar sub tabs -->
+      <div class="internal-sidebar">
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/personal-information')">
+          Thông tin cá nhân
+        </button>
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/address')">
+          Địa chỉ nhận hàng
+        </button>
+        <button type="button" class="sub-tab active" (click)="navigate('/PersonalAccount/account-security')">
+          Tài khoản & Bảo mật
+        </button>
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/link-social')">
+          Liên kết mạng xã hội
+        </button>
+      </div>
+
+      <!-- Form Content -->
+      <div class="internal-content">
+        
+        <!-- SECTION 1: VERIFIED INFO ROW -->
+        <h3 class="inner-title">Thông tin liên kết & Xác thực</h3>
+        
+        <div class="verified-fields-row">
+          <!-- Email Verified Card -->
+          <div class="verified-card">
+            <div class="verified-meta">
+              <span class="verified-label">Địa chỉ Email</span>
+              <span class="verified-value">{{ user.email || 'nhathuy.ux@gmail.com' }}</span>
+            </div>
+            <div class="verified-badge-pill green">
+              <span class="material-symbols-rounded">check_circle</span>
+              <span>Đã xác thực</span>
+            </div>
+          </div>
+
+          <!-- Phone Verified Card -->
+          <div class="verified-card">
+            <div class="verified-meta">
+              <span class="verified-label">Số điện thoại</span>
+              <span class="verified-value">098 **** 217</span>
+            </div>
+            <div class="verified-badge-pill green">
+              <span class="material-symbols-rounded">check_circle</span>
+              <span>Đã xác thực</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+
+        <!-- SECTION 2: CHANGE PASSWORD -->
+        <h3 class="inner-title">Đổi mật khẩu</h3>
+        
+        <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()" class="security-password-form">
+          <div class="form-grid-three">
+            <div class="form-field">
+              <label for="currentPassword">Mật khẩu hiện tại</label>
+              <input 
+                type="password" 
+                id="currentPassword" 
+                formControlName="currentPassword" 
+                placeholder="Nhập mật khẩu cũ"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="newPassword">Mật khẩu mới</label>
+              <input 
+                type="password" 
+                id="newPassword" 
+                formControlName="newPassword" 
+                placeholder="Tối thiểu 6 ký tự"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="confirmPassword">Xác nhận mật khẩu</label>
+              <input 
+                type="password" 
+                id="confirmPassword" 
+                formControlName="confirmPassword" 
+                placeholder="Nhập lại mật khẩu mới"
+              />
+            </div>
+          </div>
+
+          <div class="password-action-row">
+            <button type="submit" class="update-password-btn">
+              Cập nhật mật khẩu
+            </button>
+          </div>
+        </form>
+
+        <div class="inner-divider"></div>
+
+        <!-- SECTION 3: 2FA TOGGLE SECTION -->
+        <div class="tfa-section-card">
+          <div class="tfa-info">
+            <h3 class="inner-title">Xác thực 2 lớp (2FA)</h3>
+            <p class="tfa-desc">Tăng cường bảo mật bằng cách yêu cầu mã xác thực gửi đến điện thoại khi đăng nhập từ thiết bị lạ.</p>
+          </div>
+          
+          <!-- Switch Toggle Button -->
+          <label class="toggle-switch">
+            <input type="checkbox" [checked]="is2faEnabled()" (change)="toggle2fa()" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="inner-divider"></div>
+
+        <!-- SECTION 4: LOGIN SESSIONS -->
+        <div class="sessions-header-row">
+          <h3 class="inner-title">Lịch sử đăng nhập thiết bị</h3>
+          <button 
+            type="button" 
+            class="terminate-sessions-btn" 
+            *ngIf="sessions().length > 1"
+            (click)="terminateOtherSessions()"
+          >
+            Đăng xuất khỏi thiết bị khác
+          </button>
+        </div>
+
+        <div class="sessions-list">
+          <div class="session-item-row" *ngFor="let s of sessions()">
+            <!-- Device icon -->
+            <div class="session-icon-circle" [class.active]="s.active">
+              <span class="material-symbols-rounded">
+                {{ s.device.includes('iPhone') ? 'smartphone' : 'laptop_mac' }}
+              </span>
+            </div>
+
+            <!-- Session details -->
+            <div class="session-details">
+              <div class="session-main">
+                <span class="session-device">{{ s.device }}</span>
+                <span class="session-status-tag" *ngIf="s.active">Đang hoạt động</span>
+              </div>
+              <p class="session-meta-text">
+                {{ s.location }} &bull; {{ s.time }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- BOTTOM WIDGETS ROW -->
+    <div class="bottom-widgets-grid">
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper pin">
+          <span class="material-symbols-rounded">pin_drop</span>
+        </div>
+        <div class="widget-info">
+          <h4>Sổ địa chỉ</h4>
+          <p>Lưu 2 địa chỉ nhận hàng</p>
+        </div>
+      </div>
+
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper wallet">
+          <span class="material-symbols-rounded">account_balance_wallet</span>
+        </div>
+        <div class="widget-info">
+          <h4>Ví LightPay</h4>
+          <p>Số dư: 500.000 đ</p>
+        </div>
+      </div>
+
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper shield">
+          <span class="material-symbols-rounded">security</span>
+        </div>
+        <div class="widget-info">
+          <h4>Bảo mật tài khoản</h4>
+          <p>Mức độ: {{ is2faEnabled() ? 'Rất cao' : 'Khá cao' }}</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>

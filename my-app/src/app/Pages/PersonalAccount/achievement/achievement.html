@@ -1,0 +1,193 @@
+<div class="personal-page-container">
+  
+  <!-- LEFT COLUMN: NAVIGATION SIDEBAR -->
+  <aside class="sidebar-column">
+    <!-- User Profile Header Card -->
+    <div class="profile-card">
+      <div class="avatar-row">
+        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+        <div class="user-meta">
+          <h2 class="user-name">{{ user.username }}</h2>
+          <div class="vip-badge-row">
+            <span class="vip-badge">VIP 2</span>
+            <span class="user-id">ID: 7904217</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-information')">
+          <span class="material-symbols-rounded">person</span>
+          <span>Thông tin cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-bookshelf')">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>Tủ sách cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/order-management')">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <span>Quản lý đơn hàng</span>
+        </button>
+        
+        <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/achievement')">
+          <span class="material-symbols-rounded">workspace_premium</span>
+          <span>Thành tích đọc</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
+          <span class="material-symbols-rounded">history</span>
+          <span>Lịch sử giao dịch</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/customer-support')">
+          <span class="material-symbols-rounded">contact_support</span>
+          <span>Hỗ trợ khách hàng</span>
+        </button>
+      </nav>
+
+      <div class="divider"></div>
+
+      <!-- Logout Trigger -->
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>Đăng xuất</span>
+      </button>
+    </div>
+
+    <!-- Membership Upgrade Widget -->
+    <div class="membership-upgrade-card">
+      <div class="upgrade-info">
+        <h3>Gói Hội Viên</h3>
+        <p>Mở khóa 10.000+ đầu sách bản quyền ngay hôm nay.</p>
+      </div>
+      <button type="button" class="upgrade-btn">Nâng cấp ngay</button>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: READING ACHIEVEMENTS CONTENT -->
+  <main class="content-column">
+    <div class="page-header">
+      <div class="header-top-row">
+        <h1 class="page-title">Thành tích đọc</h1>
+        <button type="button" class="share-achievements-btn" (click)="onShare()">
+          <span class="material-symbols-rounded">share</span>
+          <span>Chia sẻ thành tích</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SECTION 1: STATS METRICS GRID -->
+    <div class="metrics-grid">
+      <div class="metric-card" *ngFor="let stat of metrics">
+        <div class="metric-icon-wrapper" [class]="stat.type">
+          <span class="material-symbols-rounded">{{ stat.icon }}</span>
+        </div>
+        <div class="metric-texts">
+          <span class="metric-label">{{ stat.label }}</span>
+          <span class="metric-value">{{ stat.value }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: CHARTS GRAPH CARD -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-titles">
+          <h3>Xếp hạng tháng 9</h3>
+          <p>Thống kê hoạt động đọc sách của cộng đồng</p>
+        </div>
+        <div class="chart-filters">
+          <button 
+            type="button" 
+            class="chart-filter-btn" 
+            [class.active]="chartFilter() === 'month'"
+            (click)="setChartFilter('month')"
+          >
+            Theo tháng
+          </button>
+          <button 
+            type="button" 
+            class="chart-filter-btn" 
+            [class.active]="chartFilter() === 'week'"
+            (click)="setChartFilter('week')"
+          >
+            Theo tuần
+          </button>
+        </div>
+      </div>
+
+      <!-- Chart visual canvas container -->
+      <div class="chart-canvas-container">
+        <!-- Rank level labels inside grid -->
+        <div class="rank-labels">
+          <div class="rank-level font-gold"><span>★ Vua Mọt</span></div>
+          <div class="rank-level font-silver"><span>☆ Mọt Thông Thái</span></div>
+          <div class="rank-level font-bronze"><span>✦ Mọt Sách</span></div>
+          <div class="rank-level font-grey"><span>✧ Mọt Lười</span></div>
+        </div>
+
+        <!-- SVG Line chart curve -->
+        <div class="svg-chart-wrapper">
+          <svg viewBox="0 0 600 200" preserveAspectRatio="none" class="chart-svg">
+            <defs>
+              <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1A8264" stop-opacity="0.15" />
+                <stop offset="100%" stop-color="#1A8264" stop-opacity="0.00" />
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="0" y1="50" x2="600" y2="50" stroke="#EDF2F0" stroke-width="1" stroke-dasharray="4,4" />
+            <line x1="0" y1="100" x2="600" y2="100" stroke="#EDF2F0" stroke-width="1" stroke-dasharray="4,4" />
+            <line x1="0" y1="150" x2="600" y2="150" stroke="#EDF2F0" stroke-width="1" stroke-dasharray="4,4" />
+
+            <!-- Under path area gradient fill -->
+            <path d="M 0 170 Q 150 140 300 110 T 600 90 L 600 200 L 0 200 Z" fill="url(#chartAreaGrad)" />
+
+            <!-- Main curve line -->
+            <path d="M 0 170 Q 150 140 300 110 T 600 90" fill="none" stroke="#083325" stroke-width="3" />
+
+            <!-- User Dot Position -->
+            <circle cx="380" cy="100" r="6" fill="#1A8264" stroke="#FFFFFF" stroke-width="2" />
+          </svg>
+
+          <!-- Floating Tooltip Box (matching image position) -->
+          <div class="chart-tooltip" style="left: 60%; top: 38%;">
+            <span>Vị trí của bạn: Top 15%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: BADGES earned list -->
+    <div class="badges-section">
+      <h3 class="section-title">Huy hiệu đạt được</h3>
+      
+      <div class="badges-cabinet">
+        <div 
+          class="badge-item-card" 
+          *ngFor="let badge of badges"
+          [class.active]="badge.active"
+        >
+          <!-- Badge Icon Container -->
+          <div class="badge-icon-outer">
+            <div class="badge-icon-inner">
+              <span class="material-symbols-rounded badge-symbol">{{ badge.icon }}</span>
+            </div>
+            <!-- Lock indicator if inactive -->
+            <span class="material-symbols-rounded lock-icon" *ngIf="!badge.active">lock</span>
+          </div>
+
+          <!-- Badge metadata texts -->
+          <div class="badge-meta">
+            <h4 class="badge-name">{{ badge.name }}</h4>
+            <p class="badge-desc">{{ badge.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
