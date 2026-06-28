@@ -11,11 +11,17 @@ import { CustomerSupportComponent } from './Pages/PersonalAccount/customer-suppo
 import { AddressComponent } from './Pages/PersonalAccount/address/address';
 import { AccountSecurityComponent } from './Pages/PersonalAccount/account-security/account-security';
 import { LinkSocialComponent } from './Pages/PersonalAccount/link-social/link-social';
+import { Cart } from './Pages/cart/cart';
+import { DatHang } from './Pages/dat-hang/dat-hang';
+import { DatHangThanhCong } from './Pages/dat-hang-thanh-cong/dat-hang-thanh-cong';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
   { path: 'dashboard', component: DashboardPage },
   { path: 'thanh-li', component: ThanhLi },
+  { path: 'cart', component: Cart },
+  { path: 'dat-hang', component: DatHang },
+  { path: 'dat-hang-thanh-cong', component: DatHangThanhCong },
   {
     path: 'PersonalAccount',
     children: [
