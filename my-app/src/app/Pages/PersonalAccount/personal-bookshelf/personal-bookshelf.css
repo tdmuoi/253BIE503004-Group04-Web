@@ -1,8 +1,8 @@
 :host {
   display: block;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
   color: #2F3E37;
-  background-color: #FAF7F6;
+  background-color: #FBEFEC;
   min-height: 100vh;
 }
 
@@ -65,7 +65,7 @@
 .user-name {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
 }
 
@@ -120,16 +120,16 @@
 }
 
 .nav-item:hover {
-  background-color: #FAF7F6;
-  color: #083325;
+  background-color: #FBEFEC;
+  color: #0E3D2D;
 }
 
 .nav-item:hover .material-symbols-rounded {
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .nav-item.active {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
 }
 
@@ -240,7 +240,7 @@
 .page-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0 0 0.5rem 0;
   letter-spacing: -0.02em;
 }
@@ -269,13 +269,13 @@
 
 .header-icon {
   font-size: 1.4rem;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .section-title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
 }
 
@@ -337,7 +337,7 @@
 .reading-title {
   font-size: 1rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
   line-height: 1.35;
   display: -webkit-box;
@@ -353,7 +353,7 @@
 }
 
 .continue-btn {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   border: none;
   border-radius: 0.5rem;
@@ -408,12 +408,12 @@
 }
 
 .filter-tab:hover {
-  color: #083325;
+  color: #0E3D2D;
   background-color: rgba(8, 51, 37, 0.02);
 }
 
 .filter-tab.active {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   font-weight: 700;
 }
@@ -439,7 +439,7 @@
   border: none;
   outline: none;
   font-size: 0.88rem;
-  color: #083325;
+  color: #0E3D2D;
   width: 100%;
   font-family: inherit;
 }
@@ -481,7 +481,7 @@
   aspect-ratio: 3/4;
   border-radius: 0.75rem;
   overflow: hidden;
-  background-color: #FAF7F6;
+  background-color: #FBEFEC;
   position: relative;
   box-shadow: 0 5px 15px rgba(0,0,0,0.04);
 }
@@ -534,7 +534,7 @@
 .shelf-book-title {
   font-size: 0.88rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
   line-height: 1.35;
   display: -webkit-box;
@@ -552,7 +552,7 @@
 
 .read-now-btn {
   background-color: transparent;
-  color: #083325;
+  color: #0E3D2D;
   border: 1px solid #E3EAE6;
   border-radius: 0.6rem;
   padding: 0.55rem;
@@ -565,13 +565,13 @@
 }
 
 .shelf-book-card:hover .read-now-btn {
-  border-color: #083325;
+  border-color: #0E3D2D;
 }
 
 .read-now-btn:hover {
-  background-color: #083325 !important;
+  background-color: #0E3D2D !important;
   color: #FFFFFF !important;
-  border-color: #083325 !important;
+  border-color: #0E3D2D !important;
 }
 
 /* Dashed Add card */
@@ -595,8 +595,8 @@
 }
 
 .add-book-card:hover {
-  border-color: #083325;
-  color: #083325;
+  border-color: #0E3D2D;
+  color: #0E3D2D;
   background-color: rgba(8, 51, 37, 0.02);
 }
 
@@ -607,7 +607,7 @@
 }
 
 .add-book-card:hover .add-icon {
-  color: #083325;
+  color: #0E3D2D;
 }
 
 /* =========================================

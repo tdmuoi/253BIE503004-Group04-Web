@@ -1,8 +1,8 @@
 :host {
   display: block;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
   color: #2F3E37;
-  background-color: #FAF7F6;
+  background-color: #FBEFEC;
   min-height: 100vh;
 }
 
@@ -18,7 +18,7 @@
   background: 
     radial-gradient(circle at 15% 15%, rgba(244, 164, 160, 0.15), transparent 45%),
     radial-gradient(circle at 85% 85%, rgba(8, 51, 37, 0.05), transparent 55%),
-    #FAF7F6;
+    #FBEFEC;
 }
 
 /* Dashboard Card */
@@ -84,7 +84,7 @@
 .username-display {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
   line-height: 1.2;
 }
@@ -130,7 +130,7 @@
   margin: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .session-badge-text p {
@@ -147,7 +147,7 @@
 
 .logout-btn {
   width: 100%;
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   border: none;
   border-radius: 0.75rem;
@@ -196,7 +196,7 @@
 .shelf-title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0 0 0.5rem 0;
 }
 
@@ -232,7 +232,7 @@
 .empty-shelf-card h3 {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
 }
 
@@ -247,7 +247,7 @@
 .explore-btn {
   background-color: #FFF6F5;
   border: 1px solid #F4A4A0;
-  color: #083325;
+  color: #0E3D2D;
   padding: 0.95rem 2.2rem;
   border-radius: 2rem;
   font-size: 0.85rem;

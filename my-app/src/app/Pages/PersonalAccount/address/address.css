@@ -1,8 +1,8 @@
 :host {
   display: block;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
   color: #2F3E37;
-  background-color: #FAF7F6;
+  background-color: #FBEFEC;
   min-height: 100vh;
 }
 
@@ -65,7 +65,7 @@
 .user-name {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
 }
 
@@ -120,16 +120,16 @@
 }
 
 .nav-item:hover {
-  background-color: #FAF7F6;
-  color: #083325;
+  background-color: #FBEFEC;
+  color: #0E3D2D;
 }
 
 .nav-item:hover .material-symbols-rounded {
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .nav-item.active {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
 }
 
@@ -226,7 +226,7 @@
 .page-title {
   font-size: 2.2rem;
   font-weight: 750;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0 0 0.5rem 0;
   letter-spacing: -0.03em;
 }
@@ -277,12 +277,12 @@
 }
 
 .sub-tab:hover {
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .sub-tab.active {
-  border-left-color: #083325;
-  color: #083325;
+  border-left-color: #0E3D2D;
+  color: #0E3D2D;
   font-weight: 700;
   background-color: rgba(8, 51, 37, 0.02);
 }
@@ -295,7 +295,7 @@
 .inner-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
 }
 
@@ -310,7 +310,7 @@
 }
 
 .add-address-btn {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   border: none;
   border-radius: 0.75rem;
@@ -395,7 +395,7 @@
 .addr-name {
   font-size: 1rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .addr-dot-divider {
@@ -539,14 +539,14 @@
   border: 1px solid #E3EAE6;
   border-radius: 0.75rem;
   font-size: 0.95rem;
-  color: #083325;
+  color: #0E3D2D;
   background-color: #FFFFFF;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-field input:focus {
-  border-color: #083325;
+  border-color: #0E3D2D;
   box-shadow: 0 0 0 4px rgba(8, 51, 37, 0.06);
 }
 
@@ -565,7 +565,7 @@
   gap: 0.5rem;
   cursor: pointer;
   font-size: 0.92rem;
-  color: #083325;
+  color: #0E3D2D;
   font-weight: 500;
   user-select: none;
 }
@@ -586,14 +586,14 @@
 }
 
 .gender-radio-label input:checked + .custom-radio-dot {
-  border-color: #083325;
+  border-color: #0E3D2D;
 }
 
 .gender-radio-label input:checked + .custom-radio-dot::after {
   content: '';
   width: 0.55rem;
   height: 0.55rem;
-  background-color: #083325;
+  background-color: #0E3D2D;
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -614,7 +614,7 @@
   cursor: pointer;
   font-size: 0.92rem;
   font-weight: 500;
-  color: #083325;
+  color: #0E3D2D;
   user-select: none;
 }
 
@@ -644,8 +644,8 @@
 }
 
 .checkbox-container input:checked ~ .checkmark {
-  background-color: #083325;
-  border-color: #083325;
+  background-color: #0E3D2D;
+  border-color: #0E3D2D;
 }
 
 .checkmark::after {
@@ -691,13 +691,13 @@
 }
 
 .cancel-btn:hover {
-  background-color: #FAF7F6;
-  color: #083325;
+  background-color: #FBEFEC;
+  color: #0E3D2D;
   border-color: #93A69E;
 }
 
 .save-btn {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   border: none;
   padding: 0.85rem 1.75rem;
@@ -777,7 +777,7 @@
   margin: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .widget-info p {
@@ -815,7 +815,7 @@
     width: auto;
   }
   .sub-tab.active {
-    border-bottom-color: #083325;
+    border-bottom-color: #0E3D2D;
     background-color: transparent;
   }
   .form-grid {

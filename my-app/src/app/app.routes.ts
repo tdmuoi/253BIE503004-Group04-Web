@@ -16,8 +16,10 @@ import { DatHang } from './Pages/dat-hang/dat-hang';
 import { DatHangThanhCong } from './Pages/dat-hang-thanh-cong/dat-hang-thanh-cong';
 import { AboutUs } from './Pages/about-us/about-us';
 import { Policy } from './Pages/policy/policy';
+import { Homepage } from './Pages/homepage/homepage';
 
 export const routes: Routes = [
+  { path: 'homepage', component: Homepage },
   { path: 'about-us', component: AboutUs },
   { path: 'policy', component: Policy },
   { path: 'login', component: LoginPage },

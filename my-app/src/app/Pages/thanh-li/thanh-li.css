@@ -1,8 +1,8 @@
 :host {
   display: block;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
   color: #2F3E37;
-  background-color: #FAF7F6;
+  background-color: #FBEFEC;
   min-height: 100vh;
 }
 
@@ -25,7 +25,7 @@
 .page-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0 0 1rem 0;
   letter-spacing: -0.02em;
 }
@@ -69,7 +69,7 @@
 
 .history-icon {
   font-size: 1.6rem;
-  color: #083325;
+  color: #0E3D2D;
   background-color: #E6F4F0;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -78,7 +78,7 @@
 .section-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
 }
 
@@ -131,7 +131,7 @@
 
 .book-name {
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .book-author {
@@ -173,7 +173,7 @@
 }
 
 .detail-link {
-  color: #083325;
+  color: #0E3D2D;
   text-decoration: underline;
   transition: color 0.2s ease;
 }
@@ -229,7 +229,7 @@ form {
 .step-num {
   width: 34px;
   height: 34px;
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   border-radius: 50%;
   display: flex;
@@ -243,7 +243,7 @@ form {
 .step-title {
   font-size: 1.35rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
 }
 
@@ -272,7 +272,7 @@ form {
   border: 1px solid #E3EAE6;
   border-radius: 0.75rem;
   font-size: 0.95rem;
-  color: #083325;
+  color: #0E3D2D;
   background-color: #FFFFFF;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
   outline: none;
@@ -284,7 +284,7 @@ form {
 }
 
 .form-field input:focus {
-  border-color: #083325;
+  border-color: #0E3D2D;
   box-shadow: 0 0 0 4px rgba(8, 51, 37, 0.06);
 }
 
@@ -319,7 +319,7 @@ form {
   border: 1px solid #E3EAE6;
   border-radius: 0.75rem;
   font-size: 0.95rem;
-  color: #083325;
+  color: #0E3D2D;
   background-color: #FFFFFF;
   appearance: none;
   outline: none;
@@ -329,7 +329,7 @@ form {
 }
 
 .select-wrapper select:focus {
-  border-color: #083325;
+  border-color: #0E3D2D;
   box-shadow: 0 0 0 4px rgba(8, 51, 37, 0.06);
 }
 
@@ -357,8 +357,8 @@ form {
 }
 
 .upload-dropzone:hover {
-  border-color: #083325;
-  background-color: #FAF7F6;
+  border-color: #0E3D2D;
+  background-color: #FBEFEC;
 }
 
 .upload-icon {
@@ -382,8 +382,8 @@ form {
 
 .add-another-btn {
   background: none;
-  border: 1px dashed #083325;
-  color: #083325;
+  border: 1px dashed #0E3D2D;
+  color: #0E3D2D;
   border-radius: 0.75rem;
   padding: 0.85rem 1.5rem;
   font-size: 0.88rem;
@@ -434,9 +434,9 @@ form {
 }
 
 .shipping-card.active {
-  border-color: #083325;
-  background-color: #FAF7F6;
-  box-shadow: 0 0 0 1px #083325;
+  border-color: #0E3D2D;
+  background-color: #FBEFEC;
+  box-shadow: 0 0 0 1px #0E3D2D;
 }
 
 .shipping-radio-row {
@@ -459,13 +459,13 @@ form {
 }
 
 .shipping-card.active .custom-radio {
-  border-color: #083325;
+  border-color: #0E3D2D;
 }
 
 .radio-dot {
   width: 0.6rem;
   height: 0.6rem;
-  background-color: #083325;
+  background-color: #0E3D2D;
   border-radius: 50%;
   animation: scaleUp 0.15s ease forwards;
 }
@@ -477,7 +477,7 @@ form {
 
 .shipping-name {
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   font-size: 0.95rem;
 }
 
@@ -490,7 +490,7 @@ form {
 
 /* Submit Form Button */
 .submit-request-btn {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   border: none;
   border-radius: 0.75rem;
@@ -544,7 +544,7 @@ form {
 .widget-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0 0 1.5rem 0;
   letter-spacing: -0.01em;
 }
@@ -587,8 +587,8 @@ form {
 }
 
 .timeline-item.active .timeline-dot {
-  border-color: #083325;
-  background-color: #083325;
+  border-color: #0E3D2D;
+  background-color: #0E3D2D;
 }
 
 .timeline-info {
@@ -606,7 +606,7 @@ form {
 }
 
 .timeline-item.active .timeline-step {
-  color: #083325;
+  color: #0E3D2D;
   font-weight: 700;
 }
 
@@ -635,7 +635,7 @@ form {
 
 .rule-icon {
   font-size: 1.3rem;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .regulations-list {

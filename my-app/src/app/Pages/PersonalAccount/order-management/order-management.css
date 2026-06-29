@@ -1,8 +1,8 @@
 :host {
   display: block;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
   color: #2F3E37;
-  background-color: #FAF7F6;
+  background-color: #FBEFEC;
   min-height: 100vh;
 }
 
@@ -65,7 +65,7 @@
 .user-name {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
 }
 
@@ -120,16 +120,16 @@
 }
 
 .nav-item:hover {
-  background-color: #FAF7F6;
-  color: #083325;
+  background-color: #FBEFEC;
+  color: #0E3D2D;
 }
 
 .nav-item:hover .material-symbols-rounded {
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .nav-item.active {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
 }
 
@@ -242,7 +242,7 @@
 .page-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin: 0;
   letter-spacing: -0.02em;
 }
@@ -250,7 +250,7 @@
 .filter-options-btn {
   background: #FFFFFF;
   border: 1px solid #CBD6D1;
-  color: #083325;
+  color: #0E3D2D;
   border-radius: 0.75rem;
   padding: 0.5rem 1rem;
   font-size: 0.88rem;
@@ -263,7 +263,7 @@
 }
 
 .filter-options-btn:hover {
-  background-color: #FAF7F6;
+  background-color: #FBEFEC;
   border-color: #93A69E;
 }
 
@@ -303,12 +303,12 @@
 }
 
 .orders-filter-container .filter-tab:hover {
-  color: #083325;
-  background-color: #FAF7F6;
+  color: #0E3D2D;
+  background-color: #FBEFEC;
 }
 
 .orders-filter-container .filter-tab.active {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   font-weight: 700;
 }
@@ -343,7 +343,7 @@
 .empty-orders h3 {
   margin: 0;
   font-size: 1.2rem;
-  color: #083325;
+  color: #0E3D2D;
   font-weight: 700;
 }
 
@@ -380,7 +380,7 @@
 .order-id {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .order-date {
@@ -464,7 +464,7 @@
   margin: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 .product-author {
@@ -486,7 +486,7 @@
 .product-price {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
 }
 
 /* Footer summary */
@@ -512,7 +512,7 @@
 .total-price {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #083325;
+  color: #0E3D2D;
   margin-left: 0.5rem;
 }
 
@@ -525,7 +525,7 @@
 .details-btn {
   background: none;
   border: none;
-  color: #083325;
+  color: #0E3D2D;
   font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
@@ -539,7 +539,7 @@
 }
 
 .track-btn {
-  background-color: #083325;
+  background-color: #0E3D2D;
   color: #FFFFFF;
   border: none;
   border-radius: 0.6rem;

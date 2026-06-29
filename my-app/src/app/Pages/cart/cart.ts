@@ -26,14 +26,14 @@ export class Cart {
       author: 'Haruki Murakami',
       price: 115000,
       quantity: 1,
-      img: 'https://upload.wikimedia.org/wikipedia/en/a/a2/NorwegianWood.jpg'
+      img: 'img/books/seagull.jpg'
     },
     {
       name: 'Đắc nhân tâm',
       author: 'Dale Carnegie',
       price: 85000,
       quantity: 1,
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/How_to_Win_Friends_and_Influence_People.jpg/220px-How_to_Win_Friends_and_Influence_People.jpg'
+      img: 'img/books/money.jpg'
     }
   ];
 
