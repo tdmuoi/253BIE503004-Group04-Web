@@ -1,1 +1,115 @@
-<p>page-header works!</p>
+<header class="lb-header">
+
+  <!-- Phần 1: Top Promo Banner -->
+  <div class="lb-header__promo">
+    <span>FREESHIP TOÀN QUỐC ĐƠN HÀNG TRÊN 2.000.000 VNĐ!</span>
+  </div>
+
+  <!-- Phần 2: Main Header -->
+  <div class="lb-header__main">
+    <div class="lb-header__main-inner">
+
+      <!-- Group Logo và Danh mục để căn chỉnh khoảng cách -->
+      <div class="lb-header__brand-group">
+        <!-- Logo -->
+        <a class="lb-header__logo" routerLink="/" routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }" aria-label="Về trang chủ LIGHTBOOKS">
+          <img src="assets/img/logo.png" alt="LIGHTBOOKS Logo" class="lb-header__logo-img" />
+        </a>
+
+        <!-- Nút Danh mục -->
+        <button class="lb-header__categories-btn" aria-label="Danh mục">
+          <img src="assets/icon/Icon_Danhmuc.png" alt="Danh mục" />
+        </button>
+      </div>
+
+      <!-- Thanh Tìm kiếm -->
+      <div class="lb-header__search">
+        <input
+          type="text"
+          class="lb-header__search-input"
+          placeholder="Tìm kiếm sách bạn yêu thích..."
+          aria-label="Tìm kiếm sách"
+        />
+        <button class="lb-header__search-btn" aria-label="Tìm kiếm">
+          <img src="assets/icon/ic_find.png" alt="Tìm kiếm" />
+        </button>
+      </div>
+
+      <!-- Cụm tính năng bên phải -->
+      <div class="lb-header__actions">
+
+        <!-- Giỏ hàng -->
+        <a class="lb-header__action-btn" routerLink="/cart" (click)="onCartClick($event)" aria-label="Giỏ hàng">
+          <span class="lb-header__icon-wrap">
+            <img src="assets/icon/ic_cart.png" alt="Giỏ hàng" />
+            <span class="lb-header__badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+          </span>
+        </a>
+
+        <!-- Tài khoản -->
+        <div class="lb-header__action-btn lb-header__user-wrap" (click)="toggleUserDropdown($event)">
+          <span class="lb-header__icon-wrap">
+            <img src="assets/icon/ic_profile.png" alt="Tài khoản" />
+          </span>
+          <!-- Dropdown -->
+          <div class="lb-header__user-dropdown" *ngIf="isUserDropdownOpen && currentUser" (click)="$event.stopPropagation()">
+            <div class="lb-header__dropdown-info">
+              <span class="lb-header__dropdown-name">{{ currentUser?.name || currentUser?.email }}</span>
+            </div>
+            <a routerLink="/profile" class="lb-header__dropdown-item">Tài khoản của tôi</a>
+            <a routerLink="/orders" class="lb-header__dropdown-item">Đơn hàng</a>
+            <button class="lb-header__dropdown-item lb-header__dropdown-logout" (click)="confirmLogout()">Đăng xuất</button>
+          </div>
+        </div>
+
+        <!-- Thông báo -->
+        <a class="lb-header__action-btn" href="#" aria-label="Thông báo">
+          <span class="lb-header__icon-wrap">
+            <img src="assets/icon/ic_bell.png" alt="Thông báo" />
+          </span>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Phần 3: Navigation Bar -->
+  <nav class="lb-header__nav">
+    <div class="lb-header__nav-inner">
+      <a routerLink="/new-books" routerLinkActive="active" class="lb-header__nav-item">SÁCH MỚI</a>
+      <a routerLink="/ebooks" routerLinkActive="active" class="lb-header__nav-item">SÁCH ĐIỆN TỬ</a>
+      <a routerLink="/used-books" routerLinkActive="active" class="lb-header__nav-item">SÁCH CŨ</a>
+      <a routerLink="/flash-sales" routerLinkActive="active" class="lb-header__nav-item">FLASH SALES</a>
+      <a routerLink="/authors" routerLinkActive="active" class="lb-header__nav-item">GÓC TÁC GIẢ</a>
+      <a routerLink="/about" routerLinkActive="active" class="lb-header__nav-item">VỀ CHÚNG TÔI</a>
+      <a routerLink="/news" routerLinkActive="active" class="lb-header__nav-item">LIGHTBOOK NEWS</a>
+      <a routerLink="/clearance" routerLinkActive="active" class="lb-header__nav-item">THANH LÝ SÁCH</a>
+    </div>
+  </nav>
+
+</header>
+
+<!-- Modal: Xác nhận Đăng xuất -->
+<div class="lb-modal-overlay" *ngIf="showLogoutModal" (click)="closeLogoutModal()">
+  <div class="lb-modal" (click)="$event.stopPropagation()">
+    <h3 class="lb-modal__title">Xác nhận đăng xuất</h3>
+    <p class="lb-modal__body">Bạn có chắc chắn muốn đăng xuất không?</p>
+    <div class="lb-modal__actions">
+      <button class="lb-modal__btn lb-modal__btn--cancel" (click)="closeLogoutModal()">Hủy</button>
+      <button class="lb-modal__btn lb-modal__btn--confirm" (click)="doLogout()">Đăng xuất</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Yêu cầu đăng nhập -->
+<div class="lb-modal-overlay" *ngIf="showLoginRequiredModal" (click)="closeLoginRequiredModal()">
+  <div class="lb-modal" (click)="$event.stopPropagation()">
+    <h3 class="lb-modal__title">Yêu cầu đăng nhập</h3>
+    <p class="lb-modal__body">Bạn cần đăng nhập để sử dụng tính năng này.</p>
+    <div class="lb-modal__actions">
+      <button class="lb-modal__btn lb-modal__btn--cancel" (click)="closeLoginRequiredModal()">Đóng</button>
+      <button class="lb-modal__btn lb-modal__btn--confirm" (click)="goToLogin()">Đăng nhập</button>
+    </div>
+  </div>
+</div>
