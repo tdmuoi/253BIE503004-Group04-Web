@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Pangolin&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+
+/* ════════════════════════════════════════════════
+   LIGHTBOOKS DESIGN TOKENS — trích từ style guide
+   (Font: Raleway | Decorative: Pangolin)
+   ════════════════════════════════════════════════ */
+:root {
+  /* ── Key colors ── */
+  --color-green: #0E3D2D;   /* xanh đậm chủ đạo */
+  --color-pink:  #F0C3CB;   /* hồng key */
+  --color-teal:  #5C9184;   /* xanh teal key */
+  --color-light: #FBEFEC;   /* nền sáng / kem */
+
+  /* ── Tint (xanh, đậm → nhạt) ── */
+  --green-900: #0C3326;
+  --green-800: #0E3D2D;
+  --green-700: #15523C;
+  --green-600: #1F6049;
+  --green-500: #3C7D67;
+  --green-400: #5C9184;
+  --green-300: #8FB3A4;
+  --green-200: #BCD4C9;
+
+  /* ── Support ── */
+  --color-red:    #C5331D;
+  --color-orange: #F2982E;
+
+  /* ── Neutral ── */
+  --color-white: #FFFFFF;
+  --color-cream: #FBEFEC;
+}
+
+/* ── Global reset / base ── */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Raleway', sans-serif;
+  background: var(--color-cream);
+  color: #1a1a1a;
+}
+
+/* Font trang trí (tiêu đề kiểu tay) */
+.font-deco { font-family: 'Pangolin', cursive; }

@@ -1,0 +1,349 @@
+<div class="thanh-li-page-container">
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1 class="page-title">Gửi yêu cầu thanh lý sách</h1>
+    <p class="page-subtitle">
+      Mỗi cuốn sách cũ bạn thanh lý là một hạt mầm cho tri thức và môi trường. Lightbooks cam kết tái tạo vòng đời 
+      cho tri thức, giảm thiểu lãng phí tài nguyên giấy thông qua hệ thống phân phối thông minh.
+    </p>
+  </header>
+
+  <!-- Section 1: Lịch sử yêu cầu -->
+  <section class="history-section">
+    <div class="history-header">
+      <div class="header-left">
+        <span class="material-symbols-rounded history-icon">assignment</span>
+        <h2 class="section-title">Lịch sử yêu cầu</h2>
+      </div>
+      <span class="history-badge">3 yêu cầu gần đây</span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>TÊN SÁCH</th>
+            <th>NGÀY GỬI</th>
+            <th>TRẠNG THÁI</th>
+            <th>HÀNH ĐỘNG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let req of recentRequests">
+            <td class="book-cell">
+              <span class="book-name">{{ req.title }}</span>
+              <span class="book-author">{{ req.author }}</span>
+            </td>
+            <td class="date-cell">{{ req.date }}</td>
+            <td class="status-cell">
+              <span class="status-badge" [class]="req.status">
+                {{ req.statusLabel }}
+              </span>
+            </td>
+            <td class="action-cell">
+              <a href="javascript:void(0)" class="detail-link">Chi tiết</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 2: Form & Sidebar -->
+  <div class="main-layout">
+    <!-- Main Request Form -->
+    <div class="form-column">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+        
+        <!-- STEP 1: Thông tin người thanh lý -->
+        <div class="step-card">
+          <div class="step-title-row">
+            <span class="step-num">1</span>
+            <h2 class="step-title">Thông tin người thanh lý</h2>
+          </div>
+
+          <div class="form-row-2">
+            <!-- Họ và tên -->
+            <div class="form-field" [class.invalid]="fullnameControl.invalid && (fullnameControl.dirty || fullnameControl.touched)">
+              <label for="fullname">Họ và tên</label>
+              <input 
+                id="fullname" 
+                type="text" 
+                placeholder="Nguyễn Văn A" 
+                formControlName="fullname" 
+              />
+              <div class="error-wrapper">
+                <small *ngIf="fullnameControl.invalid && (fullnameControl.dirty || fullnameControl.touched) && fullnameControl.hasError('required')">Vui lòng nhập họ tên.</small>
+              </div>
+            </div>
+
+            <!-- Số điện thoại -->
+            <div class="form-field" [class.invalid]="phoneControl.invalid && (phoneControl.dirty || phoneControl.touched)">
+              <label for="phone">Số điện thoại</label>
+              <input 
+                id="phone" 
+                type="text" 
+                placeholder="090 123 4567" 
+                formControlName="phone" 
+              />
+              <div class="error-wrapper">
+                <small *ngIf="phoneControl.invalid && (phoneControl.dirty || phoneControl.touched) && phoneControl.hasError('required')">Vui lòng nhập số điện thoại.</small>
+                <small *ngIf="phoneControl.invalid && (phoneControl.dirty || phoneControl.touched) && phoneControl.hasError('pattern') && !phoneControl.hasError('required')">
+                  Số điện thoại không hợp lệ (10 số).
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-field" [class.invalid]="emailControl.invalid && (emailControl.dirty || emailControl.touched)">
+            <label for="email">Email</label>
+            <input 
+              id="email" 
+              type="email" 
+              placeholder="example@email.com" 
+              formControlName="email" 
+            />
+            <div class="error-wrapper">
+              <small *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched) && emailControl.hasError('required')">Vui lòng nhập Email.</small>
+              <small *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched) && emailControl.hasError('email') && !emailControl.hasError('required')">
+                Định dạng Email không hợp lệ.
+              </small>
+            </div>
+          </div>
+
+          <!-- Địa chỉ thu gom -->
+          <div class="form-field" [class.invalid]="addressControl.invalid && (addressControl.dirty || addressControl.touched)">
+            <label for="address">Địa chỉ thu gom</label>
+            <input 
+              id="address" 
+              type="text" 
+              placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." 
+              formControlName="address" 
+            />
+            <div class="error-wrapper">
+              <small *ngIf="addressControl.invalid && (addressControl.dirty || addressControl.touched) && addressControl.hasError('required')">Vui lòng nhập địa chỉ thu gom.</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Thông tin sản phẩm -->
+        <div class="step-card">
+          <div class="step-title-row">
+            <span class="step-num">2</span>
+            <h2 class="step-title">Thông tin sản phẩm</h2>
+          </div>
+
+          <div class="form-row-2">
+            <!-- Tên sách -->
+            <div class="form-field" [class.invalid]="bookTitleControl.invalid && (bookTitleControl.dirty || bookTitleControl.touched)">
+              <label for="bookTitle">Tên sách</label>
+              <input 
+                id="bookTitle" 
+                type="text" 
+                placeholder="Tên tác phẩm..." 
+                formControlName="bookTitle" 
+              />
+              <div class="error-wrapper">
+                <small *ngIf="bookTitleControl.invalid && (bookTitleControl.dirty || bookTitleControl.touched) && bookTitleControl.hasError('required')">Vui lòng nhập tên sách.</small>
+              </div>
+            </div>
+
+            <!-- Tác giả -->
+            <div class="form-field" [class.invalid]="authorControl.invalid && (authorControl.dirty || authorControl.touched)">
+              <label for="author">Tác giả</label>
+              <input 
+                id="author" 
+                type="text" 
+                placeholder="Tên tác giả..." 
+                formControlName="author" 
+              />
+              <div class="error-wrapper">
+                <small *ngIf="authorControl.invalid && (authorControl.dirty || authorControl.touched) && authorControl.hasError('required')">Vui lòng nhập tên tác giả.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <!-- Thể loại -->
+            <div class="form-field select-field">
+              <label for="category">Thể loại</label>
+              <div class="select-wrapper">
+                <select id="category" formControlName="category">
+                  <option value="Văn học">Văn học</option>
+                  <option value="Khoa học">Khoa học</option>
+                  <option value="Đời sống">Đời sống</option>
+                  <option value="Kinh tế">Kinh tế</option>
+                  <option value="Thiếu nhi">Thiếu nhi</option>
+                  <option value="Khác">Khác</option>
+                </select>
+                <span class="material-symbols-rounded select-arrow">expand_more</span>
+              </div>
+            </div>
+
+            <!-- Tình trạng sách -->
+            <div class="form-field select-field">
+              <label for="condition">Tình trạng sách</label>
+              <div class="select-wrapper">
+                <select id="condition" formControlName="condition">
+                  <option value="Mới (Chưa sử dụng)">Mới (Chưa sử dụng)</option>
+                  <option value="Rất tốt (Như mới)">Rất tốt (Như mới)</option>
+                  <option value="Tốt (Đã đọc, nguyên vẹn)">Tốt (Đã đọc, nguyên vẹn)</option>
+                  <option value="Cũ (Có trầy xước, ố nhẹ)">Cũ (Có trầy xước, ố nhẹ)</option>
+                </select>
+                <span class="material-symbols-rounded select-arrow">expand_more</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hình ảnh thực tế Upload Zone -->
+          <div class="form-field">
+            <label>Hình ảnh thực tế</label>
+            <div class="upload-dropzone" (click)="fileInput.click()">
+              <input 
+                type="file" 
+                #fileInput 
+                style="display: none" 
+                accept="image/*"
+                (change)="onFileSelected($event)" 
+              />
+              <span class="material-symbols-rounded upload-icon">cloud_upload</span>
+              <p class="upload-text">
+                {{ uploadedImageName() || 'Kéo thả ảnh vào đây hoặc nhấp để tải lên' }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Add Another Book Link -->
+          <div class="add-another-wrapper">
+            <button type="button" class="add-another-btn" (click)="addAnotherBook()">
+              <span class="material-symbols-rounded">add</span>
+              <span>Thêm sách khác</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Phương thức vận chuyển -->
+        <div class="step-card">
+          <div class="step-title-row">
+            <span class="step-num">3</span>
+            <h2 class="step-title">Phương thức vận chuyển</h2>
+          </div>
+
+          <div class="shipping-method-grid">
+            <!-- Option 1: Bưu điện -->
+            <div 
+              class="shipping-card" 
+              [class.active]="shippingMethodControl.value === 'postoffice'"
+              (click)="setShippingMethod('postoffice')"
+            >
+              <div class="shipping-radio-row">
+                <div class="custom-radio">
+                  <div class="radio-dot" *ngIf="shippingMethodControl.value === 'postoffice'"></div>
+                </div>
+                <span class="shipping-name">Gửi qua bưu điện</span>
+              </div>
+              <p class="shipping-desc">
+                Bạn tự gửi sách đến kho của chúng tôi. Phí vận chuyển người thanh lý tự chi trả.
+              </p>
+            </div>
+
+            <!-- Option 2: Tự vận chuyển -->
+            <div 
+              class="shipping-card" 
+              [class.active]="shippingMethodControl.value === 'self'"
+              (click)="setShippingMethod('self')"
+            >
+              <div class="shipping-radio-row">
+                <div class="custom-radio">
+                  <div class="radio-dot" *ngIf="shippingMethodControl.value === 'self'"></div>
+                </div>
+                <span class="shipping-name">Người thanh lý tự vận chuyển</span>
+              </div>
+              <p class="shipping-desc">
+                Người thanh lý tự vận chuyển sách đến cửa hàng Lightbooks.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Form Submit Button -->
+        <button type="submit" class="submit-request-btn" [disabled]="submitting()">
+          {{ submitting() ? 'ĐANG XỬ LÝ...' : 'Gửi yêu cầu Thanh Lý' }}
+        </button>
+
+      </form>
+    </div>
+
+    <!-- Sidebar Widget Column -->
+    <aside class="sidebar-column">
+      
+      <!-- Widget 1: Trạng thái thanh lý (Timeline) -->
+      <div class="sidebar-card">
+        <h3 class="widget-title">Trạng thái thanh lý</h3>
+        <div class="timeline-container">
+          <!-- Timeline Line -->
+          <div class="timeline-line"></div>
+
+          <!-- Milestone 1 -->
+          <div class="timeline-item active">
+            <div class="timeline-dot"></div>
+            <div class="timeline-info">
+              <h4 class="timeline-step">1. Đã gửi yêu cầu</h4>
+              <p class="timeline-subtext">Hệ thống đã tiếp nhận thông tin</p>
+            </div>
+          </div>
+
+          <!-- Milestone 2 -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-info">
+              <h4 class="timeline-step">2. Đã duyệt</h4>
+              <p class="timeline-subtext">Yêu cầu của bạn đã được chấp nhận</p>
+            </div>
+          </div>
+
+          <!-- Milestone 3 -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-info">
+              <h4 class="timeline-step">3. Đã từ chối</h4>
+              <p class="timeline-subtext">Lý do: ...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Widget 2: Quy định thanh lý -->
+      <div class="sidebar-card">
+        <div class="regulations-header">
+          <span class="material-symbols-rounded rule-icon">gavel</span>
+          <h3 class="widget-title">Quy định thanh lý</h3>
+        </div>
+        <ul class="regulations-list">
+          <li>
+            <span class="material-symbols-rounded check-icon">check_circle</span>
+            <span>Sách không rách nát, mất trang hoặc hư hỏng nặng do ẩm mốc.</span>
+          </li>
+          <li>
+            <span class="material-symbols-rounded check-icon">check_circle</span>
+            <span>Không phải sách lậu, sách vi phạm bản quyền hoặc photocopy.</span>
+          </li>
+          <li>
+            <span class="material-symbols-rounded check-icon">check_circle</span>
+            <span>Lightbooks có quyền từ chối các sản phẩm không phù hợp với tiêu chuẩn cộng đồng.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Widget 3: Graphic Visual Banner -->
+      <div class="banner-card">
+        <img src="/img/books/shelf_banner.jpg" alt="Thanh lý sách" class="banner-bg-img" />
+        <div class="banner-overlay">
+          <h2 class="banner-overlay-text">Đổi sách cũ lấy mầm xanh tri thức.</h2>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>

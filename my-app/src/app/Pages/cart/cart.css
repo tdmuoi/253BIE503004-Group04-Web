@@ -1,0 +1,299 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:host {
+  display: block;
+  font-family: 'Raleway', sans-serif;
+  background: #f0ece4;
+  color: #1a1a1a;
+  min-height: 100vh;
+  padding: 48px 16px 80px;
+}
+
+.container {
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: #1a1a1a;
+}
+.page-title img.icon { width: 30px; height: 30px; }
+
+.layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.left-col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.right-col {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e2ddd6;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.card-title img.icon { width: 18px; height: 18px; }
+
+.product-count { font-size: 13px; color: #888; }
+
+.product-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid #f0ece4;
+}
+.product-item:first-of-type { border-top: none; }
+
+.product-img {
+  width: 70px;
+  height: 90px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #e0dbd2;
+}
+
+.product-info { flex: 1; }
+.product-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.product-author { font-size: 13px; color: #777; margin-bottom: 6px; }
+
+.product-badges { display: flex; gap: 6px; align-items: center; }
+
+.badge-new {
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.badge-type { font-size: 12px; color: #888; }
+
+.product-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.qty-ctrl {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.qty-ctrl button {
+  background: #f7f4ef;
+  border: none;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #444;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qty-ctrl button:hover { background: #eae6df; }
+.qty-ctrl span {
+  width: 32px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.product-price { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+
+.btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #e53935;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+.btn-delete:hover { opacity: 0.7; }
+.btn-delete img.icon { width: 13px; height: 13px; }
+
+.form-row { display: flex; gap: 14px; margin-bottom: 14px; }
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-group label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #888;
+  text-transform: uppercase;
+}
+.form-group input,
+.form-group textarea {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 14px;
+  color: #1a1a1a;
+  background: #fafaf8;
+  outline: none;
+  transition: border 0.15s;
+  font-family: inherit;
+  resize: none;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: #bbb; }
+.form-group input:focus,
+.form-group textarea:focus { border-color: #2d3a2e; }
+.form-group textarea { min-height: 90px; }
+
+.summary-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 22px;
+  border: 1px solid #e2ddd6;
+}
+
+.summary-title { font-size: 16px; font-weight: 700; margin-bottom: 18px; }
+
+.discount-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.discount-row { display: flex; gap: 8px; margin-bottom: 18px; }
+.discount-row input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  background: #fafaf8;
+  outline: none;
+  font-family: inherit;
+  color: #1a1a1a;
+}
+.discount-row input::placeholder { color: #bbb; }
+.discount-row input:focus { border-color: #2d3a2e; }
+
+.btn-apply {
+  background: #2d3a2e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.btn-apply:hover { background: #1a241b; }
+
+.summary-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f0ece4;
+  margin-bottom: 14px;
+}
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #444;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 18px;
+}
+.total-label { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+.total-amount { text-align: right; }
+.total-price { font-size: 22px; font-weight: 800; color: #1a1a1a; display: block; }
+.total-vat { font-size: 11px; color: #999; }
+
+.btn-order {
+  display: block;
+  width: 100%;
+  background: #2d3a2e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 14px;
+}
+.btn-order:hover { background: #1a241b; }
+
+.terms-notice {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 11.5px;
+  color: #888;
+  line-height: 1.5;
+}
+.terms-notice img.icon { width: 15px; height: 15px; flex-shrink: 0; margin-top: 1px; }
+.terms-notice a { color: #2d3a2e; font-weight: 600; text-decoration: underline; }
+
+@media (max-width: 700px) {
+  .layout { flex-direction: column; }
+  .right-col { width: 100%; }
+  .form-row { flex-direction: column; }
+}

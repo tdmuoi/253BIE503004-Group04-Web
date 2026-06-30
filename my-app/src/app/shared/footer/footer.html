@@ -1,0 +1,36 @@
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <img class="footer-logo" src="assets/img/logo.png" alt="Lightbooks" />
+        <p class="footer-tagline">Nơi tri thức được tỏa sáng qua từng trang sách.<br/>Trải nghiệm đọc sách hiện đại và tinh tế!</p>
+      </div>
+
+      <!-- Link columns -->
+      @for (col of columns; track col.title) {
+        <div class="footer-col">
+          <h4>{{ col.title }}</h4>
+          @for (item of col.links; track item.label) {
+            <a [routerLink]="item.link">{{ item.label }}</a>
+          }
+        </div>
+      }
+
+      <!-- Connect -->
+      <div class="footer-col">
+        <h4>KẾT NỐI</h4>
+        <div class="socials">
+          <a href="#" class="social fb" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M15.5 8.5h-2V7c0-.6.4-.75.7-.75H15.5V3.5h-2C11 3.5 10.5 5.3 10.5 6.6V8.5H9V11h1.5v9h3v-9h2z"/></svg>
+          </a>
+          <a href="#" class="social zalo" aria-label="Zalo">Zalo</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="footer-divider" />
+
+    <div class="footer-bottom">© 2026 Lightbooks Bookstore. All rights reserved.</div>
+  </div>
+</footer>

@@ -1,0 +1,590 @@
+:host {
+  display: block;
+  font-family: 'Raleway', sans-serif;
+  color: #2F3E37;
+  background-color: #FBEFEC;
+  min-height: 100vh;
+}
+
+.personal-page-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem 1.5rem;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* =========================================
+   SIDEBAR LAYOUT (SHARED FOR DIRECTORY)
+   ========================================= */
+
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-card {
+  background: #FFFFFF;
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  box-shadow: 
+    0 15px 40px -15px rgba(8, 51, 37, 0.03),
+    0 10px 20px -10px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(8, 51, 37, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #FFF0EF;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 4px 12px rgba(244, 164, 160, 0.2);
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.user-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0E3D2D;
+  margin: 0;
+}
+
+.vip-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vip-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  background-color: #FFF0EF;
+  color: #E25C58;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+}
+
+.user-id {
+  font-size: 0.72rem;
+  color: #93A69E;
+  font-weight: 500;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5A6D65;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.nav-item .material-symbols-rounded {
+  font-size: 1.25rem;
+  color: #93A69E;
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: #FBEFEC;
+  color: #0E3D2D;
+}
+
+.nav-item:hover .material-symbols-rounded {
+  color: #0E3D2D;
+}
+
+.nav-item.active {
+  background-color: #0E3D2D;
+  color: #FFFFFF;
+}
+
+.nav-item.active .material-symbols-rounded {
+  color: #FFFFFF;
+}
+
+.nav-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-item.disabled:hover {
+  background: none;
+  color: #5A6D65;
+}
+
+.divider {
+  height: 1px;
+  background-color: #EDF2F0;
+}
+
+/* Logout Button */
+.logout-btn {
+  background: none;
+  border: none;
+  color: #E25C58;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  transition: opacity 0.2s ease;
+  width: max-content;
+}
+
+.logout-btn:hover {
+  opacity: 0.8;
+}
+
+.logout-btn .material-symbols-rounded {
+  font-size: 1.25rem;
+}
+
+/* Membership Upgrade Widget */
+.membership-upgrade-card {
+  background: linear-gradient(135deg, #7C3A0D 0%, #4A1D02 100%);
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  box-shadow: 0 15px 35px rgba(74, 29, 2, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #FFFFFF;
+}
+
+.upgrade-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.membership-upgrade-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.membership-upgrade-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.upgrade-btn {
+  background-color: #FFFFFF;
+  color: #4A1D02;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.upgrade-btn:hover {
+  opacity: 0.95;
+}
+
+/* =========================================
+   RIGHT CONTENT COLUMN
+   ========================================= */
+
+.content-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0E3D2D;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.filter-options-btn {
+  background: #FFFFFF;
+  border: 1px solid #CBD6D1;
+  color: #0E3D2D;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.filter-options-btn:hover {
+  background-color: #FBEFEC;
+  border-color: #93A69E;
+}
+
+.filter-options-btn .material-symbols-rounded {
+  font-size: 1.2rem;
+}
+
+/* -----------------------------------------
+   Orders Filter Bar
+   ----------------------------------------- */
+.orders-filter-container {
+  display: flex;
+  background-color: #FFFFFF;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(8, 51, 37, 0.02);
+  box-shadow: 
+    0 15px 30px -15px rgba(8, 51, 37, 0.02),
+    0 5px 10px -5px rgba(0, 0, 0, 0.01);
+  gap: 0.25rem;
+  overflow-x: auto;
+}
+
+.orders-filter-container .filter-tab {
+  background: none;
+  border: none;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #647A70;
+  cursor: pointer;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+  text-align: center;
+}
+
+.orders-filter-container .filter-tab:hover {
+  color: #0E3D2D;
+  background-color: #FBEFEC;
+}
+
+.orders-filter-container .filter-tab.active {
+  background-color: #0E3D2D;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* -----------------------------------------
+   Orders List & Cards
+   ----------------------------------------- */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.empty-orders {
+  background-color: #FFFFFF;
+  border: 2px dashed #E3EAE6;
+  border-radius: 1.5rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: #647A70;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: #CBD6D1;
+}
+
+.empty-orders h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #0E3D2D;
+  font-weight: 700;
+}
+
+.empty-orders p {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.order-card {
+  background: #FFFFFF;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 
+    0 15px 40px -15px rgba(8, 51, 37, 0.03),
+    0 10px 20px -10px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(8, 51, 37, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.order-id {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0E3D2D;
+}
+
+.order-date {
+  font-size: 0.82rem;
+  color: #93A69E;
+  font-weight: 500;
+}
+
+/* Status badge */
+.order-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-icon {
+  font-size: 0.95rem;
+}
+
+.order-status-badge.shipping {
+  background-color: #EBF8FF;
+  color: #2B6CB0;
+}
+
+.order-status-badge.delivered {
+  background-color: #E6F4F0;
+  color: #1A8264;
+}
+
+.card-divider {
+  height: 1px;
+  background-color: #EDF2F0;
+}
+
+/* Order Products list */
+.order-products {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.product-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-info-col {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.product-cover-wrapper {
+  width: 58px;
+  aspect-ratio: 3/4;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  background-color: #F4F6F5;
+  flex-shrink: 0;
+}
+
+.product-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.product-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0E3D2D;
+}
+
+.product-author {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #93A69E;
+}
+
+.product-qty {
+  font-size: 0.78rem;
+  color: #647A70;
+  font-weight: 500;
+}
+
+.product-price-col {
+  text-align: right;
+}
+
+.product-price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0E3D2D;
+}
+
+/* Footer summary */
+.order-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-left {
+  display: flex;
+  align-items: baseline;
+}
+
+.total-label {
+  font-size: 0.88rem;
+  color: #647A70;
+  font-weight: 500;
+}
+
+.total-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0E3D2D;
+  margin-left: 0.5rem;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.details-btn {
+  background: none;
+  border: none;
+  color: #0E3D2D;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.5rem 0;
+  transition: opacity 0.2s ease;
+}
+
+.details-btn:hover {
+  opacity: 0.8;
+}
+
+.track-btn {
+  background-color: #0E3D2D;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.track-btn:hover {
+  background-color: #0E4835;
+}
+
+/* =========================================
+   RESPONSIVENESS / MEDIA QUERIES
+   ========================================= */
+
+@media (max-width: 1024px) {
+  .personal-page-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .orders-filter-container {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+  }
+  .order-card {
+    padding: 1.5rem;
+  }
+  .order-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .order-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .footer-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

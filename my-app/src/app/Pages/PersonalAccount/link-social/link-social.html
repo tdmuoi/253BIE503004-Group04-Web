@@ -1,0 +1,261 @@
+<div class="personal-page-container">
+  
+  <!-- LEFT COLUMN: NAVIGATION SIDEBAR -->
+  <aside class="sidebar-column">
+    <!-- User Profile Header Card -->
+    <div class="profile-card">
+      <div class="avatar-row">
+        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+        <div class="user-meta">
+          <h2 class="user-name">{{ user.username }}</h2>
+          <div class="vip-badge-row">
+            <span class="vip-badge">VIP 2</span>
+            <span class="user-id">ID: 7904217</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/personal-information')">
+          <span class="material-symbols-rounded">person</span>
+          <span>Thông tin cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-bookshelf')">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>Tủ sách cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/order-management')">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <span>Quản lý đơn hàng</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
+          <span class="material-symbols-rounded">workspace_premium</span>
+          <span>Thành tích đọc</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
+          <span class="material-symbols-rounded">history</span>
+          <span>Lịch sử giao dịch</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/customer-support')">
+          <span class="material-symbols-rounded">contact_support</span>
+          <span>Hỗ trợ khách hàng</span>
+        </button>
+      </nav>
+
+      <div class="divider"></div>
+
+      <!-- Logout Trigger -->
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>Đăng xuất</span>
+      </button>
+    </div>
+
+    <!-- Membership Upgrade Widget -->
+    <div class="membership-upgrade-card">
+      <div class="upgrade-info">
+        <h3>Gói Hội Viên</h3>
+        <p>Mở khóa 10.000+ đầu sách bản quyền ngay hôm nay.</p>
+      </div>
+      <button type="button" class="upgrade-btn">Nâng cấp ngay</button>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: PERSONAL INFO AND TABS -->
+  <main class="content-column">
+    <div class="page-header">
+      <h1 class="page-title">Thông tin cá nhân</h1>
+      <p class="page-subtitle">Quản lý thông tin hồ sơ cá nhân, bảo mật tài khoản và địa chỉ giao nhận hàng của bạn.</p>
+    </div>
+
+    <!-- INFO MANAGEMENT CARD -->
+    <div class="info-management-card">
+      
+      <!-- Internal Sidebar sub tabs -->
+      <div class="internal-sidebar">
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/personal-information')">
+          Thông tin cá nhân
+        </button>
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/address')">
+          Địa chỉ nhận hàng
+        </button>
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/account-security')">
+          Tài khoản & Bảo mật
+        </button>
+        <button type="button" class="sub-tab active" (click)="navigate('/PersonalAccount/link-social')">
+          Liên kết mạng xã hội
+        </button>
+      </div>
+
+      <!-- Form Content -->
+      <div class="internal-content">
+        
+        <!-- HEADER DESCRIPTION -->
+        <div class="social-header-section">
+          <h3 class="inner-title">Liên kết mạng xã hội</h3>
+          <p class="social-subtitle">Liên kết các tài khoản mạng xã hội giúp bạn đăng nhập nhanh chóng chỉ với 1 cú click và nâng cao khả năng phục hồi tài khoản khi gặp sự cố.</p>
+        </div>
+
+        <div class="social-links-list">
+          
+          <!-- ROW 1: GOOGLE -->
+          <div class="social-row-item">
+            <!-- Icon -->
+            <div class="social-logo google">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+              </svg>
+            </div>
+            
+            <!-- Context -->
+            <div class="social-details">
+              <span class="social-name">Google</span>
+              <span class="social-meta" [class.connected]="googleLinked()">
+                {{ googleLinked() ? (user.email || 'nhathuy.ux@gmail.com') : 'Chưa liên kết' }}
+              </span>
+            </div>
+
+            <!-- Action -->
+            <button 
+              type="button" 
+              class="social-action-btn" 
+              [class.linked]="googleLinked()"
+              (click)="toggleGoogle()"
+            >
+              {{ googleLinked() ? 'Hủy liên kết' : 'Liên kết' }}
+            </button>
+          </div>
+
+          <!-- ROW 2: FACEBOOK -->
+          <div class="social-row-item">
+            <!-- Icon -->
+            <div class="social-logo facebook">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="#1877F2">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </div>
+
+            <!-- Context -->
+            <div class="social-details">
+              <span class="social-name">Facebook</span>
+              <span class="social-meta" [class.connected]="facebookLinked()">
+                {{ facebookLinked() ? 'canhhuy369' : 'Chưa liên kết' }}
+              </span>
+            </div>
+
+            <!-- Action -->
+            <button 
+              type="button" 
+              class="social-action-btn" 
+              [class.linked]="facebookLinked()"
+              (click)="toggleFacebook()"
+            >
+              {{ facebookLinked() ? 'Hủy liên kết' : 'Liên kết' }}
+            </button>
+          </div>
+
+          <!-- ROW 3: ZALO -->
+          <div class="social-row-item">
+            <!-- Icon -->
+            <div class="social-logo zalo">
+              <!-- Custom styled text representing premium Zalo icon -->
+              <span class="zalo-text-icon">Z</span>
+            </div>
+
+            <!-- Context -->
+            <div class="social-details">
+              <span class="social-name">Zalo</span>
+              <span class="social-meta" [class.connected]="zaloLinked()">
+                {{ zaloLinked() ? 'Huy Nguyen (098****217)' : 'Chưa liên kết' }}
+              </span>
+            </div>
+
+            <!-- Action -->
+            <button 
+              type="button" 
+              class="social-action-btn" 
+              [class.linked]="zaloLinked()"
+              (click)="toggleZalo()"
+            >
+              {{ zaloLinked() ? 'Hủy liên kết' : 'Liên kết' }}
+            </button>
+          </div>
+
+          <!-- ROW 4: APPLE -->
+          <div class="social-row-item">
+            <!-- Icon -->
+            <div class="social-logo apple">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="#000000">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.21.67-2.93 1.49-.62.69-1.16 1.84-1.01 2.96 1.12.09 2.27-.58 2.95-1.39z"/>
+              </svg>
+            </div>
+
+            <!-- Context -->
+            <div class="social-details">
+              <span class="social-name">Apple ID</span>
+              <span class="social-meta" [class.connected]="appleLinked()">
+                {{ appleLinked() ? 'nhathuy.apple' : 'Chưa liên kết' }}
+              </span>
+            </div>
+
+            <!-- Action -->
+            <button 
+              type="button" 
+              class="social-action-btn" 
+              [class.linked]="appleLinked()"
+              (click)="toggleApple()"
+            >
+              {{ appleLinked() ? 'Hủy liên kết' : 'Liên kết' }}
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- BOTTOM WIDGETS ROW -->
+    <div class="bottom-widgets-grid">
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper pin">
+          <span class="material-symbols-rounded">pin_drop</span>
+        </div>
+        <div class="widget-info">
+          <h4>Sổ địa chỉ</h4>
+          <p>Lưu 2 địa chỉ nhận hàng</p>
+        </div>
+      </div>
+
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper wallet">
+          <span class="material-symbols-rounded">account_balance_wallet</span>
+        </div>
+        <div class="widget-info">
+          <h4>Ví LightPay</h4>
+          <p>Số dư: 500.000 đ</p>
+        </div>
+      </div>
+
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper shield">
+          <span class="material-symbols-rounded">security</span>
+        </div>
+        <div class="widget-info">
+          <h4>Bảo mật tài khoản</h4>
+          <p>Mức độ: Khá cao</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>

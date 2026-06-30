@@ -1,0 +1,186 @@
+<div class="personal-page-container">
+  
+  <!-- LEFT COLUMN: NAVIGATION SIDEBAR -->
+  <aside class="sidebar-column">
+    <!-- User Profile Header Card -->
+    <div class="profile-card">
+      <div class="avatar-row">
+        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+        <div class="user-meta">
+          <h2 class="user-name">{{ user.username }}</h2>
+          <div class="vip-badge-row">
+            <span class="vip-badge">VIP 2</span>
+            <span class="user-id">ID: 7904217</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-information')">
+          <span class="material-symbols-rounded">person</span>
+          <span>Thông tin cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-bookshelf')">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>Tủ sách cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/order-management')">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <span>Quản lý đơn hàng</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
+          <span class="material-symbols-rounded">workspace_premium</span>
+          <span>Thành tích đọc</span>
+        </button>
+        
+        <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/transaction-history')">
+          <span class="material-symbols-rounded">history</span>
+          <span>Lịch sử giao dịch</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/customer-support')">
+          <span class="material-symbols-rounded">contact_support</span>
+          <span>Hỗ trợ khách hàng</span>
+        </button>
+      </nav>
+
+      <div class="divider"></div>
+
+      <!-- Logout Trigger -->
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>Đăng xuất</span>
+      </button>
+    </div>
+
+    <!-- Membership Upgrade Widget -->
+    <div class="membership-upgrade-card">
+      <div class="upgrade-info">
+        <h3>Gói Hội Viên</h3>
+        <p>Mở khóa 10.000+ đầu sách bản quyền ngay hôm nay.</p>
+      </div>
+      <button type="button" class="upgrade-btn">Nâng cấp ngay</button>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: TRANSACTION HISTORY CONTENT -->
+  <main class="content-column">
+    <div class="page-header">
+      <h1 class="page-title">Lịch sử giao dịch</h1>
+      <p class="page-subtitle">Theo dõi và quản lý các giao dịch nạp tiền, mua sách của bạn.</p>
+    </div>
+
+    <!-- TRANSACTION LIST CARD -->
+    <div class="transaction-history-card">
+      <!-- Filtering Row -->
+      <div class="filters-row">
+        <div class="type-filters">
+          <button 
+            type="button" 
+            class="filter-tab-btn" 
+            [class.active]="currentFilter() === 'all'"
+            (click)="setFilter('all')"
+          >
+            Tất cả
+          </button>
+          <button 
+            type="button" 
+            class="filter-tab-btn" 
+            [class.active]="currentFilter() === 'deposit'"
+            (click)="setFilter('deposit')"
+          >
+            Nạp tiền
+          </button>
+          <button 
+            type="button" 
+            class="filter-tab-btn" 
+            [class.active]="currentFilter() === 'purchase'"
+            (click)="setFilter('purchase')"
+          >
+            Mua sách
+          </button>
+        </div>
+
+        <!-- Date Range Filter -->
+        <button type="button" class="date-filter-dropdown">
+          <span class="material-symbols-rounded dropdown-icon-left">calendar_today</span>
+          <span class="dropdown-label">{{ timeFilter() }}</span>
+          <span class="material-symbols-rounded dropdown-icon-right">expand_more</span>
+        </button>
+      </div>
+
+      <!-- Transaction Log Rows -->
+      <div class="transaction-rows-container">
+        <div class="transaction-row" *ngFor="let tx of filteredTransactions">
+          <!-- Trans ID -->
+          <div class="tx-cell tx-id">
+            #{{ tx.id }}
+          </div>
+          
+          <!-- Trans DateTime -->
+          <div class="tx-cell tx-datetime">
+            <span class="tx-date">{{ tx.date }}</span>
+            <span class="tx-time">{{ tx.time }}</span>
+          </div>
+
+          <!-- Trans Description -->
+          <div class="tx-cell tx-description">
+            {{ tx.description }}
+          </div>
+
+          <!-- Trans Amount -->
+          <div 
+            class="tx-cell tx-amount" 
+            [class.positive]="tx.amount > 0" 
+            [class.negative]="tx.amount < 0"
+          >
+            {{ formatAmount(tx.amount) }}
+          </div>
+
+          <!-- Trans Status -->
+          <div class="tx-cell tx-status">
+            <span class="status-badge" [class]="tx.status">
+              {{ tx.statusText }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table Column Headers (at bottom, matching design) -->
+      <div class="table-column-headers">
+        <div class="header-cell">MÃ GIAO DỊCH</div>
+        <div class="header-cell">NGÀY GIAO DỊCH</div>
+        <div class="header-cell">NỘI DUNG</div>
+        <div class="header-cell">SỐ TIỀN</div>
+        <div class="header-cell">TRẠNG THÁI</div>
+      </div>
+
+      <!-- Table Footer / Pagination -->
+      <div class="table-pagination-footer">
+        <span class="records-summary">Hiển thị 1-{{ filteredTransactions.length }} trên 24 giao dịch</span>
+        
+        <div class="pagination-controls">
+          <button type="button" class="pagination-arrow-btn" (click)="onPageClick('<')">
+            <span class="material-symbols-rounded">chevron_left</span>
+          </button>
+          
+          <button type="button" class="pagination-num-btn active" (click)="onPageClick(1)">1</button>
+          <button type="button" class="pagination-num-btn" (click)="onPageClick(2)">2</button>
+          <button type="button" class="pagination-num-btn" (click)="onPageClick(3)">3</button>
+          <span class="pagination-ellipsis">...</span>
+          <button type="button" class="pagination-num-btn" (click)="onPageClick(5)">5</button>
+          
+          <button type="button" class="pagination-arrow-btn" (click)="onPageClick('>')">
+            <span class="material-symbols-rounded">chevron_right</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>

@@ -188,7 +188,7 @@
         <!-- Login/Register Button (Button says ĐĂNG NHẬP to match image) -->
         <button type="submit" class="submit-btn" [disabled]="loading()">
           <span *ngIf="loading()">ĐANG XỬ LÝ...</span>
-          <span *ngIf="!loading()">ĐĂNG NHẬP</span>
+          <span *ngIf="!loading()">ĐĂNG KÝ</span>
         </button>
 
         <p class="status-msg" [class.success]="!registerForm.invalid" *ngIf="statusMessage()">{{ statusMessage() }}</p>

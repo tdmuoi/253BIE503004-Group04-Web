@@ -1,403 +1,9 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thanh toán – Lightbooks</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f0ece4;
-      color: #1a1a1a;
-      min-height: 100vh;
-      padding: 36px 16px 80px;
-    }
-
-    .container {
-      max-width: 1020px;
-      margin: 0 auto;
-    }
-
-    /* ── STEPPER ── */
-    .stepper {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 0;
-      margin-bottom: 36px;
-    }
-
-    .step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      flex: 1;
-      max-width: 200px;
-    }
-
-    .step-line {
-      flex: 1;
-      height: 2px;
-      background: #2d3a2e;
-      margin-top: 14px;
-      min-width: 60px;
-    }
-    .step-line.inactive {
-      background: #ccc;
-    }
-
-    .step-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .step-dot.done {
-      background: #fff;
-      border: 2px solid #2d3a2e;
-      color: #2d3a2e;
-    }
-    .step-dot.active {
-      background: #2d3a2e;
-      color: #fff;
-    }
-    .step-dot.pending {
-      background: #fff;
-      border: 2px solid #ccc;
-      color: #ccc;
-    }
-
-    .step-label {
-      font-size: 12px;
-      margin-top: 6px;
-      color: #888;
-      text-align: center;
-    }
-    .step-label.active { color: #1a1a1a; font-weight: 600; }
-    .step-label.done { color: #2d3a2e; font-weight: 600; }
-
-    .stepper-inner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      gap: 0;
-    }
-
-    .step-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* ── LAYOUT ── */
-    .layout {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-
-    .left-col {
-      flex: 1 1 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .right-col {
-      width: 320px;
-      flex-shrink: 0;
-    }
-
-    /* ── CARD ── */
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 24px;
-      border: 1px solid #e2ddd6;
-    }
-
-    .card-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 17px;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-bottom: 20px;
-    }
-    .card-title img.icon { width: 20px; height: 20px; }
-
-    .title-action {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .btn-edit {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 13px;
-      color: #555;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 0;
-    }
-    .btn-edit:hover { color: #1a1a1a; }
-
-    /* ── INFO GRID ── */
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px 24px;
-    }
-
-    .info-item label {
-      font-size: 12px;
-      color: #999;
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    .info-item p {
-      font-size: 14px;
-      color: #1a1a1a;
-    }
-
-    .info-item.full {
-      grid-column: 1 / -1;
-    }
-
-    /* ── SHIPPING OPTIONS ── */
-    .shipping-options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .shipping-option {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 14px 18px;
-      cursor: pointer;
-      transition: border 0.15s, background 0.15s;
-    }
-    .shipping-option.selected {
-      border-color: #2d3a2e;
-      background: #f5f8f5;
-    }
-
-    .radio-dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 2px solid #ccc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .radio-dot.selected {
-      border-color: #2d3a2e;
-    }
-    .radio-dot.selected::after {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #2d3a2e;
-    }
-
-    .shipping-info { flex: 1; }
-    .shipping-name { font-size: 14px; font-weight: 600; }
-    .shipping-desc { font-size: 12px; color: #888; margin-top: 2px; }
-    .shipping-price { font-size: 14px; font-weight: 600; color: #1a1a1a; white-space: nowrap; }
-
-    /* ── PAYMENT OPTIONS ── */
-    .payment-options {
-      display: flex;
-      gap: 12px;
-    }
-
-    .payment-option {
-      flex: 1;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 18px 12px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      transition: border 0.15s, background 0.15s;
-      position: relative;
-    }
-    .payment-option.selected {
-      border-color: #2d3a2e;
-      background: #f5f8f5;
-    }
-
-    .payment-check {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #2d3a2e;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-    .payment-option.selected .payment-check { display: flex; }
-    .payment-check::after {
-      content: '✓';
-      color: #fff;
-      font-size: 9px;
-      font-weight: 700;
-    }
-
-    .payment-icon {
-      font-size: 24px;
-      color: #2d3a2e;
-    }
-    .payment-icon img { width: 28px; height: 28px; }
-
-    .payment-name { font-size: 13px; font-weight: 700; color: #1a1a1a; }
-    .payment-sub { font-size: 11px; color: #888; text-align: center; }
-
-    /* ── SUMMARY CARD ── */
-    .summary-card {
-      background: #fff;
-      border-radius: 12px;
-      border: 1px solid #e2ddd6;
-      overflow: hidden;
-    }
-
-    .summary-header {
-      background: #2d3a2e;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 700;
-      padding: 16px 22px;
-      text-align: center;
-    }
-
-    .summary-body { padding: 18px 22px; }
-
-    .summary-products {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid #f0ece4;
-      margin-bottom: 14px;
-    }
-
-    .summary-product {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .summary-product img {
-      width: 48px;
-      height: 62px;
-      border-radius: 5px;
-      object-fit: cover;
-      flex-shrink: 0;
-      background: #e0dbd2;
-    }
-
-    .summary-product-info { flex: 1; }
-    .summary-product-name { font-size: 13px; font-weight: 600; }
-    .summary-product-qty { font-size: 12px; color: #888; margin-top: 2px; }
-    .summary-product-price { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-top: 2px; }
-
-    .summary-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid #f0ece4;
-      margin-bottom: 14px;
-    }
-
-    .summary-line {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      color: #444;
-    }
-    .summary-line .red { color: #e53935; }
-
-    .summary-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 4px;
-    }
-    .total-label { font-size: 14px; font-weight: 700; }
-    .total-price { font-size: 22px; font-weight: 800; color: #1a1a1a; }
-    .total-vat { font-size: 11px; color: #999; text-align: right; margin-bottom: 18px; }
-
-    .btn-order {
-      display: block;
-      width: 100%;
-      background: #2d3a2e;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 15px;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: background 0.15s;
-      margin-bottom: 14px;
-    }
-    .btn-order:hover { background: #1a241b; }
-
-    .terms-notice {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-      font-size: 11.5px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .terms-notice img.icon { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
-    .terms-notice a { color: #2d3a2e; font-weight: 600; text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .layout { flex-direction: column; }
-      .right-col { width: 100%; }
-      .info-grid { grid-template-columns: 1fr; }
-      .payment-options { flex-wrap: wrap; }
-    }
-  </style>
-</head>
-<body>
 <div class="container">
 
   <!-- STEPPER -->
   <div class="stepper">
     <div class="stepper-inner">
-      <!-- Step 1: Giỏ hàng (done) -->
+      <!-- Step 1: Giỏ hàng -->
       <div class="step-wrap">
         <div class="step-dot done">✓</div>
         <div class="step-label done">Giỏ hàng</div>
@@ -405,7 +11,7 @@
 
       <div class="step-line"></div>
 
-      <!-- Step 2: Thanh toán (active) -->
+      <!-- Step 2: Thanh toán -->
       <div class="step-wrap">
         <div class="step-dot active">⊙</div>
         <div class="step-label active">Thanh toán</div>
@@ -413,7 +19,7 @@
 
       <div class="step-line inactive"></div>
 
-      <!-- Step 3: Hoàn tất  -->
+      <!-- Step 3: Hoàn tất -->
       <div class="step-wrap">
         <div class="step-dot pending">✓</div>
         <div class="step-label">Hoàn tất</div>
@@ -422,14 +28,17 @@
   </div>
 
   <div class="layout">
-    <!-- LEFT -->
+    <!-- LEFT COLUMN -->
     <div class="left-col">
 
       <!-- Thông tin giao hàng -->
       <div class="card">
         <div class="title-action">
           <div class="card-title" style="margin-bottom:0;">
-            <img class="icon" src="" alt="Icon giao hàng" />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+              <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
             Thông tin giao hàng
           </div>
           <button class="btn-edit">✏ Thay đổi</button>
@@ -458,13 +67,18 @@
       <!-- Phương thức vận chuyển -->
       <div class="card">
         <div class="card-title">
-          <img class="icon" src="" alt="Icon vận chuyển" />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <rect x="1" y="3" width="15" height="13" rx="2" ry="2"/>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
           Phương thức vận chuyển
         </div>
 
         <div class="shipping-options">
-          <div class="shipping-option selected">
-            <div class="radio-dot selected"></div>
+          <div class="shipping-option" [class.selected]="selectedShipping === 'standard'" (click)="selectShipping('standard')">
+            <div class="radio-dot" [class.selected]="selectedShipping === 'standard'"></div>
             <div class="shipping-info">
               <div class="shipping-name">Giao hàng tiêu chuẩn</div>
               <div class="shipping-desc">Dự kiến giao sau 3-5 ngày làm việc</div>
@@ -472,8 +86,8 @@
             <div class="shipping-price">30.000đ</div>
           </div>
 
-          <div class="shipping-option">
-            <div class="radio-dot"></div>
+          <div class="shipping-option" [class.selected]="selectedShipping === 'express'" (click)="selectShipping('express')">
+            <div class="radio-dot" [class.selected]="selectedShipping === 'express'"></div>
             <div class="shipping-info">
               <div class="shipping-name">Giao hàng nhanh (2h)</div>
               <div class="shipping-desc">Áp dụng cho khu vực nội thành</div>
@@ -486,16 +100,18 @@
       <!-- Phương thức thanh toán -->
       <div class="card">
         <div class="card-title">
-          <img class="icon" src="" alt="Icon thanh toán" />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
           Phương thức thanh toán
         </div>
 
         <div class="payment-options">
           <!-- COD -->
-          <div class="payment-option selected">
+          <div class="payment-option" [class.selected]="selectedPayment === 'cod'" (click)="selectPayment('cod')">
             <div class="payment-check"></div>
             <div class="payment-icon">
-              <!-- COD icon -->
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="5" width="20" height="14" rx="2"/>
                 <circle cx="12" cy="12" r="3"/>
@@ -508,7 +124,7 @@
           </div>
 
           <!-- Chuyển khoản -->
-          <div class="payment-option">
+          <div class="payment-option" [class.selected]="selectedPayment === 'transfer'" (click)="selectPayment('transfer')">
             <div class="payment-check"></div>
             <div class="payment-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -524,7 +140,7 @@
           </div>
 
           <!-- Ví điện tử -->
-          <div class="payment-option">
+          <div class="payment-option" [class.selected]="selectedPayment === 'wallet'" (click)="selectPayment('wallet')">
             <div class="payment-check"></div>
             <div class="payment-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -539,9 +155,9 @@
         </div>
       </div>
 
-    </div><!-- end left-col -->
+    </div>
 
-    <!-- RIGHT: Summary -->
+    <!-- RIGHT COLUMN: Summary -->
     <div class="right-col">
       <div class="summary-card">
         <div class="summary-header">Tóm tắt đơn hàng</div>
@@ -568,20 +184,22 @@
 
           <div class="summary-lines">
             <div class="summary-line"><span>Tạm tính</span><span>200.000đ</span></div>
-            <div class="summary-line"><span>Phí vận chuyển</span><span>30.000đ</span></div>
+            <div class="summary-line"><span>Phí vận chuyển</span><span>{{ shippingPrice | number:'1.0-0' }}đ</span></div>
             <div class="summary-line"><span>Giảm giá</span><span class="red">-0đ</span></div>
           </div>
 
           <div class="summary-total">
             <span class="total-label">TỔNG CỘNG</span>
-            <span class="total-price">230.000đ</span>
+            <span class="total-price">{{ totalPrice | number:'1.0-0' }}đ</span>
           </div>
           <div class="total-vat">(Đã bao gồm VAT)</div>
 
-          <button class="btn-order">XÁC NHẬN ĐẶT HÀNG</button>
+          <button class="btn-order" (click)="onConfirmOrder()">XÁC NHẬN ĐẶT HÀNG</button>
 
           <div class="terms-notice">
-            <img class="icon" src="https://cdn-icons-png.flaticon.com/512/1828/1828940.png" alt="Info" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon" style="margin-top:2px;">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
             <span>
               Bằng việc đặt hàng, bạn đồng ý với các
               <a href="#">điều khoản dịch vụ</a> của Lightbooks.
@@ -592,30 +210,143 @@
         </div>
       </div>
     </div>
+  </div>
 
+  <!-- ── MODAL: THANH TOÁN CHUYỂN KHOẢN ── -->
+  <div class="modal-overlay" *ngIf="showTransferModal">
+    <div class="transfer-modal">
+      <div class="modal-header">
+        <div>
+          <h3>Thanh toán Chuyển khoản</h3>
+          <p class="modal-header-sub">Vui lòng nhập đúng thông tin bên dưới</p>
+        </div>
+        <button class="btn-close" (click)="closeTransferModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <!-- QR Code Column -->
+        <div class="qr-section">
+          <div style="font-size: 11px; font-weight: bold; margin-bottom: 12px; color: #888; letter-spacing: 1px;">QUÉT MÃ QR</div>
+          <div class="qr-image-wrapper" style="position: relative; padding: 0; overflow: hidden; border: none;">
+            <img [src]="'https://img.vietqr.io/image/VCB-102345678901-qr_only.png?amount=' + totalPrice + '&accountName=CONG%20TY%20LIGHTBOOKS&addInfo=Thanh%20toan%20don%20hang'" 
+                 alt="Mã QR Vietcombank" 
+                 style="width: 160px; height: 160px; object-fit: contain; background:#fff; border: 1px solid #ddd; border-radius: 12px; padding: 8px;" />
+            <!-- Small VCB bank logo overlay in the center -->
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 26px; height: 26px; background: #fff; border-radius: 4px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 1px solid #eee;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2.2">
+                <line x1="3" y1="22" x2="21" y2="22"/>
+                <rect x="6" y="11" width="3" height="11"/>
+                <rect x="10.5" y="7" width="3" height="15"/>
+                <rect x="15" y="14" width="3" height="8"/>
+                <polyline points="3 7 9 1 15 7 21 1"/>
+              </svg>
+            </div>
+          </div>
+          <div class="qr-desc" style="margin-top: 12px;">
+            Sử dụng ứng dụng Ngân hàng<br/>hoặc Ví điện tử để quét mã.
+          </div>
+        </div>
+
+        <!-- Bank Details Column -->
+        <div class="info-section">
+          <div class="bank-detail-group">
+            <span class="bank-detail-label">Ngân hàng</span>
+            <div class="bank-detail-text">Vietcombank (VCB)</div>
+          </div>
+
+          <div class="bank-detail-group">
+            <span class="bank-detail-label">Số tài khoản</span>
+            <div class="bank-detail-val-wrap">
+              <span class="bank-detail-value">1023 4567 8901</span>
+              <button class="btn-copy-icon" (click)="copyToClipboard('102345678901', 'Số tài khoản')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="bank-detail-group">
+            <span class="bank-detail-label">Chủ tài khoản</span>
+            <div class="bank-detail-text">CONG TY LIGHTBOOKS</div>
+          </div>
+
+          <div class="bank-detail-group">
+            <span class="bank-detail-label">Số tiền</span>
+            <div class="bank-detail-val-wrap highlight-bg">
+              <span class="bank-detail-value highlight-text">{{ totalPrice | number:'1.0-0' }} VND</span>
+              <button class="btn-copy-icon highlight-color" (click)="copyToClipboard(totalPrice.toString(), 'Số tiền')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Info message -->
+          <div class="note-box">
+            <div style="display:flex; gap:8px; align-items:flex-start;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2" style="margin-top:2px; flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>Hệ thống sẽ tự động xác nhận sau 1-3 phút. Quý khách vui lòng giữ lại biên lai chuyển tiền.</span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="modal-actions">
+            <button class="btn-modal-primary" (click)="navigateToSuccess()">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                Xác nhận đã thanh toán
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+            </button>
+            <button class="btn-modal-secondary" (click)="closeTransferModal()">Quay lại</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: THANH TOÁN VÍ ĐIỆN TỬ ── -->
+  <div class="modal-overlay" *ngIf="showWalletModal">
+    <div class="wallet-modal">
+      <button class="btn-wallet-close" (click)="closeWalletModal()">×</button>
+      
+      <div class="wallet-logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M16 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+        </svg>
+      </div>
+      
+      <h3>Thanh toán qua Ví điện tử</h3>
+      <div class="wallet-sub">Vui lòng quét mã QR để hoàn tất đơn hàng</div>
+
+      <div class="wallet-qr-wrapper">
+        <div style="position: relative; display: inline-block;">
+          <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=165x165&color=2d3a2e&data=MomoPayment_LIGHTBOOKS_' + totalPrice" 
+               alt="QR Ví điện tử" 
+               style="width: 165px; height: 165px; border: 4px solid #2d3a2e; border-radius: 12px; padding: 6px; background: #fff;" />
+          <!-- Small logo overlay in the center -->
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 26px; height: 26px; background: #fff; border-radius: 4px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 1px solid #eee;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M16 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="wallet-amount-box">
+        <div class="wallet-amount-label">Tổng số tiền</div>
+        <div class="wallet-amount-val">{{ totalPrice | number:'1.0-0' }} VNĐ</div>
+      </div>
+
+      <div class="wallet-notice">
+        Mở ứng dụng Ví (MoMo, ZaloPay, ShopeePay) để quét mã
+      </div>
+
+      <div class="wallet-actions">
+        <a class="btn-wallet-cancel" (click)="closeWalletModal()">Hủy giao dịch</a>
+        <button class="btn-wallet-submit-right" (click)="navigateToSuccess()">
+          Xác nhận đã thanh toán
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
-
-<script>
-  // Shipping toggle
-  document.querySelectorAll('.shipping-option').forEach(opt => {
-    opt.addEventListener('click', () => {
-      document.querySelectorAll('.shipping-option').forEach(o => {
-        o.classList.remove('selected');
-        o.querySelector('.radio-dot').classList.remove('selected');
-      });
-      opt.classList.add('selected');
-      opt.querySelector('.radio-dot').classList.add('selected');
-    });
-  });
-
-  // Payment toggle
-  document.querySelectorAll('.payment-option').forEach(opt => {
-    opt.addEventListener('click', () => {
-      document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
-      opt.classList.add('selected');
-    });
-  });
-</script>
-</body>
-</html>

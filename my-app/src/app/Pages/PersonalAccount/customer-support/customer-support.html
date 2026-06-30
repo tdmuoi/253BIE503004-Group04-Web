@@ -1,0 +1,236 @@
+<div class="personal-page-container">
+  
+  <!-- LEFT COLUMN: NAVIGATION SIDEBAR -->
+  <aside class="sidebar-column">
+    <!-- User Profile Header Card -->
+    <div class="profile-card">
+      <div class="avatar-row">
+        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+        <div class="user-meta">
+          <h2 class="user-name">{{ user.username }}</h2>
+          <div class="vip-badge-row">
+            <span class="vip-badge">VIP 2</span>
+            <span class="user-id">ID: 7904217</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-information')">
+          <span class="material-symbols-rounded">person</span>
+          <span>Thông tin cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-bookshelf')">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>Tủ sách cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/order-management')">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <span>Quản lý đơn hàng</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
+          <span class="material-symbols-rounded">workspace_premium</span>
+          <span>Thành tích đọc</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
+          <span class="material-symbols-rounded">history</span>
+          <span>Lịch sử giao dịch</span>
+        </button>
+        
+        <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/customer-support')">
+          <span class="material-symbols-rounded">contact_support</span>
+          <span>Hỗ trợ khách hàng</span>
+        </button>
+      </nav>
+
+      <div class="divider"></div>
+
+      <!-- Logout Trigger -->
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>Đăng xuất</span>
+      </button>
+    </div>
+
+    <!-- Membership Upgrade Widget -->
+    <div class="membership-upgrade-card">
+      <div class="upgrade-info">
+        <h3>Gói Hội Viên</h3>
+        <p>Mở khóa 10.000+ đầu sách bản quyền ngay hôm nay.</p>
+      </div>
+      <button type="button" class="upgrade-btn">Nâng cấp ngay</button>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: SUPPORT CENTER CONTENT -->
+  <main class="content-column">
+    <div class="page-header">
+      <h1 class="page-title">Hỗ trợ khách hàng</h1>
+      <p class="page-subtitle">Chào mừng bạn đến với trung tâm hỗ trợ Lightbook. Chúng tôi luôn sẵn sàng giải đáp mọi thắc mắc của bạn về sản phẩm và dịch vụ.</p>
+    </div>
+
+    <!-- TWO-COLUMN LAYOUT -->
+    <div class="support-columns-wrapper">
+      
+      <!-- SUB COLUMN LEFT: FAQ & DIRECT CONTACT FORM -->
+      <div class="left-support-column">
+        
+        <!-- SECTION 1: FAQ Accordions -->
+        <div class="faq-card">
+          <div class="faq-header-row">
+            <h3 class="section-title">Câu hỏi thường gặp</h3>
+            <a href="javascript:void(0)" class="view-all-link">Xem tất cả</a>
+          </div>
+
+          <div class="faq-list">
+            <div 
+              class="faq-item" 
+              *ngFor="let faq of faqs" 
+              [class.expanded]="activeFaqId() === faq.id"
+            >
+              <!-- Accordion Header -->
+              <div class="faq-item-header" (click)="toggleFaq(faq.id)">
+                <div class="faq-icon-wrapper" [class]="faq.iconClass">
+                  <span class="material-symbols-rounded">{{ faq.icon }}</span>
+                </div>
+                
+                <span class="faq-question-text">{{ faq.question }}</span>
+                
+                <span class="material-symbols-rounded faq-arrow">
+                  {{ activeFaqId() === faq.id ? 'expand_less' : 'expand_more' }}
+                </span>
+              </div>
+
+              <!-- Accordion Content (Answer) -->
+              <div class="faq-item-content" *ngIf="activeFaqId() === faq.id">
+                <p class="faq-answer-text">{{ faq.answer }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Direct Support Contact Form -->
+        <div class="contact-form-card">
+          <h3 class="section-title">Liên hệ trực tiếp</h3>
+          
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+            <!-- Name & Email fields row -->
+            <div class="form-row-grid">
+              <div class="form-field-group">
+                <label for="fullname">Họ và tên</label>
+                <input 
+                  type="text" 
+                  id="fullname" 
+                  formControlName="fullname" 
+                  placeholder="Nhập họ và tên"
+                />
+              </div>
+
+              <div class="form-field-group">
+                <label for="email">Email</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  formControlName="email" 
+                  placeholder="Nhập địa chỉ email"
+                />
+              </div>
+            </div>
+
+            <!-- Subject field -->
+            <div class="form-field-group">
+              <label for="subject">Chủ đề</label>
+              <input 
+                type="text" 
+                id="subject" 
+                formControlName="subject" 
+                placeholder="Nhập chủ đề hỗ trợ"
+              />
+            </div>
+
+            <!-- Message field -->
+            <div class="form-field-group">
+              <label for="message">Nội dung tin nhắn</label>
+              <textarea 
+                id="message" 
+                formControlName="message" 
+                rows="5"
+                placeholder="Nhập chi tiết vấn đề bạn đang gặp phải..."
+              ></textarea>
+            </div>
+
+            <!-- Form Action Submit -->
+            <button type="submit" class="submit-support-btn">
+              Gửi tin nhắn ngay
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- SUB COLUMN RIGHT: QUICK CHANNELS & WORKING HOURS -->
+      <div class="right-support-column">
+        
+        <!-- Widget 1: Quick Channels (Dark Green background) -->
+        <div class="quick-channels-card">
+          <h4>Kênh hỗ trợ nhanh</h4>
+          <p>Kết nối với đội ngũ chuyên viên của chúng tôi qua các kênh trực tiếp 24/7.</p>
+          
+          <div class="channel-actions">
+            <!-- Chat bubble action -->
+            <button type="button" class="channel-btn highlight-btn" (click)="onLiveChat()">
+              <span class="material-symbols-rounded">chat</span>
+              <span class="btn-label">Live Chat Trực Tuyến</span>
+            </button>
+
+            <!-- Mail action -->
+            <button type="button" class="channel-btn secondary-btn" (click)="onSendMail()">
+              <span class="material-symbols-rounded">mail</span>
+              <span class="btn-label">Email: support@lb.vn</span>
+            </button>
+
+            <!-- Phone action -->
+            <button type="button" class="channel-btn secondary-btn" (click)="onCallHotline()">
+              <span class="material-symbols-rounded">call</span>
+              <span class="btn-label">Hotline: 1900 1234</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Widget 2: Working Hours -->
+        <div class="working-hours-card">
+          <div class="hours-header">
+            <span class="material-symbols-rounded clock-icon">schedule</span>
+            <h5>Thời gian làm việc</h5>
+          </div>
+          <ul class="hours-list">
+            <li>
+              <span class="days-label">Thứ 2 - Thứ 6:</span>
+              <span class="time-range">08:00 - 21:00</span>
+            </li>
+            <li>
+              <span class="days-label">Thứ 7 - CN:</span>
+              <span class="time-range">09:00 - 18:00</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Widget 3: Office Preview Image Overlay -->
+        <div class="office-preview-card">
+          <img src="/img/books/office_preview.jpg" alt="Văn phòng đại diện" class="office-img" />
+          <div class="office-overlay">
+            <span>Văn phòng đại diện tại TP.HCM</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+</div>

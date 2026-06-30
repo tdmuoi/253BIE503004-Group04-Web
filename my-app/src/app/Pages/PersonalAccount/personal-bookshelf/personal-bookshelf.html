@@ -1,0 +1,178 @@
+<div class="personal-page-container">
+  
+  <!-- LEFT COLUMN: NAVIGATION SIDEBAR -->
+  <aside class="sidebar-column">
+    <!-- User Profile Header Card -->
+    <div class="profile-card">
+      <div class="avatar-row">
+        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+        <div class="user-meta">
+          <h2 class="user-name">{{ user.username }}</h2>
+          <div class="vip-badge-row">
+            <span class="vip-badge">VIP 2</span>
+            <span class="user-id">ID: 7904217</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-information')">
+          <span class="material-symbols-rounded">person</span>
+          <span>Thông tin cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/personal-bookshelf')">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>Tủ sách cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/order-management')">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <span>Quản lý đơn hàng</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
+          <span class="material-symbols-rounded">workspace_premium</span>
+          <span>Thành tích đọc</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
+          <span class="material-symbols-rounded">history</span>
+          <span>Lịch sử giao dịch</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/customer-support')">
+          <span class="material-symbols-rounded">contact_support</span>
+          <span>Hỗ trợ khách hàng</span>
+        </button>
+      </nav>
+
+      <div class="divider"></div>
+
+      <!-- Logout Trigger -->
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>Đăng xuất</span>
+      </button>
+    </div>
+
+    <!-- Membership Upgrade Widget -->
+    <div class="membership-upgrade-card">
+      <div class="upgrade-info">
+        <h3>Gói Hội Viên</h3>
+        <p>Mở khóa 10.000+ đầu sách bản quyền ngay hôm nay.</p>
+      </div>
+      <button type="button" class="upgrade-btn">Nâng cấp ngay</button>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: PERSONAL BOOKSHELF CONTENT -->
+  <main class="content-column">
+    <div class="page-header">
+      <h1 class="page-title">Tủ sách cá nhân</h1>
+      <p class="page-subtitle">Khám phá và quản lý bộ sưu tập sách của bạn.</p>
+    </div>
+
+    <!-- SECTION 1: SÁCH ĐANG ĐỌC -->
+    <section class="reading-section">
+      <div class="section-header">
+        <span class="material-symbols-rounded header-icon">menu_book</span>
+        <h2 class="section-title">Sách đang đọc</h2>
+      </div>
+
+      <div class="reading-row">
+        <!-- Reading cards loop -->
+        <div class="reading-card" *ngFor="let book of readingBooks">
+          <div class="book-cover-wrapper">
+            <img [src]="book.image" [alt]="book.title" class="book-cover-img" />
+          </div>
+          <div class="reading-meta">
+            <div class="meta-texts">
+              <h3 class="reading-title">{{ book.title }}</h3>
+              <p class="reading-author">{{ book.author }}</p>
+            </div>
+            <button type="button" class="continue-btn" (click)="readBook(book.title)">Tiếp tục đọc</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: BOOKSHELF FILTER AND GRID -->
+    <section class="shelf-section">
+      <div class="filters-search-bar">
+        <!-- Tag filters -->
+        <div class="filter-tabs">
+          <button 
+            type="button" 
+            class="filter-tab" 
+            [class.active]="currentFilter() === 'all'"
+            (click)="setFilter('all')"
+          >
+            Tất cả
+          </button>
+          <button 
+            type="button" 
+            class="filter-tab" 
+            [class.active]="currentFilter() === 'read'"
+            (click)="setFilter('read')"
+          >
+            Đã đọc
+          </button>
+          <button 
+            type="button" 
+            class="filter-tab" 
+            [class.active]="currentFilter() === 'favorite'"
+            (click)="setFilter('favorite')"
+          >
+            Yêu thích
+          </button>
+          <button 
+            type="button" 
+            class="filter-tab" 
+            [class.active]="currentFilter() === 'ebook'"
+            (click)="setFilter('ebook')"
+          >
+            Sách điện tử
+          </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-input-wrapper">
+          <span class="material-symbols-rounded search-icon">search</span>
+          <input 
+            type="text" 
+            placeholder="Tìm trong tủ sách..." 
+            [value]="searchQuery()"
+            (input)="onSearch($event)"
+          />
+        </div>
+      </div>
+
+      <!-- Books Grid Shelf -->
+      <div class="bookshelf-grid">
+        <!-- Loop over filtered list -->
+        <div class="shelf-book-card" *ngFor="let book of filteredBooks">
+          <div class="shelf-cover-wrapper">
+            <img [src]="book.image" [alt]="book.title" class="shelf-cover-img" />
+            <div class="hover-overlay" (click)="readBook(book.title)">
+              <span class="material-symbols-rounded">menu_book</span>
+            </div>
+          </div>
+          <div class="shelf-book-info">
+            <h3 class="shelf-book-title" [title]="book.title">{{ book.title }}</h3>
+            <p class="shelf-book-author">{{ book.author }}</p>
+          </div>
+          <button type="button" class="read-now-btn" (click)="readBook(book.title)">Đọc ngay</button>
+        </div>
+
+        <!-- Dashed Add Book Card at the end -->
+        <div class="add-book-card" (click)="onAddNewBook()">
+          <span class="material-symbols-rounded add-icon">add_circle</span>
+          <span>Thêm sách mới</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>

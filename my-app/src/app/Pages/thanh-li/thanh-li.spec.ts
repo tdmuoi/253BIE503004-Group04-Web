@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from './page-header';
+import { ThanhLi } from './thanh-li';
 
-describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+describe('ThanhLi', () => {
+  let component: ThanhLi;
+  let fixture: ComponentFixture<ThanhLi>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderComponent],
+      imports: [ThanhLi],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(ThanhLi);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

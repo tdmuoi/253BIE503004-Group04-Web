@@ -1,0 +1,321 @@
+<div class="personal-page-container">
+  
+  <!-- LEFT COLUMN: NAVIGATION SIDEBAR -->
+  <aside class="sidebar-column">
+    <!-- User Profile Header Card -->
+    <div class="profile-card">
+      <div class="avatar-row">
+        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+        <div class="user-meta">
+          <h2 class="user-name">{{ user.username }}</h2>
+          <div class="vip-badge-row">
+            <span class="vip-badge">VIP 2</span>
+            <span class="user-id">ID: 7904217</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/personal-information')">
+          <span class="material-symbols-rounded">person</span>
+          <span>Thông tin cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-bookshelf')">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>Tủ sách cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/order-management')">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <span>Quản lý đơn hàng</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
+          <span class="material-symbols-rounded">workspace_premium</span>
+          <span>Thành tích đọc</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
+          <span class="material-symbols-rounded">history</span>
+          <span>Lịch sử giao dịch</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/customer-support')">
+          <span class="material-symbols-rounded">contact_support</span>
+          <span>Hỗ trợ khách hàng</span>
+        </button>
+      </nav>
+
+      <div class="divider"></div>
+
+      <!-- Logout Trigger -->
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>Đăng xuất</span>
+      </button>
+    </div>
+
+    <!-- Membership Upgrade Widget -->
+    <div class="membership-upgrade-card">
+      <div class="upgrade-info">
+        <h3>Gói Hội Viên</h3>
+        <p>Mở khóa 10.000+ đầu sách bản quyền ngay hôm nay.</p>
+      </div>
+      <button type="button" class="upgrade-btn">Nâng cấp ngay</button>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: PERSONAL INFO AND TABS -->
+  <main class="content-column">
+    <div class="page-header">
+      <h1 class="page-title">Thông tin cá nhân</h1>
+      <p class="page-subtitle">Quản lý thông tin hồ sơ cá nhân, bảo mật tài khoản và địa chỉ giao nhận hàng của bạn.</p>
+    </div>
+
+    <!-- INFO MANAGEMENT CARD -->
+    <div class="info-management-card">
+      
+      <!-- Internal Sidebar sub tabs (synchronized with image) -->
+      <div class="internal-sidebar">
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/personal-information')">
+          Thông tin cá nhân
+        </button>
+        <button type="button" class="sub-tab active" (click)="navigate('/PersonalAccount/address')">
+          Địa chỉ nhận hàng
+        </button>
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/account-security')">
+          Tài khoản & Bảo mật
+        </button>
+        <button type="button" class="sub-tab" (click)="navigate('/PersonalAccount/link-social')">
+          Liên kết mạng xã hội
+        </button>
+      </div>
+
+      <!-- Form Content -->
+      <div class="internal-content">
+        
+        <!-- HEADER ROW -->
+        <div class="content-header-row" *ngIf="!isFormOpen()">
+          <h3 class="inner-title">Sổ địa chỉ nhận hàng</h3>
+          <button type="button" class="add-address-btn" (click)="openAddForm()">
+            <span class="material-symbols-rounded">add</span>
+            <span>Thêm địa chỉ mới</span>
+          </button>
+        </div>
+
+        <!-- ADDRESS LIST -->
+        <div class="addresses-list-wrapper" *ngIf="!isFormOpen()">
+          
+          <div class="address-item-card" *ngFor="let addr of addresses()">
+            <!-- Left Icon -->
+            <div class="addr-icon-circle" [class]="addr.type">
+              <span class="material-symbols-rounded">
+                {{ addr.type === 'home' ? 'home' : 'work' }}
+              </span>
+            </div>
+
+            <!-- Details -->
+            <div class="addr-details">
+              <div class="addr-meta-row">
+                <span class="addr-name">{{ addr.fullname }}</span>
+                <span class="addr-dot-divider"></span>
+                <span class="addr-phone">{{ addr.phone }}</span>
+                
+                <!-- Badge labels -->
+                <span class="addr-badge type-badge" [class]="addr.type">
+                  {{ addr.type === 'home' ? 'Nhà riêng' : 'Văn phòng' }}
+                </span>
+                <span class="addr-badge default-badge" *ngIf="addr.isDefault">
+                  Mặc định
+                </span>
+              </div>
+
+              <p class="addr-text">
+                {{ addr.detail }}, {{ addr.ward }}, {{ addr.district }}, {{ addr.city }}
+              </p>
+
+              <!-- Actions inside card -->
+              <div class="addr-actions-row">
+                <button 
+                  type="button" 
+                  class="action-text-btn default-set" 
+                  *ngIf="!addr.isDefault"
+                  (click)="setAsDefault(addr.id)"
+                >
+                  Thiết lập mặc định
+                </button>
+                <button type="button" class="action-text-btn edit-btn" (click)="openEditForm(addr)">
+                  Chỉnh sửa
+                </button>
+                <button type="button" class="action-text-btn delete-btn" (click)="onDelete(addr.id)">
+                  Xóa
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" *ngIf="addresses().length === 0">
+            <span class="material-symbols-rounded empty-icon">location_off</span>
+            <p>Bạn chưa lưu địa chỉ nhận hàng nào. Hãy thêm một địa chỉ để đặt hàng nhanh hơn nhé!</p>
+          </div>
+
+        </div>
+
+        <!-- ADDRESS FORM DIALOG -->
+        <div class="address-form-wrapper" *ngIf="isFormOpen()">
+          <h3 class="inner-title">
+            {{ isEditing() ? 'Cập nhật địa chỉ nhận hàng' : 'Thêm địa chỉ nhận hàng mới' }}
+          </h3>
+
+          <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+            
+            <!-- Row 1: Fullname & Phone -->
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="fullname">Họ và tên</label>
+                <input 
+                  type="text" 
+                  id="fullname" 
+                  formControlName="fullname" 
+                  placeholder="Nhập họ và tên người nhận"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="phone">Số điện thoại</label>
+                <input 
+                  type="text" 
+                  id="phone" 
+                  formControlName="phone" 
+                  placeholder="Nhập số điện thoại"
+                />
+              </div>
+            </div>
+
+            <!-- Row 2: City / Province -->
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="city">Tỉnh / Thành phố</label>
+                <input 
+                  type="text" 
+                  id="city" 
+                  formControlName="city" 
+                  placeholder="Nhập Tỉnh / Thành phố"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="district">Quận / Huyện</label>
+                <input 
+                  type="text" 
+                  id="district" 
+                  formControlName="district" 
+                  placeholder="Nhập Quận / Huyện"
+                />
+              </div>
+            </div>
+
+            <!-- Row 3: Ward & Details -->
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="ward">Phường / Xã</label>
+                <input 
+                  type="text" 
+                  id="ward" 
+                  formControlName="ward" 
+                  placeholder="Nhập Phường / Xã"
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="detail">Địa chỉ cụ thể</label>
+                <input 
+                  type="text" 
+                  id="detail" 
+                  formControlName="detail" 
+                  placeholder="Số nhà, tên đường, tòa nhà..."
+                />
+              </div>
+            </div>
+
+            <!-- Row 4: Address Type Radios -->
+            <div class="form-field">
+              <label>Loại địa chỉ</label>
+              <div class="gender-radio-group">
+                <label class="gender-radio-label">
+                  <input type="radio" value="home" formControlName="type" />
+                  <span class="custom-radio-dot"></span>
+                  <span>Nhà riêng (Giao cả ngày)</span>
+                </label>
+                <label class="gender-radio-label">
+                  <input type="radio" value="office" formControlName="type" />
+                  <span class="custom-radio-dot"></span>
+                  <span>Văn phòng (Giao giờ hành chính)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Row 5: Set Default Checkbox -->
+            <div class="form-field default-checkbox-field">
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="isDefault" />
+                <span class="checkmark"></span>
+                <span>Đặt làm địa chỉ nhận hàng mặc định</span>
+              </label>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="actions-row">
+              <button type="button" class="cancel-btn" (click)="closeForm()">
+                Hủy bỏ
+              </button>
+              <button type="submit" class="save-btn">
+                {{ isEditing() ? 'Lưu thay đổi' : 'Thêm địa chỉ' }}
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- BOTTOM WIDGETS ROW (matches personal information footer) -->
+    <div class="bottom-widgets-grid" *ngIf="!isFormOpen()">
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper pin">
+          <span class="material-symbols-rounded">pin_drop</span>
+        </div>
+        <div class="widget-info">
+          <h4>Sổ địa chỉ</h4>
+          <p>Lưu {{ addresses().length }} địa chỉ nhận hàng</p>
+        </div>
+      </div>
+
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper wallet">
+          <span class="material-symbols-rounded">account_balance_wallet</span>
+        </div>
+        <div class="widget-info">
+          <h4>Ví LightPay</h4>
+          <p>Số dư: 500.000 đ</p>
+        </div>
+      </div>
+
+      <div class="bottom-widget-card">
+        <div class="widget-icon-wrapper shield">
+          <span class="material-symbols-rounded">security</span>
+        </div>
+        <div class="widget-info">
+          <h4>Bảo mật tài khoản</h4>
+          <p>Mức độ: Khá cao</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
