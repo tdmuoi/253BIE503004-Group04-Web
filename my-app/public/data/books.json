@@ -1,101 +1,1226 @@
 [
   {
-    "url": "https://nhanam.vn/phat-giao-dai-quan",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-61.png?v=1781175085593",
-    "title": "Phật giáo đại quan",
-    "author": "Phạm Quỳnh",
-    "price_current": 92000,
-    "price_old": 115000,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/6-da8d4011-f2e3-4af0-a657-914c21ec21df.png?v=1759078010537",
+    "title": "Tớ là họa sĩ: Khủng long thời tiền sử",
+    "author": "Tùng Lâm",
+    "price_current": 16000,
+    "price_old": 20000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/chuc-mung-sinh-nhat-cau",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-59.png?v=1781174581793",
-    "title": "Chúc mừng sinh nhật cậu",
-    "author": "Guido Van Genechten",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/2-efd886da-2cfe-4570-9d28-0f873be59edc.png?v=1759077607050",
+    "title": "Tớ là họa sĩ: Những con vật ở nông trại",
+    "author": "Thu Ngân",
+    "price_current": 16000,
+    "price_old": 20000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/2-8dea0b63-a3e7-48fd-9ee7-eca04409dc13.png?v=1759076688377",
+    "title": "Tớ là họa sĩ: Hoa quả, trái cây",
+    "author": "Thùy Cốm",
+    "price_current": 16000,
+    "price_old": 20000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/2-d507543a-1ebe-4cce-836e-e13d7649dd31.png?v=1759077114653",
+    "title": "Tớ là họa sĩ: Đồ vật quanh em",
+    "author": "Thùy Cốm",
+    "price_current": 16000,
+    "price_old": 20000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/2-0baf73fa-20cd-4509-a922-ae57590acc70.png?v=1759077174057",
+    "title": "Miu Bé Nhỏ và chiếc đèn ông sao thất lạc",
+    "author": "Kawa - Mai Anh Đỗ",
+    "price_current": 55200,
+    "price_old": 69000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/z7163071927648-063b92de6a2843919cd72cc40e776c07.jpg?v=1761622138030",
+    "title": "Sách - Sự thịnh vượng của các quốc gia - The Wealth of Nations (Adam Smith) (Nhã Nam)",
+    "author": "Adam Smith",
+    "price_current": 440000,
+    "price_old": 550000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/1-0c4e442a-2968-429d-8b93-4f0dcefaf97a.png?v=1758516907660",
+    "title": "Danh tác thế giới lầy lội - Trần Lỗi và cộng sự",
+    "author": "Trần Lỗi Và Cộng Sự",
+    "price_current": 166400,
+    "price_old": 208000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-18.png?v=1758516474280",
+    "title": "Lưỡi dao vô hình - Trần Nghiên Nhất",
+    "author": "Trần Nghiên Nhất",
+    "price_current": 180000,
+    "price_old": 225000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-17.png?v=1758516205250",
+    "title": "Khi ta không còn hiểu thế giới - Benjamín Labatut",
+    "author": "Benjamín Labatut",
+    "price_current": 100000,
+    "price_old": 125000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/1-b7a1e438-bb1d-447b-86f0-4174131f66fa.png?v=1758515968387",
+    "title": "Con tôi bị trầm cảm nhưng tôi cứ tưởng con chỉ không vui",
+    "author": "Dương Ý",
+    "price_current": 164000,
+    "price_old": 205000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-16.png?v=1758515746680",
+    "title": "Bên trong tâm trí - Những bí ẩn lớn nhất về não người",
+    "author": "Jorge Cham - Dwayne Godwin",
+    "price_current": 168000,
+    "price_old": 210000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-14.png?v=1758255870160",
+    "title": "Sách - Biệt thự cô lập trên núi tuyết (Higashino Keigo) (Nhã Nam)",
+    "author": "Higashino Keigo",
+    "price_current": 136000,
+    "price_old": 170000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tu-sach-suc-khoe-1.png?v=1758254341437",
+    "title": "MỜI NGƯỜI NHÀ BỆNH NHÂN TỚI ĐÂY MỘT LÁT: Những điều cần biết khi người thân mắc Ung Thư",
+    "author": "Bác Sĩ Vương Hưng",
+    "price_current": 159200,
+    "price_old": 199000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/z7004821573169-c8c740e53c6b86b123ffdffdb93a56c6.jpg?v=1757993143207",
+    "title": "HỘP QUÀ TRUNG THU - HỘP QUÀ MÙA TRĂNG 2025",
+    "author": "Kawa viết lời - Mai Anh Đỗ minh họa",
+    "price_current": 130400,
+    "price_old": 163000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bon-mua-co-bay-01.jpg?v=1755693554283",
+    "title": "Sách - bốn mùa cờ bay (Huỳnh Mai Liên) (Nhã Nam)",
+    "author": "Huỳnh Mai Liên - Mai Khuê",
+    "price_current": 80000,
+    "price_old": 100000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-5.png?v=1757910175727",
+    "title": "KỶ NGUYÊN PHẪN NỘ: Bí Kíp Hạ Nhiệt Làn Sóng Phẫn Nộ Của Cộng Đồng",
+    "author": "Karthik Ramanna",
+    "price_current": 140000,
+    "price_old": 175000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/z7027490524434-4e3d99410f71f2f1905f0f2d559d8ce1.jpg?v=1758854406690",
+    "title": "Chuyện xóm gà - Đàn gà con sợ mất mật",
+    "author": "Christian Jolibois - Christian Heinrich",
+    "price_current": 52000,
+    "price_old": 65000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/z7027490622475-5d5abd819453af1436495795043a5363.jpg?v=1758253437363",
+    "title": "Chuyện xóm gà - Lễ hội khùng điên",
+    "author": "Christian Jolibois - Christian Heinrich",
+    "price_current": 52000,
+    "price_old": 65000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-4.png?v=1757909904137",
+    "title": "Dám mất lòng - Tương Bình",
+    "author": "Tương Bình",
+    "price_current": 134400,
+    "price_old": 168000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-8.png?v=1758077890377",
+    "title": "Mường tượng về Thiên đường - John Burke",
+    "author": "John Burke",
+    "price_current": 196000,
+    "price_old": 245000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-9.png?v=1758083639490",
+    "title": "Tựa thinh không - Ada d'Adamo",
+    "author": "Ada d'Adamo",
+    "price_current": 88000,
+    "price_old": 110000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/khoi-dau-cua-chung-ta.png?v=1759389205437",
+    "title": "Khởi đầu của chúng ta - Colleen Hoover",
+    "author": "Colleen Hoover",
+    "price_current": 148000,
+    "price_old": 185000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/an-cam-thay-ap-luc-trong-cong-viec-ban-thay-cuoc-song-cua-minh-bi-hinh-anh-nhung-nguoi-thanh-cong-hon-ban-gioi-giang-hon-ban-hanh-phuc-hon-ban-bua-vay-dung-lo-ban-khong-he-don-doc-trong-bay-ho.png?v=1754561010617",
+    "title": "TÌNH YÊU XẤU XÍ",
+    "author": "Colleen Hoover",
+    "price_current": 164800,
+    "price_old": 206000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/2.png?v=1754560267063",
+    "title": "Ăn ngăn bách bệnh - William W. Li",
+    "author": "Tiến Sĩ Y Khoa William W.Li",
+    "price_current": 256000,
+    "price_old": 320000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/5.png?v=1754559911183",
+    "title": "MIỀN HẠNH PHÚC ( EMILY HENRY)",
+    "author": "Emily Henry",
+    "price_current": 172000,
+    "price_old": 215000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/3.png?v=1754557875723",
+    "title": "Bí mật của Thiên thần - Guillaume Musso",
+    "author": "Guillaume Musso",
+    "price_current": 148000,
+    "price_old": 185000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/4.png?v=1754557031847",
+    "title": "36 giờ 1 ngày - Nancy L.Mace và Peter V.Rabins",
+    "author": "Nancy L. Mace - Peter V. Rabins",
+    "price_current": 239200,
+    "price_old": 299000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/6.png?v=1754555289830",
+    "title": "Bản Đồ Tri Thức - Violet Moller",
+    "author": "Violet Moller",
+    "price_current": 184000,
+    "price_old": 230000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/9.png?v=1754555202893",
+    "title": "Chú chó Robot - David Walliams",
+    "author": "David Walliams - Adam Stower",
+    "price_current": 128000,
+    "price_old": 160000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-16x24-14x21-1.png?v=1759390929907",
+    "title": "Bẫy hoàn hảo - Sức mạnh của Vừa Đủ trong một thế giới đòi hỏi không ngừng",
+    "author": "Thomas Curran",
+    "price_current": 152000,
+    "price_old": 190000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/z6929655785592-eeda88fc39f4d07184479912c80e08a9.jpg?v=1755759713687",
+    "title": "Hoàng Đế xứ Gladness - Ocean Vuong",
+    "author": "Ocean Vương",
+    "price_current": 200000,
+    "price_old": 250000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/10-88c6890c-ed22-4d2d-855b-3e156bc2a452.png?v=1754554230440",
+    "title": "Ruột khỏe tâm an - Gabriel Perlemuter",
+    "author": "Giáo sư Gabriel Perlemuter",
+    "price_current": 102400,
+    "price_old": 128000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/z6882994413457-66ba7b5f292e3ee4d8a196dc01902f6a.jpg?v=1754555071353",
+    "title": "Không Thành Kế - Hô Diên Vân",
+    "author": "Hô Diên Vân",
+    "price_current": 231200,
+    "price_old": 289000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/hoc-tinh-trong-mot-the-gioi-on-ao-01.jpg?v=1753433774440",
+    "title": "Học tĩnh trong một thế giới ồn ào - Lê Nhật Nam",
+    "author": "Lê Nhật Nam",
+    "price_current": 76800,
+    "price_old": 96000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/dong-tuyen-tap-xu-2-01.jpg?v=1753433706770",
+    "title": "Đồng - Tuyển tập xứ 2 (Trần Lê Khánh)",
+    "author": "Trần Lê Khánh",
     "price_current": 116000,
     "price_old": 145000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/combo-hu-cam-xuc-va-hu-tinh-ban",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-58.png?v=1781174295570",
-    "title": "Combo Hũ Cảm Xúc Và Hũ Tình Bạn",
-    "author": "Deborah Marcero",
-    "price_current": 142400,
-    "price_old": 178000,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-100.png?v=1751956070133",
+    "title": "451 ĐỘ F",
+    "author": "Ray Bradbury",
+    "price_current": 96000,
+    "price_old": 120000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/hu-tinh-ban",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-57.png?v=1781173330663",
-    "title": "Hũ tình bạn",
-    "author": "Deborah Marcero",
-    "price_current": 71200,
-    "price_old": 89000,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/chon-khong-dau-01.jpg?v=1752480006580",
+    "title": "Chốn Không Đâu - Neil Gaiman",
+    "author": "Neil Gaiman",
+    "price_current": 172800,
+    "price_old": 216000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/combo-3-cuon-phat-trien-eq",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-48.png?v=1781172336670",
-    "title": "Combo 3 cuốn Phát triển EQ",
-    "author": "Viện nghiên cứu độc giả Tiểu học Dook Reads",
-    "price_current": 333600,
-    "price_old": 417000,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/banh-ngot-va-ruou-bia-01.jpg?v=1752479968163",
+    "title": "Bánh ngọt và rượu bia (W. Somerset Maugham)",
+    "author": "W. Somerset Maugham",
+    "price_current": 100000,
+    "price_old": 125000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/phat-trien-eq-ren-noi-luc-vung-vang",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-45.png?v=1781171532970",
-    "title": "Phát triển EQ - Rèn nội lực vững vàng",
-    "author": "Viện nghiên cứu độc giả Tiểu học Dook Reads",
-    "price_current": 111200,
-    "price_old": 139000,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nghe-viet-tieu-thuyet-01.jpg?v=1751950116133",
+    "title": "Nghề viết tiểu thuyết - Haruki Murakami",
+    "author": "",
+    "price_current": 124800,
+    "price_old": 156000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/phat-trien-eq-nuoi-duong-long-thau-cam",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-46.png?v=1781170856530",
-    "title": "Phát triển EQ - Nuôi dưỡng lòng thấu cảm",
-    "author": "Viện nghiên cứu độc giả Tiểu học Dook Reads",
-    "price_current": 111200,
-    "price_old": 139000,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/ke-khac-01.jpg?v=1751985445203",
+    "title": "Kẻ Khác - Guillaume Musso",
+    "author": "Guillaume Musso",
+    "price_current": 150400,
+    "price_old": 188000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/hai-man-bi-kich-o-dong-duong",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-ed5eb5fc-3e89-4549-8db9-1f8ddca66b46.png?v=1780630990330",
-    "title": "Hai màn bi kịch ở Đông Dương",
-    "author": "Général Catroux",
-    "price_current": 223200,
-    "price_old": 279000,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tham-tu-thu-tam-01.jpg?v=1752479213280",
+    "title": "THÁM TỬ THỨ TÁM",
+    "author": "Alex Pavesi",
+    "price_current": 174400,
+    "price_old": 218000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/phi-cong",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-b69ac049-dc05-457b-ad9d-398b3b4bf48c.png?v=1780626707963",
-    "title": "Phi Công",
-    "author": "Evgeny Vodolazkin",
-    "price_current": 193500,
-    "price_old": 258000,
-    "discount_percent": -25
-  },
-  {
-    "url": "https://nhanam.vn/ngan-nam-van-hien-quoc-gia-viet-nam",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-44.png?v=1780399378370",
-    "title": "Ngàn năm văn hiến quốc gia Việt Nam",
-    "author": "Bộ Văn Hóa Thể Thao & Du Lịch",
-    "price_current": 676000,
-    "price_old": 845000,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thoi-gian-bieu-ca-dem-01.jpg?v=1752479152150",
+    "title": "Thời gian biểu ca đêm - Chung Bora",
+    "author": "Chung Bora",
+    "price_current": 108800,
+    "price_old": 136000,
     "discount_percent": -20
   },
   {
-    "url": "https://nhanam.vn/nhac-but-len-trong-dem-co-don",
-    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-42.png?v=1779960102820",
-    "title": "Nhấc bút lên trong đêm cô đơn",
-    "author": "Koga Fumitake",
-    "price_current": 183750,
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/triet-hoc-ve-cai-chet-01.jpg?v=1752478983173",
+    "title": "Triết học về cái chết - Shelly Kagan",
+    "author": "Shelly Kagan",
+    "price_current": 240000,
+    "price_old": 300000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bat-tay-cac-hoc-ba-thoi-xua-01.jpg?v=1751948831983",
+    "title": "Bắt tay các học bá thời xưa",
+    "author": "Cấp Cước Đại Sư",
+    "price_current": 136000,
+    "price_old": 170000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/chao-mung-ban-den-hieu-sach-hyunamdong-01.jpg?v=1751948365093",
+    "title": "Chào mừng bạn đến Hiệu sách Hyunam-dong - Hwang Bo-reum",
+    "author": "Hwang Bo-reum",
+    "price_current": 152000,
+    "price_old": 190000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-97.png?v=1751792011437",
+    "title": "Kết thúc chỉ là khởi đầu - Peter Zeihan",
+    "author": "Peter Zeihan",
+    "price_current": 280000,
+    "price_old": 350000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/ma-trung-2-den-trang-01.jpg?v=1751710126677",
+    "title": "Sách - Ma trùng 2 - Đen trắng (Chan Ho-Kei) (Nhã Nam)",
+    "author": "Chan Ho-Kei",
+    "price_current": 140000,
+    "price_old": 175000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/ma-trung-1-di-the-01.jpg?v=1751709907490",
+    "title": "Sách - Ma trùng 1 - Dị thể (Chan Ho-Kei) (Nhã Nam)",
+    "author": "Chan Ho-Kei",
+    "price_current": 104000,
+    "price_old": 130000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nguoi-an-chay-01.jpg?v=1751277867583",
+    "title": "NGƯỜI ĂN CHAY",
+    "author": "Han Kang",
+    "price_current": 120000,
+    "price_old": 150000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/truy-duoi-khoi-tuyet-01.jpg?v=1751277589033",
+    "title": "Sách - Truy đuổi khói tuyết (Higashino Keigo) (Nhã Nam)",
+    "author": "Higashino Keigo",
+    "price_current": 148000,
+    "price_old": 185000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nguon-goc-dan-toc-viet-nam-01.jpg?v=1750647002037",
+    "title": "Nguồn gốc dân tộc Việt Nam - Đào Duy Anh",
+    "author": "Đào Duy Anh",
+    "price_current": 64000,
+    "price_old": 80000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nhung-cuoc-tham-hiem-vi-dai-qua-truyen-tranh-01.jpg?v=1750646860397",
+    "title": "Những cuộc thám hiểm vĩ đại qua truyện tranh",
+    "author": "Sophie Crépon - Béatrice Veillon",
+    "price_current": 135200,
+    "price_old": 169000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/khac-biet-de-toa-sang-01.jpg?v=1750392018120",
+    "title": "Khác biệt để tỏa sáng - Hồ Tuệ Mạn",
+    "author": "Hồ Tuệ Mạn",
+    "price_current": 140000,
+    "price_old": 175000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/phong-cach-nvidia-bia-ao-01.jpg?v=1750646609997",
+    "title": "Phong cách NVIDIA (The NVIDIA Way)",
+    "author": "Tae Kim",
+    "price_current": 200000,
+    "price_old": 250000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/totto-chan-ben-cua-so-nhung-cau-chuyen-tiep-theo-01.jpg?v=1750646534807",
+    "title": "Totto-chan bên cửa sổ - Những chuyện tiếp theo - Kuroyanagi Tetsuko",
+    "author": "Kuroyanagi Tetsuko",
+    "price_current": 124000,
+    "price_old": 155000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tai-sao-cac-de-quoc-sup-do-01.jpg?v=1750220814177",
+    "title": "Sách - Tại sao các đế quốc sụp đổ (Peter Heather) (John Rapley) (Nhã Nam)",
+    "author": "Peter Heather - John Rapley",
+    "price_current": 136000,
+    "price_old": 170000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/15-hat-dau-cua-totto-chan-01.jpg?v=1750646462280",
+    "title": "15 hạt đậu của Totto-chan (Kashiwaba Sachiko - Matsumoto Haruno)",
+    "author": "Kashiwaba Sachiko - Matsumoto Haruno",
+    "price_current": 60000,
+    "price_old": 75000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/1-cbf1d7c9-f4d3-4ba3-b2e5-4d3a31325665.png?v=1759390265480",
+    "title": "Sách - Hai kinh mười lăm ngày (Mã Bá Dung) (Nhã Nam)",
+    "author": "Mã Bá Dung",
+    "price_current": 204000,
+    "price_old": 255000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/2-8e2eb6df-11bb-485e-a32b-5631302b111a.png?v=1759390286950",
+    "title": "Sách - Hai kinh mười lăm ngày 1 - Điềm gở (Mã Bá Dung) (Nhã Nam)",
+    "author": "Mã Bá Dung",
+    "price_current": 196000,
     "price_old": 245000,
-    "discount_percent": -25
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/hoan-hao-lam-chi-01.jpg?v=1750646297367",
+    "title": "Hoàn hảo làm chi - Kristina Mänd-Lakhiani",
+    "author": "Kristina Mand-Lakhiani",
+    "price_current": 152000,
+    "price_old": 190000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/vu-dieu-cuong-phong-01.jpg?v=1750645858943",
+    "title": "Sách - Vũ điệu cuồng phong (Higashino Keigo) (Nhã Nam)",
+    "author": "Higashino Keigo",
+    "price_current": 130400,
+    "price_old": 163000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bao-thu-muoi-mot-cau-chuyen-tam-toi-01.jpg?v=1749611204217",
+    "title": "Báo thù: mười một câu chuyện tăm tối (Ogawa Yoko)",
+    "author": "Ogawa Yoko",
+    "price_current": 88000,
+    "price_old": 110000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/con-roi-hat-ngoai-rung-xa-01.jpg?v=1749552241777",
+    "title": "Con rối hát ngoài rừng xa - Khải Đơn",
+    "author": "Khải Đơn",
+    "price_current": 95200,
+    "price_old": 119000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-16x24-14x21-160x240px.png?v=1759392193687",
+    "title": "Chỉ mùa xuân và tình yêu được phép vào trong - Tần Mộng Hiên",
+    "author": "Tần Mộng Hiên",
+    "price_current": 140000,
+    "price_old": 175000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/truoc-khi-tro-thanh-quai-vat-01.jpg?v=1749175940783",
+    "title": "Trước khi trở thành Quái Vật - Tiêu Vĩ Huyên",
+    "author": "Tiêu Vĩ Huyên",
+    "price_current": 180000,
+    "price_old": 225000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/gioi-thu-hai-01.jpg?v=1749175853873",
+    "title": "Sách - Giới thứ hai (Simone De Beauvoir) (Nhã Nam)",
+    "author": "Simone De Beauvoir",
+    "price_current": 280000,
+    "price_old": 350000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tay-du-lay-loi-ky-2-01.jpg?v=1748341225160",
+    "title": "TÂY DU LẦY LỘI KÝ 2",
+    "author": "Trần Lỗi",
+    "price_current": 172000,
+    "price_old": 215000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/sadie-neu-co-chet-su-that-se-bi-chon-vui-01.jpg?v=1748403413600",
+    "title": "SADIE - Courtney Summers",
+    "author": "Courtney Summers",
+    "price_current": 140000,
+    "price_old": 175000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/philocomix-cac-triet-gia-vi-dai-noi-gi-ve-hanh-phuc-01.jpg?v=1748402872730",
+    "title": "PHILOCOMIX 1 - CÁC TRIẾT GIA VĨ ĐẠI NÓI GÌ VỀ HẠNH PHÚC",
+    "author": "Jean-Philippe Thivet - Jerome Vermer - Anne-Lise Combeaud",
+    "price_current": 192000,
+    "price_old": 240000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-he-thong-hoc-may-01.jpg?v=1748402370840",
+    "title": "Thiết kế hệ thống học máy - Chip Huyen",
+    "author": "Huyền Chip",
+    "price_current": 300000,
+    "price_old": 375000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bai-hoc-mon-hoa-01.jpg?v=1747904238350",
+    "title": "Bài Học Môn Hóa - Bonnie Garmus",
+    "author": "Bonnie Garmus",
+    "price_current": 176000,
+    "price_old": 220000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tam-thoi-cu-vay-da-01.jpg?v=1747904139393",
+    "title": "Sách - Tạm thời cứ vậy đã (Chen Pei-Hsiu) (Nhã Nam)",
+    "author": "Chen Pei-Hsiu",
+    "price_current": 152000,
+    "price_old": 190000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/than-thoai-cho-nguoi-dang-tri-01.jpg?v=1747903959523",
+    "title": "THẦN THOẠI CHO NGƯỜI ĐÃNG TRÍ",
+    "author": "Jean-Claude Belfiore",
+    "price_current": 380000,
+    "price_old": 475000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/muoi-cach-kien-tao-mot-bo-nao-xuat-chung-01.jpg?v=1747903840813",
+    "title": "Sách - Mười cách kiến tạo một bộ não xuất chúng (Nicola Morgan) (Risa Rodil) (Nhã Nam)",
+    "author": "Nicola Morgan - Risa Rodil",
+    "price_current": 92000,
+    "price_old": 115000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/giai-thich-cac-thu-01.jpg?v=1747903781217",
+    "title": "Giải thích các thứ - Nói đơn giản về những thứ phức tạp (Randall Munroe)",
+    "author": "Randall Munroe",
+    "price_current": 136000,
+    "price_old": 170000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/toi-chong-lai-tram-cam-o-benh-vien-tam-than-01.jpg?v=1746757596727",
+    "title": "Tôi chống lại trầm cảm ở bệnh viện tâm thần - Tả Đăng",
+    "author": "Tả Đăng",
+    "price_current": 224000,
+    "price_old": 280000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bot-nhay-cam-de-song-thanh-than-01-1.jpg?v=1746757502803",
+    "title": "Sách - Bớt nhạy cảm để sống thanh thản (Watanabe Junichi) (Nhã Nam)",
+    "author": "Watanabe Junichi",
+    "price_current": 86400,
+    "price_old": 108000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tinh-tao-giua-nhan-gian-01-1.jpg?v=1746757453510",
+    "title": "Sách - Tỉnh táo giữa nhân gian (Thủy Mộc Nhiên) (Nhã Nam)",
+    "author": "Thủy Mộc Nhiên",
+    "price_current": 128000,
+    "price_old": 160000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/lai-la-mot-ngay-cam-thay-minh-on-ap-01-1.jpg?v=1746757334250",
+    "title": "Sách - Lại là một ngày cảm thấy mình ổn áp (Ương Kỳ) (Nhã Nam)",
+    "author": "Ương Kỷ",
+    "price_current": 128000,
+    "price_old": 160000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nay-tho-moc-nang-ram-mai-len-di-gioi-thieu-ve-seymowi-01-1.jpg?v=1746757110263",
+    "title": "Này thợ mộc, nâng rầm mái lên đi & Giới thiệu về Seymour",
+    "author": "J. D. Salinger",
+    "price_current": 116000,
+    "price_old": 145000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/suc-manh-den-tu-dau-01-1.jpg?v=1746756963453",
+    "title": "Sách - Sức mạnh đến từ đâu (Lý Nhất Nặc) (Nhã Nam)",
+    "author": "Lý Nhất Nặc",
+    "price_current": 172000,
+    "price_old": 215000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thiet-ke-chua-co-ten-2025-07-30t171248-581.png?v=1753870413040",
+    "title": "THƠ NGUYỄN DUY",
+    "author": "Nguyễn Duy",
+    "price_current": 158400,
+    "price_old": 198000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/triet-hoc-ve-su-ham-muon-01.jpg?v=1746605425953",
+    "title": "Triết học về sự ham muốn - Frédéric Lenoir",
+    "author": "Frédéric Lenoir",
+    "price_current": 100000,
+    "price_old": 125000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/lan-dau-tien-01.jpg?v=1746590759910",
+    "title": "Sách - Lần đầu tiên (Shimamoto Rio) (Tsujimura Mizuki) (Miyabe Miyuki) (Mori Eto) (Nhã Nam)",
+    "author": "Shimamoto Rio - Tsujimura Mizuki - Miyabe Miyuki - Mori Eto",
+    "price_current": 89600,
+    "price_old": 112000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/loi-the-tan-nhan-01.jpg?v=1746585175810",
+    "title": "Lời Thề Tàn Nhẫn - Rebecca Ross",
+    "author": "Rebecca Ross",
+    "price_current": 196000,
+    "price_old": 245000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/canh-sat-ke-chuyen-01.jpg?v=1746584854763",
+    "title": "Cảnh sát kể chuyện - Thâm Lam",
+    "author": "Thâm Lam",
+    "price_current": 140000,
+    "price_old": 175000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tuoitredanggiabaonhieu01-dce1acf4-c4ca-4986-9241-e5270998adb0-223f6531-0929-44a5-b05a-90e3da5c3e77.jpg?v=1745403357543",
+    "title": "Sách - Tuổi trẻ đáng giá bao nhiêu? (Rosie Nguyễn) (Nhã Nam)(TB 108.000)",
+    "author": "Rosie Nguyễn",
+    "price_current": 86400,
+    "price_old": 108000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/truongthanhsaunganlantranhdau0-91d1bbcc-2d58-4814-8d63-230482e19dae.jpg?v=1745312812353",
+    "title": "Sách - Trưởng thành sau ngàn năm tranh đấu (Rando Kim) (Nhã Nam) (TB 120.000)",
+    "author": "Rando Kim",
+    "price_current": 96000,
+    "price_old": 120000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/doi-thu-sieu-pham-01.jpg?v=1745155610443",
+    "title": "Đối thủ siêu phàm - Rebecca Ross",
+    "author": "Rebecca Ross",
+    "price_current": 176000,
+    "price_old": 220000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bui-duong-tuoi-tre-01.jpg?v=1745155466740",
+    "title": "Sách - Bụi đường tuổi trẻ ( Tâm Bùi) (Nhã Nam)",
+    "author": "Tâm Bùi",
+    "price_current": 95200,
+    "price_old": 119000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tay-du-lay-loi-ky-1-01.jpg?v=1744624702920",
+    "title": "Tây du lầy lội ký - Tập 1",
+    "author": "Trần Lỗi",
+    "price_current": 180000,
+    "price_old": 225000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/than-thoai-nhung-cau-chuyen-vuot-thoi-gian-ve-cac-vi-than-va-anh-hung-01.jpg?v=1744624623807",
+    "title": "Sách - Thần thoại (Edith Hamilton) (Nhã Nam)",
+    "author": "Edith Hamilton",
+    "price_current": 184000,
+    "price_old": 230000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nhung-cuoc-phieu-luu-cua-pinocchio-01.jpg?v=1744624495507",
+    "title": "Những cuộc phiêu lưu của Pinocchio",
+    "author": "Carlo Collodi",
+    "price_current": 98400,
+    "price_old": 123000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/mat-troi-van-moc-01.jpg?v=1744624428987",
+    "title": "Mặt trời vẫn mọc - Ernest Hemingway",
+    "author": "Ernest Hemingway",
+    "price_current": 120000,
+    "price_old": 150000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tien-ma-hoa-giac-mo-vang-va-con-ac-mong-tai-chinh-01.jpg?v=1744097209863",
+    "title": "Tiền Mã Hóa - Zeke Faux",
+    "author": "Zeke Faux",
+    "price_current": 182400,
+    "price_old": 228000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/3-7489b2dd-0dba-448d-97c7-d1a23fe9a4d3.png?v=1759390322640",
+    "title": "Mê cung của linh hồn - Carlos Ruiz Zafón",
+    "author": "Carlos Ruiz Zafón",
+    "price_current": 295200,
+    "price_old": 369000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nguoi-dan-ong-ay-01.jpg?v=1744097021527",
+    "title": "Sách - Người đàn ông ấy (Hirano Keiichiro) (Nhã Nam)",
+    "author": "Hirano Keiichiro",
+    "price_current": 135200,
+    "price_old": 169000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/cay-duong-cam-tu-dong-01.jpg?v=1744096945790",
+    "title": "Cây dương cầm tự động - Kurt Vonnegut",
+    "author": "Kurt Vonnegut",
+    "price_current": 215200,
+    "price_old": 269000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/song-nhu-mot-dong-song-01.jpg?v=1744096864510",
+    "title": "Sách - Sống như một dòng sông (Nguyễn Thị Ngọc Minh) (Nhã Nam)",
+    "author": "Nguyễn Thị Ngọc Minh",
+    "price_current": 116000,
+    "price_old": 145000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/2-07e5be7a-34ec-4fe6-921e-5b97becefb67.png?v=1759389769880",
+    "title": "Ếch miệng rộng",
+    "author": "Keith Faulkner - Jonathan Lambert",
+    "price_current": 87200,
+    "price_old": 109000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/3-968764c7-5774-4f72-ad30-841cc5100c33.png?v=1759389785753",
+    "title": "Hươu cao cổ gáy ò ó o",
+    "author": "Keith Faulkner - Jonathan Lambert",
+    "price_current": 87200,
+    "price_old": 109000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nam-thang-dang-dang-chang-co-ngay-nao-thich-hop-di-lam-tap2-convert-01.jpg?v=1742791265337",
+    "title": "Sách - Năm tháng đằng đẵng, chẳng có ngày nào thích hợp đi làm (TẬP 2) (Văn phòng động vật) (Nhã Nam)",
+    "author": "Văn Phòng Động Vật",
+    "price_current": 111200,
+    "price_old": 139000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nghich-ly-13-01.jpg?v=1742791220180",
+    "title": "Sách - Nghịch lý 13 (Paradox 13) (Higashino Keigo) (Nhã Nam)",
+    "author": "Higashino Keigo",
+    "price_current": 207200,
+    "price_old": 259000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/co-the-minh-la-cua-minh-90eaa453-9325-4c68-b752-374e46194a3d.png?v=1759389442547",
+    "title": "Sách - Cơ thể mình là của mình (Isabelle Filliozat) (Margot Fried-Filliozat) (Nhã Nam)",
+    "author": "Isabelle Filliozat - Margot Fried-Filliozat - Isabelle Maroger",
+    "price_current": 55200,
+    "price_old": 69000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nuoi-duong-em-be-eq-xuat-sac-tang-kha-nang-giao-tiep-01.jpg?v=1742791134450",
+    "title": "Nuôi dưỡng em bé EQ xuất sắc - Tăng khả năng giao tiếp",
+    "author": "Chân Quả Quả - Tiểu Thiến - Bạch Khai Thủy",
+    "price_current": 44000,
+    "price_old": 55000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nuoi-duong-em-be-eq-xuat-sac-dung-len-sau-vap-nga-01.jpg?v=1742791116277",
+    "title": "Sách - Nuôi dưỡng em bé EQ xuất sắc - Đứng lên sau vấp ngã (Nhã Nam)",
+    "author": "Chân Quả Quả - Phầm Trần - Bạch Khai Thủy",
+    "price_current": 44000,
+    "price_old": 55000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nuoi-duong-em-be-eq-xuat-sac-quan-ly-cam-xuc-tot-01.jpg?v=1742791068303",
+    "title": "Nuôi dưỡng em bé EQ xuất sắc - Quản lý cảm xúc tốt",
+    "author": "Chân Quả Quả - Phầm Trần - Bạch Khai Thủy",
+    "price_current": 44000,
+    "price_old": 55000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nuoi-duong-em-be-eq-xuat-sac-biet-quan-tri-ban-than-01.jpg?v=1742791023830",
+    "title": "Nuôi dưỡng em bé EQ xuất sắc - Biết quản trị bản thân",
+    "author": "Chân Quả Quả - Tiểu Thiến - Bạch Khai Thủy",
+    "price_current": 44000,
+    "price_old": 55000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/doi-mat-cua-mona-02.jpg?v=1741265722060",
+    "title": "ĐÔI MẮT CỦA MONA",
+    "author": "Thomas Schlesser",
+    "price_current": 270400,
+    "price_old": 338000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/rut-ngan-tuan-lam-viec-01.jpg?v=1741265571533",
+    "title": "Shorter - Rút ngắn tuần làm việc",
+    "author": "Alex Soojung-Kim Pang",
+    "price_current": 148800,
+    "price_old": 186000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nhat-ky-thang-chuc-cua-tieu-cuong-01.jpg?v=1740450000453",
+    "title": "Nhật ký thăng chức của Tiểu Cường",
+    "author": "Trâu Tiểu Cường",
+    "price_current": 110400,
+    "price_old": 138000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/lang-nghe-cam-xuc-con-tre-01.jpg?v=1740449736613",
+    "title": "Lắng nghe cảm xúc con trẻ - Isabelle Filliozat",
+    "author": "Isabelle Filliozat",
+    "price_current": 124000,
+    "price_old": 155000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/cuon-sach-hoang-da-01.jpg?v=1740449676720",
+    "title": "Cuốn sách Hoang dã - Juan Villoro",
+    "author": "Juan Villoro",
+    "price_current": 108800,
+    "price_old": 136000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nhung-thu-linh-trien-cat-01.jpg?v=1740449199733",
+    "title": "Những thủ lĩnh triền cát - Jorge Amado",
+    "author": "Jorge Amado",
+    "price_current": 143200,
+    "price_old": 179000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tra-cuu-den-noi-truy-cap-den-chon-01.jpg?v=1740449150120",
+    "title": "Tra cứu đến nơi, truy cập đến chốn",
+    "author": "Romain Gallissot - Baptiste Massa",
+    "price_current": 95200,
+    "price_old": 119000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/ba-chu-ai-02.jpg?v=1739505975113",
+    "title": "Sách - Bá chủ AI (Parmy Olson)",
+    "author": "Parmy Olson",
+    "price_current": 215200,
+    "price_old": 269000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/dot-pha-cuoc-doi-khoa-hoc-cua-toi-01.jpg?v=1739505802873",
+    "title": "Đột phá cuộc đời khoa học của tôi - Katalin Karikó",
+    "author": "Katalin Karikó",
+    "price_current": 184000,
+    "price_old": 230000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/ve-dep-cua-cuoc-song-01.jpg?v=1739505417107",
+    "title": "Sách - Vẻ đẹp của cuộc sống (Nhật ký của Krishnamurti) (J. Krishnamurti)",
+    "author": "J.Krishnamurti",
+    "price_current": 111200,
+    "price_old": 139000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tay-sung-ban-tia-01.jpg?v=1739504372190",
+    "title": "Tay súng bắn tỉa - Trương Quốc Lập",
+    "author": "Trương Quốc Lập",
+    "price_current": 135200,
+    "price_old": 169000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/thu-vien-bi-an-01.jpg?v=1739504259047",
+    "title": "Sách - Thư viện bí ẩn (Rebecca Stead và Wendy Mass) (Nhã Nam)",
+    "author": "Rebecca Stead - Wendy Mass",
+    "price_current": 87200,
+    "price_old": 109000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/wa-nghe-thuat-song-can-bang-cua-nguoi-nhat-01.jpg?v=1739504157590",
+    "title": "Wa- Nghệ thuật sống cân bằng của người Nhật - Kaki Okumura",
+    "author": "Kaki Okumura",
+    "price_current": 167200,
+    "price_old": 209000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/doc-duong-2-01.jpg?v=1738674804337",
+    "title": "Dọc Đường 2 - Nguyên Ngọc",
+    "author": "Nguyên Ngọc",
+    "price_current": 166400,
+    "price_old": 208000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/chuyen-nha-ti-va-chuyen-nhieu-nha-khac-02.jpg?v=1736223747847",
+    "title": "Chuyện nhà Tí (và nhiều chuyện nhà khác) - Phan Thị Vàng Anh",
+    "author": "Phan Thị Vàng Anh",
+    "price_current": 120000,
+    "price_old": 150000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/the-gian-dai-hon-buoc-chan-nguoi-01.jpg?v=1736223469750",
+    "title": "Thế gian dài hơn bước chân người - - Hồ Anh Thái",
+    "author": "Hồ Anh Thái",
+    "price_current": 118400,
+    "price_old": 148000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nghi-ngoi-tu-te-moi-la-viec-chinh-dang-01.jpg?v=1736223400187",
+    "title": "Nghỉ ngơi tử tế mới là việc chính đáng - FANQIAO WANG",
+    "author": "Fanqiao Wang",
+    "price_current": 135200,
+    "price_old": 169000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/san-ca-01.jpg?v=1736222723113",
+    "title": "Săn Cá - Sử Mại",
+    "author": "Sử Mại",
+    "price_current": 128000,
+    "price_old": 160000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/trong-vong-vay-cua-ke-thai-nhan-cach-01.jpg?v=1736223280540",
+    "title": "Sách - Trong vòng vây của những kẻ thái nhân cách (Thomas Erikson) (Nhã Nam)",
+    "author": "Thomas Erikson",
+    "price_current": 126400,
+    "price_old": 158000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/truyen-thong-viet-nam-qua-thu-thach-1920-1945-01.jpg?v=1736223076413",
+    "title": "Truyền thống Việt Nam qua thử thách 1920-1945 - David G. Marr",
+    "author": "David G. Marr",
+    "price_current": 375200,
+    "price_old": 469000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/ket-tinh-tham-lang-01.jpg?v=1736222972267",
+    "title": "Kết tinh thầm lặng",
+    "author": "Ogawa Yoko",
+    "price_current": 135200,
+    "price_old": 169000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/hanh-trinh-cua-cilka-01.jpg?v=1736434116967",
+    "title": "Sách - Hành trình của Cilka (Phần 2 của Thợ xăm ở Auschwitz) (Nhã Nam)",
+    "author": "Heather Morris",
+    "price_current": 160000,
+    "price_old": 200000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bieu-tuong-phu-hieu-va-do-tho-cua-nguoi-an-nam-01.jpg?v=1736222826863",
+    "title": "Biểu tượng, phù hiệu và đồ thờ của người An Nam",
+    "author": "Gustave Dumoutier",
+    "price_current": 108000,
+    "price_old": 135000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/ho-so-di-cot-01.jpg?v=1736222593120",
+    "title": "Sách - Hồ sơ di cốt (Lý Diễn Thiến) (Nhã Nam)",
+    "author": "Lý Diễn Thiến",
+    "price_current": 110400,
+    "price_old": 138000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/an-mang-tren-tau-noah-01.jpg?v=1736222525213",
+    "title": "Án mạng trên tàu Noah",
+    "author": "Yuki Haruo",
+    "price_current": 134400,
+    "price_old": 168000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tho-cung-co-truyen-viet-nam-nghi-le-va-thuc-hanh-nghi-le-01.jpg?v=1735834265830",
+    "title": "Sách - Thờ cúng cổ truyền Việt Nam - Nghi lễ và thực hành nghi lễ (Trung Chính Quách Trọng Trà) (Nhã Nam)",
+    "author": "Trung Chính Quách Trọng Trà",
+    "price_current": 120000,
+    "price_old": 150000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/sau-khi-chung-ta-noi-loi-chia-tay-01.jpg?v=1735183868483",
+    "title": "SAU KHI CHÚNG TA NÓI LỜI CHIA TAY",
+    "author": "phan",
+    "price_current": 88000,
+    "price_old": 110000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/dat-dai-ham-muon-so-huu-dat-dai-dinh-hinh-trat-tu-the-gioi-hien-dai-01.jpg?v=1735183796283",
+    "title": "Đất Đai - Simon Winchester",
+    "author": "Simon Winchester",
+    "price_current": 232000,
+    "price_old": 290000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bao-cao-phap-y-01.jpg?v=1735183677390",
+    "title": "Sách - Báo cáo pháp y (Tái tại cuộc sống thông qua cái chết) (Sue Black) (Nhã Nam)",
+    "author": "Sue Black",
+    "price_current": 174400,
+    "price_old": 218000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/khi-con-chip-len-ngoi-01.jpg?v=1735010445473",
+    "title": "Sách - Khi con chip lên ngôi (Cơ hội và thách thức nào cho Việt Nam) (Nguyễn Trung Dân) (Nhã Nam)",
+    "author": "Nguyễn Trung Dân",
+    "price_current": 144000,
+    "price_old": 180000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/tri-nan-hanh-di-01.jpg?v=1734513942393",
+    "title": "Tri Nan Hành Dị - Tôn Văn (Tôn Trung Sơn)",
+    "author": "Tôn Trung Sơn",
+    "price_current": 56000,
+    "price_old": 70000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/ba-chi-em-phan-3-cua-tho-xam-auschwitz-01.jpg?v=1735010138967",
+    "title": "Sách - Ba chị em (Phần 3 của Thợ xăm ở Auschwitz) (Nhã Nam)",
+    "author": "Heather Morris",
+    "price_current": 190400,
+    "price_old": 238000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/doi-bung-sang-khi-ta-biet-lang-quen-01.jpg?v=1735009765500",
+    "title": "Đời bừng sáng khi ta biết lãng quên - Marc Levy",
+    "author": "Marc Levy",
+    "price_current": 80000,
+    "price_old": 100000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/sach-se-tinh-tuom-xa-bong-pan-sach-bong-01.jpg?v=1735009616843",
+    "title": "Sạch sẽ tinh tươm - Xà bông Pan sạch bong",
+    "author": "Elif Yonat Togay - Gozde Eyce",
+    "price_current": 46400,
+    "price_old": 58000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/sach-se-tinh-tuom-ban-chai-nho-dodi-01.jpg?v=1735009538627",
+    "title": "Sạch sẽ tinh tươm - Bàn chải nhỏ Dodi",
+    "author": "Elif Yonat Togay - Damla Tutan",
+    "price_current": 46400,
+    "price_old": 58000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/hen-nhau-thang-tam-01.jpg?v=1735009424900",
+    "title": "HẸN NHAU THÁNG TÁM",
+    "author": "Gabriel García Márquez",
+    "price_current": 111200,
+    "price_old": 139000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/khi-moi-dieu-khong-nhu-y-01.jpg?v=1735008882967",
+    "title": "Sách - Khi mọi điều không như ý (Hae Min) (Nhã Nam)",
+    "author": "Hae Min",
+    "price_current": 87200,
+    "price_old": 109000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/12-thu-cung-giang-sinh-01.jpg?v=1734613539847",
+    "title": "Sách - 12 Thú Cưng Giáng Sinh (Nhã Nam)",
+    "author": "Anne Sawan - Judi Abbot",
+    "price_current": 55200,
+    "price_old": 69000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/triet-hoc-cho-thanh-thieu-nien-01.jpg?v=1735008714290",
+    "title": "Sách - Triết học cho thanh thiếu niên (Philosophy for Beginners) (Nhã Nam)",
+    "author": "Rachel Firth - Minna Lacey - Jordan Akpojaro - Nick Radford",
+    "price_current": 134400,
+    "price_old": 168000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/nha-vua-chien-binh-phap-su-nguoi-tinh-01.jpg?v=1735008604150",
+    "title": "Nhà vua Chiến binh Pháp sư Người tình - Robert Moore & Douglas Gillette",
+    "author": "Robert Moore - Douglas Gillette",
+    "price_current": 128000,
+    "price_old": 160000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/loi-nguyen-ke-thang-cuoc-01.jpg?v=1734513886417",
+    "title": "Lời nguyền kẻ thắng cuộc - Richard H. Thaler",
+    "author": "Richard H. Thaler",
+    "price_current": 160000,
+    "price_old": 200000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/vinh-nhuc-01.jpg?v=1734513771233",
+    "title": "Vinh Nhục - Sở Ngư",
+    "author": "Sở Ngư",
+    "price_current": 230400,
+    "price_old": 288000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/chuc-be-ngu-ngon-nhung-cau-chuyen-ke-trong-nam-phut-01.jpg?v=1735006571167",
+    "title": "CHÚC BÉ NGỦ NGON - NHỮNG CÂU CHUYỆN KỂ TRONG NĂM PHÚT",
+    "author": "Anna Lang",
+    "price_current": 180800,
+    "price_old": 226000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/chuc-be-ngu-ngon-loi-chuc-ngu-ngon-tu-khap-the-gian-01.jpg?v=1735006524403",
+    "title": "Lời chúc ngủ ngon từ khắp thế gian - Anna Lang",
+    "author": "Anna Lang",
+    "price_current": 180800,
+    "price_old": 226000,
+    "discount_percent": -20
+  },
+  {
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/con-dao-nho-cua-emiri-01.jpg?v=1733477774350",
+    "title": "Sách - Con dao nhỏ của Emiri (Morisawa Akio) (Nhã Nam)",
+    "author": "Morisawa Akio",
+    "price_current": 134400,
+    "price_old": 168000,
+    "discount_percent": -20
   }
 ]

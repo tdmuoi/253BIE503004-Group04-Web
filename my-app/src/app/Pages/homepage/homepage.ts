@@ -29,6 +29,13 @@ export class Homepage implements OnInit, OnDestroy {
   readonly ss = signal('00');
   private remaining = 46 * 60 + 12; // 00:46:12
   private timer?: ReturnType<typeof setInterval>;
+  
+  // ── Suggestions limit ──
+  visibleSuggestionsLimit = 40;
+
+  loadMoreSuggestions(): void {
+    this.visibleSuggestionsLimit += 40;
+  }
 
   // ── Search category chips ──
   readonly searchCats = ['Tiểu thuyết', 'Tâm lý', 'Kinh tế', 'Manga', 'Thiếu nhi', 'Lịch sử'];
@@ -81,15 +88,17 @@ export class Homepage implements OnInit, OnDestroy {
     // Lấy dữ liệu sách từ backend API
     this.bookService.getBooks().subscribe({
       next: (books) => {
+        console.log('API returned books length:', books.length);
         const mappedProducts: Product[] = books.map(book => ({
           _id: book._id,
           title: book.title,
           author: book.author,
-          img: book.image,
-          price: book.price_current.toLocaleString('vi-VN') + 'đ',
+          img: book.image || book.url || '',
+          price: (book.price_current || 0).toLocaleString('vi-VN') + 'đ',
           oldPrice: book.price_old ? book.price_old.toLocaleString('vi-VN') + 'đ' : undefined,
           discount: book.discount_percent ? `${book.discount_percent}%` : undefined
         }));
+        console.log('Mapped products length:', mappedProducts.length);
 
         // suggestions lấy tất cả các sách
         this.suggestions = mappedProducts;
@@ -104,8 +113,8 @@ export class Homepage implements OnInit, OnDestroy {
             _id: book._id,
             title: book.title,
             author: book.author,
-            img: book.image,
-            price: book.price_current.toLocaleString('vi-VN') + 'đ',
+            img: book.image || book.url || '',
+            price: (book.price_current || 0).toLocaleString('vi-VN') + 'đ',
             oldPrice: book.price_old ? book.price_old.toLocaleString('vi-VN') + 'đ' : undefined,
             discount: `${book.discount_percent}%`
           }))

@@ -90,7 +90,7 @@
         
         <div class="flash-wrap">
           <div class="grid-4">
-            <article class="card flash-card" *ngFor="let p of getFlashSaleBooks(); let idx = index" [class.popover-left]="idx % 4 >= 2">
+            <a [routerLink]="['/book-detail', p._id]" class="card flash-card" *ngFor="let p of getFlashSaleBooks(); let idx = index" [class.popover-left]="idx % 4 >= 2">
               <div class="card-thumb">
                 <span class="flash-badge">{{ p.priceStr }} <i class="bi bi-lightning-fill"></i></span>
                 <img [src]="p.img" [alt]="p.title" />
@@ -113,14 +113,14 @@
                     <span class="price-old" *ngIf="p.oldPrice">{{ p.oldPrice }}</span>
                   </div>
                   <p class="popover-desc">{{ p.description }}</p>
-                  <a href="#" class="popover-detail-link">Chi tiết</a>
+                  <a [routerLink]="['/book-detail', p._id]" class="popover-detail-link">Chi tiết</a>
                   <div class="popover-actions">
                     <button class="btn-read"><i class="bi bi-book-fill"></i> Đọc sách</button>
                     <button class="btn-like"><i class="bi bi-heart-fill"></i></button>
                   </div>
                 </div>
               </div>
-            </article>
+            </a>
           </div>
         </div>
       </section>
@@ -144,7 +144,7 @@
         
         <!-- Grid sách tuyển tập gợi ý: 4 cuốn trên 1 hàng (Không còn hiệu ứng hover popover) -->
         <div class="grid-4" *ngIf="getFilteredBooks().length > 0; else noBooks">
-          <article class="card catalog-card" *ngFor="let p of getFilteredBooks()">
+          <a [routerLink]="['/book-detail', p._id]" class="card catalog-card" *ngFor="let p of getFilteredBooks()">
             <div class="card-thumb">
               <span class="badge" *ngIf="p.discount">{{ p.discount }}</span>
               <img [src]="p.img" [alt]="p.title" />
@@ -157,7 +157,7 @@
                 <span class="price-old" *ngIf="p.oldPrice">{{ p.oldPrice }}</span>
               </div>
             </div>
-          </article>
+          </a>
         </div>
         
         <!-- Template hiển thị khi không có kết quả phù hợp -->

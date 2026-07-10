@@ -1,8 +1,11 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { BookService } from '../../Services/book.service';
 
 interface Book {
+  _id?: string;
   title: string;
   author: string;
   img: string;
@@ -22,11 +25,13 @@ interface Book {
 @Component({
   selector: 'app-sach-dien-tu',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './sach-dien-tu.html',
   styleUrl: './sach-dien-tu.css',
 })
 export class SachDienTu implements OnInit, OnDestroy {
+  private bookService = inject(BookService);
+
   // Countdown Timer
   readonly dd = signal('00');
   readonly hh = signal('00');
@@ -54,381 +59,72 @@ export class SachDienTu implements OnInit, OnDestroy {
   };
   selectedSort = 'salesWeekly';
 
-  // 24 Books Dataset
-  readonly books: Book[] = [
-    {
-      title: 'Thoát nợ sống nhẹ',
-      author: 'Richard Templar',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55930.jpg?v=1&w=350&h=510',
-      price: 39000,
-      priceStr: '39.000đ',
-      oldPrice: '79.000đ',
-      discount: '-50%',
-      discountVal: 50,
-      description: 'Quyển sách giúp bạn định hình lại tư duy tài chính cá nhân, thoát khỏi gánh nặng nợ nần và xây dựng cuộc sống tự do, nhẹ nhàng, hạnh phúc hơn.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 150,
-      salesMonthly: 620,
-      isFlashSale: true
-    },
-    {
-      title: 'Bẫy lừa đảo',
-      author: 'Robert Cialdini',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55852.jpg?v=1&w=350&h=510',
-      price: 49000,
-      priceStr: '49.000đ',
-      oldPrice: '99.000đ',
-      discount: '-50%',
-      discountVal: 50,
-      description: 'Vạch trần các thủ đoạn tâm lý tinh vi mà những kẻ lừa đảo thường sử dụng để bẫy con mồi, giúp bạn nâng cao cảnh giác và bảo vệ bản thân cùng gia đình.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 220,
-      salesMonthly: 810,
-      isFlashSale: true
-    },
-    {
-      title: 'Nghệ thuật đàm phán với bất kỳ ai',
-      author: 'Herb Cohen',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55810.jpg?v=1&w=350&h=510',
-      price: 59000,
-      priceStr: '59.000đ',
-      oldPrice: '119.000đ',
-      discount: '-50%',
-      discountVal: 50,
-      description: 'Hướng dẫn thực chiến về cách thương lượng, đàm phán thành công trong công việc và cuộc sống dựa trên sức mạnh của thông tin, áp lực thời gian và tâm lý.',
-      category: 'Kinh tế',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 180,
-      salesMonthly: 720,
-      isFlashSale: true
-    },
-    {
-      title: 'Thành tích cao, thu nhập thấp',
-      author: 'Brian Tracy',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55771.jpg?v=1&w=350&h=510',
-      price: 49000,
-      priceStr: '49.000đ',
-      oldPrice: '99.000đ',
-      discount: '-50%',
-      discountVal: 50,
-      description: 'Tại sao nhiều người làm việc chăm chỉ, đạt nhiều thành tích vượt trội nhưng thu nhập vẫn lẹt đẹt? Cuốn sách chỉ rõ các sai lầm và định vị lại giá trị bản thân.',
-      category: 'Kinh tế',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 95,
-      salesMonthly: 430,
-      isFlashSale: true
-    },
-    {
-      title: 'Thần số học - Con số đọc vị con người',
-      author: 'David A. Phillips',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55765.jpg?v=1&w=350&h=510',
-      price: 69000,
-      priceStr: '69.000đ',
-      oldPrice: '139.000đ',
-      discount: '-50%',
-      discountVal: 50,
-      description: 'Khám phá bản thân và những người xung quanh thông qua toán học về các con số ngày sinh, thấu hiểu điểm mạnh điểm yếu để định hướng tương lai.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'tuoi-teen',
-      salesWeekly: 340,
-      salesMonthly: 1250,
-      isFlashSale: true
-    },
-    {
-      title: 'Quy tắc giao tiếp quyền lực',
-      author: 'Leil Lowndes',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55720.jpg?v=1&w=350&h=510',
-      price: 45000,
-      priceStr: '45.000đ',
-      oldPrice: '85.000đ',
-      discount: '-47%',
-      discountVal: 47,
-      description: 'Nắm bắt các quy tắc giao tiếp tinh tế trong môi trường công sở và xã hội, giúp bạn làm chủ mọi cuộc đối thoại, tạo thiện cảm và gây dựng uy tín.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 110,
-      salesMonthly: 480
-    },
-    {
-      title: 'Hẹn hò tỉnh thức',
-      author: 'Phan Ý Yên',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55723.jpg?v=1&w=350&h=510',
-      price: 49000,
-      priceStr: '49.000đ',
-      oldPrice: '89.000đ',
-      discount: '-45%',
-      discountVal: 45,
-      description: 'Góc nhìn sâu sắc về tình yêu hiện đại, giúp bạn yêu thương bản thân đúng cách, loại bỏ ảo tưởng tình cảm trước khi bắt đầu mối quan hệ lành mạnh.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 290,
-      salesMonthly: 1080
-    },
-    {
-      title: 'Manifest tiền tài',
-      author: 'Roxie Nafousi',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55681.jpg?v=1&w=350&h=510',
-      price: 55000,
-      priceStr: '55.000đ',
-      oldPrice: '109.000đ',
-      discount: '-50%',
-      discountVal: 50,
-      description: 'Hướng dẫn thực hành luật hấp dẫn để thu hút tài lộc và sự thịnh vượng, thay đổi nhận thức khan hiếm thành tư duy giàu có bền vững.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 410,
-      salesMonthly: 1500
-    },
-    {
-      title: 'Chẳng sợ đối thủ mạnh như hổ, chỉ sợ đồng đội không như mình',
-      author: 'John C. Maxwell',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/54661.jpg?v=1&w=350&h=510',
-      price: 52000,
-      priceStr: '52.000đ',
-      oldPrice: '99.000đ',
-      discount: '-47%',
-      discountVal: 47,
-      description: 'Nghệ thuật hợp tác và xây dựng đội nhóm vững mạnh, tối ưu hóa sức mạnh tập thể để chiến thắng mọi đối thủ cạnh tranh trên thương trường.',
-      category: 'Kinh tế',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 130,
-      salesMonthly: 510
-    },
-    {
-      title: 'Con Mèo của Schrödinger – Kiến Tạo Vũ Trụ Song Song Hoàn Hảo Cho Riêng Mình',
-      author: 'John Gribbin',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/54736.jpg?v=1&w=350&h=510',
-      price: 72000,
-      priceStr: '72.000đ',
-      oldPrice: '120.000đ',
-      discount: '-40%',
-      discountVal: 40,
-      description: 'Tác phẩm giả tưởng độc đáo mở ra góc nhìn triết học khoa học về vật lý lượng tử và các vũ trụ song song, khơi nguồn sáng tạo vô hạn.',
-      category: 'Văn học',
-      ageRange: 'tuoi-teen',
-      salesWeekly: 80,
-      salesMonthly: 320
-    },
-    {
-      title: 'Quy tắc kỷ luật tự thân',
-      author: 'Brian Tracy',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55666.jpg?v=1&w=350&h=510',
-      price: 42000,
-      priceStr: '42.000đ',
-      oldPrice: '79.000đ',
-      discount: '-47%',
-      discountVal: 47,
-      description: 'Chìa khóa để chuyển hóa mong muốn thành hành động cụ thể. Kỷ luật tự thân chính là cầu nối vững chắc nhất giữa mục tiêu và thành công.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'moi-lua-tuoi',
-      salesWeekly: 210,
-      salesMonthly: 900
-    },
-    {
-      title: 'Phản biện để bứt phá',
-      author: 'Daniel Kahneman',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55651.jpg?v=1&w=350&h=510',
-      price: 48000,
-      priceStr: '48.000đ',
-      oldPrice: '89.000đ',
-      discount: '-46%',
-      discountVal: 46,
-      description: 'Rèn luyện tư duy phản biện logic, loại bỏ định kiến nhận thức để đưa ra những quyết định sáng suốt vượt trội trong công việc và cuộc sống.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 165,
-      salesMonthly: 600
-    },
-    {
-      title: 'Đọc vị nhân cách hiểu người hiểu ta',
-      author: 'David J. Lieberman',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55648.jpg?v=1&w=350&h=510',
-      price: 59000,
-      priceStr: '59.000đ',
-      oldPrice: '109.000đ',
-      discount: '-46%',
-      discountVal: 46,
-      description: 'Phương pháp đọc vị tính cách, phân tích hành vi và nắm bắt tâm lý đối phương nhanh chóng, giúp bạn xây dựng vị thế giao tiếp vững vàng.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 250,
-      salesMonthly: 980
-    },
-    {
-      title: 'Thực hành Manifest',
-      author: 'Roxie Nafousi',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55627.jpg?v=1&w=350&h=510',
-      price: 55000,
-      priceStr: '55.000đ',
-      oldPrice: '99.000đ',
-      discount: '-44%',
-      discountVal: 44,
-      description: 'Các bước thực hành chuyên sâu giúp cụ thể hóa ước mơ của bạn thành hiện thực bằng phương pháp rèn luyện tâm thức và hành động kỷ luật.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 380,
-      salesMonthly: 1420
-    },
-    {
-      title: 'Cả ngày bận rộn, cả đời trì hoãn',
-      author: 'Steve Chandler',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55588.jpg?v=1&w=350&h=510',
-      price: 39000,
-      priceStr: '39.000đ',
-      oldPrice: '79.000đ',
-      discount: '-51%',
-      discountVal: 51,
-      description: 'Chỉ ra nghịch lý của sự bận rộn ảo tưởng và cách vượt qua thói quen trì hoãn kinh niên để tập trung vào hiệu suất thực tế.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'moi-lua-tuoi',
-      salesWeekly: 310,
-      salesMonthly: 1150
-    },
-    {
-      title: 'Quy tắc nhìn thấu bản chất',
-      author: 'Robert Greene',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55579.jpg?v=1&w=350&h=510',
-      price: 49000,
-      priceStr: '49.000đ',
-      oldPrice: '89.000đ',
-      discount: '-45%',
-      discountVal: 45,
-      description: 'Giúp bạn bóc tách những ảo tưởng bên ngoài để nhìn thẳng vào bản chất thật của sự việc, ý đồ con người và quy luật vận hành xã hội.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 190,
-      salesMonthly: 780
-    },
-    {
-      title: 'Định vị bản thân như người xuất sắc',
-      author: 'Robin Sharma',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55582.jpg?v=1&w=350&h=510',
-      price: 58000,
-      priceStr: '58.000đ',
-      oldPrice: '110.000đ',
-      discount: '-47%',
-      discountVal: 47,
-      description: 'Hành trình định hình tư duy của một nhà lãnh đạo xuất chúng, xây dựng thói quen và kỷ luật của nhóm 5% xuất sắc nhất thế giới.',
-      category: 'Kinh tế',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 140,
-      salesMonthly: 550
-    },
-    {
-      title: 'Nhập môn Manifest',
-      author: 'Roxie Nafousi',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55546.jpg?v=1&w=350&h=510',
-      price: 45000,
-      priceStr: '45.000đ',
-      oldPrice: '85.000đ',
-      discount: '-47%',
-      discountVal: 47,
-      description: 'Những nguyên lý sơ khởi và nền tảng dễ hiểu nhất dành cho người mới tìm hiểu về Manifestation và sức mạnh tư duy tích cực.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'tuoi-teen',
-      salesWeekly: 220,
-      salesMonthly: 850
-    },
-    {
-      title: 'Khai phá phi thường trong chính ta tầm thường',
-      author: 'Eckhart Tolle',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55522.jpg?v=1&w=350&h=510',
-      price: 38000,
-      priceStr: '38.000đ',
-      oldPrice: '69.000đ',
-      discount: '-45%',
-      discountVal: 45,
-      description: 'Đánh thức năng lượng vô hạn và sự an tịnh đang ngủ say bên trong bạn, giúp bạn tìm lại niềm vui thuần khiết ngay trong hiện tại.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'moi-lua-tuoi',
-      salesWeekly: 175,
-      salesMonthly: 670
-    },
-    {
-      title: 'Tồn tại trước, lý tưởng sau',
-      author: 'Jean-Paul Sartre',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55525.jpg?v=1&w=350&h=510',
-      price: 62000,
-      priceStr: '62.000đ',
-      oldPrice: '109.000đ',
-      discount: '-43%',
-      discountVal: 43,
-      description: 'Một cái nhìn triết lý thực sinh về ý nghĩa tồn tại độc lập, thúc giục mỗi cá nhân tự kiến tạo bản sắc riêng của mình.',
-      category: 'Tiểu sử - Hồi ký',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 85,
-      salesMonthly: 380
-    },
-    {
-      title: 'Bí kíp đỗ ngay phỏng vấn Tokutei Ginou',
-      author: 'Nhiều Tác Giả',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55489.jpg?v=1&w=350&h=510',
-      price: 99000,
-      priceStr: '99.000đ',
-      oldPrice: '159.000đ',
-      discount: '-38%',
-      discountVal: 38,
-      description: 'Tổng hợp chi tiết bộ câu hỏi phỏng vấn thực tế, kỹ năng trả lời và kinh nghiệm ứng tuyển chương trình đặc định Nhật Bản.',
-      category: 'Kinh tế',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 120,
-      salesMonthly: 490
-    },
-    {
-      title: 'Càng khiêm nhường, càng giá trị',
-      author: 'Lao Tử',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55495.jpg?v=1&w=350&h=510',
-      price: 46000,
-      priceStr: '46.000đ',
-      oldPrice: '85.000đ',
-      discount: '-46%',
-      discountVal: 46,
-      description: 'Những đúc rút sâu sắc về triết lý tĩnh lặng, khiêm nhường để tích lũy sức mạnh vững bền và vượt qua sóng gió cuộc đời.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'moi-lua-tuoi',
-      salesWeekly: 230,
-      salesMonthly: 950
-    },
-    {
-      title: 'Bỏ người tốt, chốt người tồi',
-      author: 'Waka Team',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55483.jpg?v=1&w=350&h=510',
-      price: 49000,
-      priceStr: '49.000đ',
-      oldPrice: '89.000đ',
-      discount: '-45%',
-      discountVal: 45,
-      description: 'Những mẩu chuyện thực tế dí hóm nhưng đầy châm biếm về nghệ thuật lựa chọn bạn đời và đối nhân xử thế trong xã hội hiện đại.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 180,
-      salesMonthly: 740
-    },
-    {
-      title: 'Càng chữa lành càng mệt mỏi',
-      author: 'Đặng Hoàng Giang',
-      img: 'https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/55462.jpg?v=1&w=350&h=510',
-      price: 52000,
-      priceStr: '52.000đ',
-      oldPrice: '99.000đ',
-      discount: '-47%',
-      discountVal: 47,
-      description: 'Phân tích phản biện thấu đáo về mặt trái của xu hướng chữa lành tự phát ngày nay, giúp độc giả có cái nhìn tỉnh táo, thực tế hơn.',
-      category: 'Tâm lý - Kỹ năng sống',
-      ageRange: 'nguoi-lon',
-      salesWeekly: 300,
-      salesMonthly: 1100
-    }
-  ];
+  // Dynamic Books Dataset loaded from MongoDB
+  books: Book[] = [];
 
   ngOnInit(): void {
     this.startTimer();
+    this.loadBooks();
   }
 
   ngOnDestroy(): void {
     if (this.timer) clearInterval(this.timer);
+  }
+
+  private loadBooks(): void {
+    this.bookService.getBooks().subscribe({
+      next: (data) => {
+        this.books = data.map((b) => {
+          // Categorize books logically based on title keywords
+          let category = 'Văn học';
+          const title = b.title.toLowerCase();
+          if (title.includes('manifest') || title.includes('đọc vị') || title.includes('kỹ năng') || title.includes('tâm lý') || title.includes('trì hoãn') || title.includes('kỷ luật') || title.includes('phản biện') || title.includes('chữa lành') || title.includes('đũa') || title.includes('bất hạnh')) {
+            category = 'Tâm lý - Kỹ năng sống';
+          } else if (title.includes('kinh tế') || title.includes('đầu tư') || title.includes('nvidia') || title.includes('học máy') || title.includes('tài chính') || title.includes('quốc gia')) {
+            category = 'Kinh tế';
+          } else if (title.includes('eq') || title.includes('họa sĩ') || title.includes('chúc mừng sinh nhật') || title.includes('nicolas') || title.includes('totto-chan') || title.includes('miu bé nhỏ') || title.includes('cậu')) {
+            category = 'Sách thiếu nhi';
+          } else if (title.includes('tiểu sử') || title.includes('hồi ký') || title.includes('nhật ký') || title.includes('lịch sử') || title.includes('tính dục') || title.includes('tang lễ')) {
+            category = 'Tiểu sử - Hồi ký';
+          }
+
+          // Age range mapping
+          let ageRange = 'moi-lua-tuoi';
+          if (category === 'Sách thiếu nhi') {
+            ageRange = 'thieu-nhi';
+          } else if (category === 'Tâm lý - Kỹ năng sống' || category === 'Kinh tế') {
+            ageRange = 'nguoi-lon';
+          } else if (category === 'Văn học') {
+            ageRange = 'tuoi-teen';
+          }
+
+          const priceVal = b.price_current || 0;
+          const oldPriceVal = b.price_old;
+          const discountVal = b.discount_percent;
+
+          return {
+            _id: b._id,
+            title: b.title,
+            author: b.author,
+            img: b.image || b.url || '',
+            price: priceVal,
+            priceStr: priceVal.toLocaleString('vi-VN') + 'đ',
+            oldPrice: oldPriceVal ? oldPriceVal.toLocaleString('vi-VN') + 'đ' : undefined,
+            discount: discountVal ? `${discountVal}%` : undefined,
+            discountVal: discountVal ? Math.abs(discountVal) : 0,
+            description: b.title + ' - Một tác phẩm xuất sắc được phân phối chính thức bởi Lightbooks.',
+            category: category,
+            ageRange: ageRange,
+            salesWeekly: Math.floor(Math.random() * 200) + 50,
+            salesMonthly: Math.floor(Math.random() * 800) + 200,
+            isFlashSale: discountVal ? discountVal < 0 : false
+          };
+        });
+      },
+      error: (err) => {
+        console.error('Lỗi khi tải sách điện tử từ DB:', err);
+      }
+    });
   }
 
   private startTimer(): void {
@@ -505,8 +201,7 @@ export class SachDienTu implements OnInit, OnDestroy {
       result.sort((a, b) => b.discountVal - a.discountVal);
     }
 
-    // Limit to exactly 16 books (4 columns, 4 rows)
-    return result.slice(0, 16);
+    return result;
   }
 
   // Reset all filters to show all products

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BookService } from '../../Services/book.service';
@@ -13,6 +13,7 @@ import { BookService } from '../../Services/book.service';
 export class BooksDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private bookService = inject(BookService);
+  private cdr = inject(ChangeDetectorRef);
 
   book: any = null;
   loading: boolean = true;
@@ -60,12 +61,15 @@ export class BooksDetailComponent implements OnInit {
   }
 
   fetchBook(id: string) {
+    console.log(`[BooksDetail] fetchBook called with id: "${id}"`);
     this.loading = true;
     this.bookService.getBookById(id).subscribe({
       next: (data) => {
+        console.log(`[BooksDetail] getBookById next received:`, data);
         if (!data) {
           this.error = 'Không tìm thấy sách này.';
           this.loading = false;
+          this.cdr.detectChanges();
           return;
         }
         this.book = data;
@@ -75,11 +79,17 @@ export class BooksDetailComponent implements OnInit {
         }
         this.currentImage = data.image || data.url || 'https://via.placeholder.com/400x500?text=No+Image';
         this.loading = false;
+        console.log(`[BooksDetail] loading set to false, book ready.`);
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Lỗi khi tải thông tin sách:', err);
+        console.error('[BooksDetail] Lỗi khi tải thông tin sách:', err);
         this.error = 'Không thể tải thông tin sách. Vui lòng thử lại sau.';
         this.loading = false;
+        this.cdr.detectChanges();
+      },
+      complete: () => {
+        console.log('[BooksDetail] getBookById stream completed.');
       }
     });
   }

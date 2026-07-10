@@ -5,17 +5,21 @@
     <span *ngIf="book" class="current">{{ book.title }}</span>
   </div>
 
-  <div *ngIf="loading" class="loading-state">
-    <div class="spinner"></div>
-    <p>Đang tải thông tin sách...</p>
-  </div>
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Đang tải thông tin sách...</p>
+    </div>
+  }
 
-  <div *ngIf="error" class="error-state">
-    <p>{{ error }}</p>
-    <button routerLink="/">Quay lại trang chủ</button>
-  </div>
+  @if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+      <button routerLink="/">Quay lại trang chủ</button>
+    </div>
+  }
 
-  <ng-container *ngIf="!loading && !error && book">
+  @if (!loading && !error && book) {
     <!-- TOP SECTION: Image and Basic Info -->
     <section class="bd-top-section">
       <!-- Left Column: Image -->
@@ -207,5 +211,5 @@
         }
       </div>
     </section>
-  </ng-container>
+  }
 </main>

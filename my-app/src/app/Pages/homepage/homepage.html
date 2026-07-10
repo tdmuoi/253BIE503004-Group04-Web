@@ -151,7 +151,7 @@
       <a class="see-all" routerLink="/dashboard">Khám phá thêm</a>
     </div>
     <div class="grid-5">
-      @for (p of suggestions; track $index) {
+      @for (p of suggestions.slice(0, visibleSuggestionsLimit); track $index) {
         <a [routerLink]="['/book-detail', p._id]" class="card">
           <div class="card-thumb"><img [src]="p.img" [alt]="p.title" /></div>
           <div class="card-body">
@@ -162,9 +162,11 @@
         </a>
       }
     </div>
-    <div class="center">
-      <button class="btn-outline">Xem thêm gợi ý</button>
-    </div>
+    @if (suggestions.length > visibleSuggestionsLimit) {
+      <div class="center">
+        <button class="btn-outline" (click)="loadMoreSuggestions()">Xem thêm gợi ý</button>
+      </div>
+    }
   </section>
 
   <!-- ══ NEWS ══ -->

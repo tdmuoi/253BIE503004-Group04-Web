@@ -12,7 +12,7 @@ const path = require('path');
 const uri = process.env.DB_URL;
 
 // Đường dẫn tới books.json (my_server và my-app là 2 thư mục anh em)
-const jsonPath = path.join(__dirname, '..', 'my-app', 'public', 'data', 'books.json');
+const jsonPath = path.join(__dirname, '..', '..', 'my-app', 'public', 'data', 'books.json');
 
 async function importBooks() {
   if (!uri) {
