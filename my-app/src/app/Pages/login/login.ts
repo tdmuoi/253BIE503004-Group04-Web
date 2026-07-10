@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal, inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, Validators, FormBuilder, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../Services/auth.service';
+import { BookService } from '../../Services/book.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -15,6 +17,19 @@ export class LoginPage implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly bookService = inject(BookService);
+  private readonly http = inject(HttpClient);
+
+  // OTP Sending indicator
+  readonly otpSending = signal<boolean>(false);
+
+  // Screenshot-accurate modal visibility signals
+  readonly showGoogleModal = signal<boolean>(false);
+  readonly showFacebookModal = signal<boolean>(false);
+  hideFBEmail: boolean = false;
+  readonly showGoogleCustomForm = signal<boolean>(false);
+  customGoogleEmail = '';
+  customGooglePassword = '';
 
   // Track active tab: 'login' | 'register'
   readonly activeTab = signal<'login' | 'register'>('login');
@@ -31,7 +46,7 @@ export class LoginPage implements OnInit {
 
   // Form 1: Email Login Form (under "Đăng nhập" tab)
   readonly loginForm = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required]], // Remove email validator to support both email and phone input
     password: ['', [Validators.required, Validators.minLength(6)]],
     remember: [true]
   });
@@ -44,54 +59,32 @@ export class LoginPage implements OnInit {
   });
 
   // Recommendation Book List
-  readonly books = [
-    {
-      image: '/img/books/phantom.jpg',
-      badge: { text: '-20%', type: 'discount' },
-      category: 'VĂN HỌC CỔ ĐIỂN',
-      title: 'Bóng Ma Trong Nhà Hát (The Phantom of the Opera)',
-      price: '156.000đ',
-      originalPrice: '195.000đ'
-    },
-    {
-      image: '/img/books/money.jpg',
-      badge: null,
-      category: 'PHÁT TRIỂN BẢN THÂN',
-      title: 'Tâm Lý Học Về Tiền (The Psychology of Money)',
-      price: '128.000đ',
-      originalPrice: null
-    },
-    {
-      image: '/img/books/cooking.jpg',
-      badge: { text: 'MỚI', type: 'new' },
-      category: 'ẨM THỰ & ĐỜI SỐNG',
-      title: 'Nấu Ăn Cùng Thiên Nhiên - 100 Công Thức Mới',
-      price: '245.000đ',
-      originalPrice: null
-    },
-    {
-      image: '/img/books/dune.jpg',
-      badge: null,
-      category: 'KHOA HỌC VIỄN TƯỞNG',
-      title: 'Dune: Xứ Cát (Tập 1) - Frank Herbert',
-      price: '189.000đ',
-      originalPrice: null
-    },
-    {
-      image: '/img/books/seagull.jpg',
-      badge: { text: 'HOT', type: 'hot' },
-      category: 'THIẾU NHI',
-      title: 'Chuyện Con Mèo Dạy Hải Âu Bay',
-      price: '65.000đ',
-      originalPrice: null
-    }
-  ];
+  books: any[] = [];
 
   ngOnInit(): void {
     // Redirect immediately if already logged in
     if (this.authService.isAuthenticated()) {
       void this.router.navigate(['/dashboard']);
     }
+
+    // Load recommendations from database
+    this.bookService.getBooks().subscribe({
+      next: (data) => {
+        this.books = data.slice(0, 5).map(book => ({
+          image: book.image,
+          badge: book.discount_percent && book.discount_percent < 0 
+            ? { text: `${book.discount_percent}%`, type: 'discount' } 
+            : null,
+          category: 'SÁCH NỔI BẬT',
+          title: book.title,
+          price: book.price_current.toLocaleString('vi-VN') + 'đ',
+          originalPrice: book.price_old ? book.price_old.toLocaleString('vi-VN') + 'đ' : null
+        }));
+      },
+      error: (err) => {
+        console.error('Không thể lấy danh sách sách cho trang login:', err);
+      }
+    });
   }
 
   // Getters for Login Form
@@ -130,24 +123,122 @@ export class LoginPage implements OnInit {
     this.showPassword.update(prev => !prev);
   }
 
+  // Send simulated OTP from backend
+  sendOtp() {
+    const phone = this.phoneControl.value;
+    if (!phone) {
+      alert('Vui lòng nhập số điện thoại trước!');
+      return;
+    }
+    if (this.phoneControl.invalid) {
+      alert('Số điện thoại không hợp lệ (yêu cầu 10 chữ số bắt đầu bằng 0).');
+      return;
+    }
+
+    this.otpSending.set(true);
+    this.http.post('http://localhost:3002/api/otp/send', { phone, method: this.otpVerificationMethod() }).subscribe({
+      next: (res: any) => {
+        this.otpSending.set(false);
+        if (res.otp) {
+          alert(`[Môi trường Test] Đã gửi mã OTP thử nghiệm: ${res.otp}\nHệ thống đã tự điền mã vào ô bên dưới.`);
+          this.registerForm.patchValue({ otpCode: res.otp });
+        } else {
+          alert(`Mã xác nhận OTP đã được gửi về số điện thoại ${phone} của bạn. Vui lòng kiểm tra tin nhắn SMS!`);
+        }
+      },
+      error: (err) => {
+        this.otpSending.set(false);
+        alert('Gửi OTP thất bại: ' + (err.error?.error || err.message));
+      }
+    });
+  }
+
+  // Open simulated social login popup
+  openSocialPopup(provider: string) {
+    if (provider === 'google') {
+      this.showGoogleModal.set(true);
+    } else {
+      this.showFacebookModal.set(true);
+    }
+  }
+
+  closeGoogleModal() {
+    this.showGoogleModal.set(false);
+  }
+
+  closeFacebookModal() {
+    this.showFacebookModal.set(false);
+  }
+
+  selectGoogleAccount(email: string, name: string) {
+    this.loading.set(true);
+    this.authService.loginSocial(
+      'google',
+      email,
+      name,
+      'https://api.dicebear.com/7.x/identicon/svg?seed=' + encodeURIComponent(email)
+    ).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.showGoogleModal.set(false);
+        void this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        alert('Đăng nhập Google thất bại: ' + (err.error?.error || err.message));
+      }
+    });
+  }
+
+  selectFacebookAccount() {
+    if (this.hideFBEmail) {
+      // Mock edge-case: Facebook does not return email
+      alert('Không thể lấy email từ Facebook. Vui lòng sử dụng Google hoặc đăng ký bằng Email.');
+      return;
+    }
+
+    this.loading.set(true);
+    // Standard simulation: Facebook returns "Trần Huy" (trancanhnhathuy@gmail.com)
+    this.authService.loginSocial(
+      'facebook',
+      'trancanhnhathuy@gmail.com',
+      'Trần Huy',
+      'https://api.dicebear.com/7.x/identicon/svg?seed=huy'
+    ).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.showFacebookModal.set(false);
+        void this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        alert('Đăng nhập Facebook thất bại: ' + (err.error?.error || err.message));
+      }
+    });
+  }
+
   async submit(): Promise<void> {
     if (this.activeTab() === 'login') {
       if (this.loginForm.invalid) {
         this.loginForm.markAllAsTouched();
-        this.statusMessage.set('Vui lòng nhập Email hợp lệ và mật khẩu tối thiểu 6 ký tự.');
+        this.statusMessage.set('Vui lòng nhập Email hoặc SĐT hợp lệ và mật khẩu tối thiểu 6 ký tự.');
         return;
       }
 
       this.loading.set(true);
       this.statusMessage.set(null);
 
-      // Simulate Email Authentication
-      setTimeout(() => {
-        const { email } = this.loginForm.getRawValue();
-        this.authService.loginWithEmail(email);
-        this.loading.set(false);
-        void this.router.navigate(['/dashboard']);
-      }, 1200);
+      const { email, password } = this.loginForm.getRawValue();
+      this.authService.login(email, password).subscribe({
+        next: () => {
+          this.loading.set(false);
+          void this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          this.loading.set(false);
+          this.statusMessage.set(err.error?.error || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
+        }
+      });
 
     } else {
       if (this.registerForm.invalid) {
@@ -159,13 +250,50 @@ export class LoginPage implements OnInit {
       this.loading.set(true);
       this.statusMessage.set(null);
 
-      // Simulate Registration / Phone Login
-      setTimeout(() => {
-        const { phone } = this.registerForm.getRawValue();
-        this.authService.loginWithOtp(phone);
-        this.loading.set(false);
-        void this.router.navigate(['/dashboard']);
-      }, 1200);
+      const { phone, password, otpCode } = this.registerForm.getRawValue();
+      this.authService.register(phone, password, otpCode).subscribe({
+        next: () => {
+          this.loading.set(false);
+          void this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          this.loading.set(false);
+          this.statusMessage.set(err.error?.error || 'Đăng ký thất bại. Vui lòng thử lại.');
+        }
+      });
     }
+  }
+
+  submitCustomGoogleAccount() {
+    if (!this.customGoogleEmail) {
+      alert('Vui lòng nhập địa chỉ Email!');
+      return;
+    }
+    if (!this.customGooglePassword) {
+      alert('Vui lòng nhập mật khẩu Gmail!');
+      return;
+    }
+
+    this.loading.set(true);
+    const name = this.customGoogleEmail.split('@')[0];
+    this.authService.loginSocial(
+      'google',
+      this.customGoogleEmail,
+      name,
+      'https://api.dicebear.com/7.x/identicon/svg?seed=' + encodeURIComponent(this.customGoogleEmail)
+    ).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.showGoogleModal.set(false);
+        this.showGoogleCustomForm.set(false);
+        this.customGoogleEmail = '';
+        this.customGooglePassword = '';
+        void this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        alert('Đăng nhập Google thất bại: ' + (err.error?.error || err.message));
+      }
+    });
   }
 }

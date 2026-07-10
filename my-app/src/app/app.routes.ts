@@ -18,8 +18,11 @@ import { AboutUs } from './Pages/about-us/about-us';
 import { Policy } from './Pages/policy/policy';
 import { Homepage } from './Pages/homepage/homepage';
 import { SachDienTu } from './Pages/sach-dien-tu/sach-dien-tu';
+import { BooksDetailComponent } from './Pages/books-detail/books-detail';
 
 export const routes: Routes = [
+  { path: 'book-detail/:id', component: BooksDetailComponent },
+  { path: 'book-detail', component: BooksDetailComponent },
   { path: 'homepage', component: Homepage },
   { path: 'sach-dien-tu', component: SachDienTu },
   { path: 'about-us', component: AboutUs },
@@ -55,5 +58,5 @@ export const routes: Routes = [
   { path: 'address', redirectTo: 'PersonalAccount/address', pathMatch: 'full' },
   { path: 'security', redirectTo: 'PersonalAccount/account-security', pathMatch: 'full' },
   { path: 'social', redirectTo: 'PersonalAccount/link-social', pathMatch: 'full' },
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  { path: '', redirectTo: 'homepage', pathMatch: 'full' }
 ];

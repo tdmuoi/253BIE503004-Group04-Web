@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit, signal, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { BookService } from '../../Services/book.service';
+
 
 interface Product {
+  _id?: string;
   title: string;
   author: string;
   img: string;
@@ -18,6 +21,7 @@ interface Product {
 })
 export class Homepage implements OnInit, OnDestroy {
   private readonly router = inject(Router);
+  private readonly bookService = inject(BookService);
 
   // ── Flash sale countdown ──
   readonly hh = signal('00');
@@ -30,20 +34,10 @@ export class Homepage implements OnInit, OnDestroy {
   readonly searchCats = ['Tiểu thuyết', 'Tâm lý', 'Kinh tế', 'Manga', 'Thiếu nhi', 'Lịch sử'];
 
   // ── Flash sale products ──
-  readonly flashSale: Product[] = [
-    { title: 'Thay đổi tí hon', author: 'Carol Dweck', img: 'img/books/money.jpg', price: '95.000đ', oldPrice: '190.000đ', discount: '-50%' },
-    { title: 'Tâm lý học tiền bạc', author: 'Morgan Housel', img: 'img/books/money.jpg', price: '95.000đ', oldPrice: '190.000đ', discount: '-50%' },
-    { title: 'Nghệ thuật nấu ăn', author: 'Yotam O.', img: 'img/books/cooking.jpg', price: '95.000đ', oldPrice: '190.000đ', discount: '-50%' },
-    { title: 'Khu rừng bí ẩn', author: 'J. Green', img: 'img/books/phantom.jpg', price: '95.000đ', oldPrice: '190.000đ', discount: '-50%' },
-  ];
+  flashSale: Product[] = [];
 
   // ── New releases ──
-  readonly newBooks: Product[] = [
-    { title: 'Hành trình cuối', author: 'Tác giả DKT', img: 'img/books/seagull.jpg', price: '240.000đ' },
-    { title: 'Hành trình cuối', author: 'Tác giả DKT', img: 'img/books/seagull.jpg', price: '240.000đ' },
-    { title: 'Hành trình cuối', author: 'Tác giả DKT', img: 'img/books/seagull.jpg', price: '240.000đ' },
-    { title: 'Hành trình cuối', author: 'Tác giả DKT', img: 'img/books/seagull.jpg', price: '240.000đ' },
-  ];
+  newBooks: Product[] = [];
 
   // ── Best sellers this week ──
   readonly bestSellers = [
@@ -68,12 +62,7 @@ export class Homepage implements OnInit, OnDestroy {
   ];
 
   // ── Suggestions grid ──
-  readonly suggestions: Product[] = Array.from({ length: 20 }, () => ({
-    title: 'Hồi Đáp Và Kình Ngư',
-    author: 'Hậu Nam',
-    img: 'img/books/cooking.jpg',
-    price: '116.000 đ',
-  }));
+  suggestions: Product[] = [];
 
   // ── News ──
   readonly news = [
@@ -88,6 +77,44 @@ export class Homepage implements OnInit, OnDestroy {
       this.remaining = this.remaining > 0 ? this.remaining - 1 : 0;
       this.render();
     }, 1000);
+
+    // Lấy dữ liệu sách từ backend API
+    this.bookService.getBooks().subscribe({
+      next: (books) => {
+        const mappedProducts: Product[] = books.map(book => ({
+          _id: book._id,
+          title: book.title,
+          author: book.author,
+          img: book.image,
+          price: book.price_current.toLocaleString('vi-VN') + 'đ',
+          oldPrice: book.price_old ? book.price_old.toLocaleString('vi-VN') + 'đ' : undefined,
+          discount: book.discount_percent ? `${book.discount_percent}%` : undefined
+        }));
+
+        // suggestions lấy tất cả các sách
+        this.suggestions = mappedProducts;
+
+        // newBooks lấy 4 cuốn đầu tiên
+        this.newBooks = mappedProducts.slice(0, 4);
+
+        // flashSale lấy các cuốn sách có giảm giá (ví dụ discount_percent < 0 hoặc có discount_percent)
+        this.flashSale = books
+          .filter(book => book.discount_percent && book.discount_percent < 0)
+          .map(book => ({
+            _id: book._id,
+            title: book.title,
+            author: book.author,
+            img: book.image,
+            price: book.price_current.toLocaleString('vi-VN') + 'đ',
+            oldPrice: book.price_old ? book.price_old.toLocaleString('vi-VN') + 'đ' : undefined,
+            discount: `${book.discount_percent}%`
+          }))
+          .slice(0, 4);
+      },
+      error: (err) => {
+        console.error('Không thể lấy danh sách sách từ backend:', err);
+      }
+    });
   }
 
   ngOnDestroy(): void {

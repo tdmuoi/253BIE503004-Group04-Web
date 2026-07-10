@@ -1,0 +1,101 @@
+[
+  {
+    "url": "https://nhanam.vn/phat-giao-dai-quan",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-61.png?v=1781175085593",
+    "title": "Phật giáo đại quan",
+    "author": "Phạm Quỳnh",
+    "price_current": 92000,
+    "price_old": 115000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/chuc-mung-sinh-nhat-cau",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-59.png?v=1781174581793",
+    "title": "Chúc mừng sinh nhật cậu",
+    "author": "Guido Van Genechten",
+    "price_current": 116000,
+    "price_old": 145000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/combo-hu-cam-xuc-va-hu-tinh-ban",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-58.png?v=1781174295570",
+    "title": "Combo Hũ Cảm Xúc Và Hũ Tình Bạn",
+    "author": "Deborah Marcero",
+    "price_current": 142400,
+    "price_old": 178000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/hu-tinh-ban",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-57.png?v=1781173330663",
+    "title": "Hũ tình bạn",
+    "author": "Deborah Marcero",
+    "price_current": 71200,
+    "price_old": 89000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/combo-3-cuon-phat-trien-eq",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-48.png?v=1781172336670",
+    "title": "Combo 3 cuốn Phát triển EQ",
+    "author": "Viện nghiên cứu độc giả Tiểu học Dook Reads",
+    "price_current": 333600,
+    "price_old": 417000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/phat-trien-eq-ren-noi-luc-vung-vang",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-45.png?v=1781171532970",
+    "title": "Phát triển EQ - Rèn nội lực vững vàng",
+    "author": "Viện nghiên cứu độc giả Tiểu học Dook Reads",
+    "price_current": 111200,
+    "price_old": 139000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/phat-trien-eq-nuoi-duong-long-thau-cam",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-46.png?v=1781170856530",
+    "title": "Phát triển EQ - Nuôi dưỡng lòng thấu cảm",
+    "author": "Viện nghiên cứu độc giả Tiểu học Dook Reads",
+    "price_current": 111200,
+    "price_old": 139000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/hai-man-bi-kich-o-dong-duong",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-ed5eb5fc-3e89-4549-8db9-1f8ddca66b46.png?v=1780630990330",
+    "title": "Hai màn bi kịch ở Đông Dương",
+    "author": "Général Catroux",
+    "price_current": 223200,
+    "price_old": 279000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/phi-cong",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-b69ac049-dc05-457b-ad9d-398b3b4bf48c.png?v=1780626707963",
+    "title": "Phi Công",
+    "author": "Evgeny Vodolazkin",
+    "price_current": 193500,
+    "price_old": 258000,
+    "discount_percent": -25
+  },
+  {
+    "url": "https://nhanam.vn/ngan-nam-van-hien-quoc-gia-viet-nam",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-44.png?v=1780399378370",
+    "title": "Ngàn năm văn hiến quốc gia Việt Nam",
+    "author": "Bộ Văn Hóa Thể Thao & Du Lịch",
+    "price_current": 676000,
+    "price_old": 845000,
+    "discount_percent": -20
+  },
+  {
+    "url": "https://nhanam.vn/nhac-but-len-trong-dem-co-don",
+    "image": "https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-42.png?v=1779960102820",
+    "title": "Nhấc bút lên trong đêm cô đơn",
+    "author": "Koga Fumitake",
+    "price_current": 183750,
+    "price_old": 245000,
+    "discount_percent": -25
+  }
+]

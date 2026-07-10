@@ -1,0 +1,211 @@
+<main class="page book-detail-page">
+  <div class="breadcrumb">
+    <a routerLink="/">Trang chủ</a> > 
+    <span>Chi tiết sách</span> >
+    <span *ngIf="book" class="current">{{ book.title }}</span>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Đang tải thông tin sách...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+    <button routerLink="/">Quay lại trang chủ</button>
+  </div>
+
+  <ng-container *ngIf="!loading && !error && book">
+    <!-- TOP SECTION: Image and Basic Info -->
+    <section class="bd-top-section">
+      <!-- Left Column: Image -->
+      <div class="bd-image-col">
+        <div class="main-image">
+          <img [src]="currentImage" [alt]="book.title" />
+        </div>
+        <div class="thumbnail-list">
+          <img [src]="book.image || book.url" (click)="setMainImage(book.image || book.url)" [class.active]="currentImage === (book.image || book.url)" />
+          <!-- Mocking extra thumbnails based on Fahasa reference -->
+          <img src="https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_25272.jpg" (click)="setMainImage('https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_25272.jpg')" [class.active]="currentImage === 'https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_25272.jpg'" />
+          <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9786043232147_1.jpg" (click)="setMainImage('https://cdn0.fahasa.com/media/catalog/product/9/7/9786043232147_1.jpg')" [class.active]="currentImage === 'https://cdn0.fahasa.com/media/catalog/product/9/7/9786043232147_1.jpg'" />
+        </div>
+        
+        <div class="bd-actions">
+          <button class="btn-add-cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            Thêm vào giỏ hàng
+          </button>
+          <button class="btn-buy-now">Mua ngay</button>
+        </div>
+
+        <div class="bd-policies">
+          <h4>Chính sách ưu đãi của Lightbooks</h4>
+          <ul>
+            <li><span class="icon">🚚</span> <strong>Thời gian giao hàng:</strong> Giao nhanh và uy tín</li>
+            <li><span class="icon">🔄</span> <strong>Chính sách đổi trả:</strong> Đổi trả miễn phí toàn quốc</li>
+            <li><span class="icon">🛡️</span> <strong>Chính sách khách sỉ:</strong> Ưu đãi khi mua số lượng lớn</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Column: Details -->
+      <div class="bd-info-col">
+        <h1 class="bd-title">{{ book.title }}</h1>
+        
+        <div class="bd-meta">
+          <div class="meta-item">
+            <span>Nhà cung cấp:</span>
+            <a href="#">{{ book.supplier || 'Đang cập nhật' }}</a>
+          </div>
+          <div class="meta-item">
+            <span>Tác giả:</span>
+            <strong>{{ book.author || 'Đang cập nhật' }}</strong>
+          </div>
+          <div class="meta-item">
+            <span>Nhà xuất bản:</span>
+            <strong>{{ book.publisher || 'Đang cập nhật' }}</strong>
+          </div>
+          <div class="meta-item">
+            <span>Hình thức bìa:</span>
+            <strong>{{ book.format || 'Bìa mềm' }}</strong>
+          </div>
+        </div>
+
+        <div class="bd-rating-summary">
+          <span class="stars">★★★★★</span>
+          <span class="review-count">(0 đánh giá)</span>
+          <span class="divider">|</span>
+          <span class="sold-count">Đã bán 79</span>
+        </div>
+
+        <div class="bd-price-box">
+          <div class="price-current">{{ (book.price_current || book.price) | number:'1.0-0' }} đ</div>
+          <div class="price-old" *ngIf="book.price_old">{{ book.price_old | number:'1.0-0' }} đ</div>
+          <div class="discount-badge" *ngIf="book.discount_percent">-{{ book.discount_percent }}%</div>
+        </div>
+
+        <div class="bd-shipping">
+          <h4>Thông tin vận chuyển</h4>
+          <p>Giao hàng đến <strong>Phường Bến Nghé, Quận 1, Hồ Chí Minh</strong> <a href="#">Thay đổi</a></p>
+          <div class="shipping-method">
+            <span class="icon">🚚</span>
+            <div>
+              <strong>Giao hàng tiêu chuẩn</strong>
+              <p>Dự kiến giao Thứ Hai - 15/07</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bd-quantity">
+          <span>Số lượng:</span>
+          <div class="qty-control">
+            <button (click)="decreaseQuantity()">-</button>
+            <input type="text" [value]="quantity" readonly />
+            <button (click)="increaseQuantity()">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT DETAILS TABLE -->
+    <section class="bd-section bd-attributes">
+      <h3 class="section-title">Thông tin chi tiết</h3>
+      <table class="attr-table">
+        <tbody>
+          <tr>
+            <td class="attr-label">Mã hàng</td>
+            <td class="attr-value">{{ book._id || '8935235230422' }}</td>
+          </tr>
+          <tr>
+            <td class="attr-label">Tên Nhà Cung Cấp</td>
+            <td class="attr-value">{{ book.supplier || 'Nhã Nam' }}</td>
+          </tr>
+          <tr>
+            <td class="attr-label">Tác giả</td>
+            <td class="attr-value">{{ book.author || 'Đang cập nhật' }}</td>
+          </tr>
+          <tr>
+            <td class="attr-label">NXB</td>
+            <td class="attr-value">{{ book.publisher || 'NXB Hà Nội' }}</td>
+          </tr>
+          <tr>
+            <td class="attr-label">Năm XB</td>
+            <td class="attr-value">{{ book.year || '2021' }}</td>
+          </tr>
+          <tr>
+            <td class="attr-label">Trọng lượng (gr)</td>
+            <td class="attr-value">{{ book.weight || '96' }}</td>
+          </tr>
+          <tr>
+            <td class="attr-label">Kích Thước Bao Bì</td>
+            <td class="attr-value">{{ book.dimensions || '19 x 14.5 x 0.4 cm' }}</td>
+          </tr>
+          <tr>
+            <td class="attr-label">Số trang</td>
+            <td class="attr-value">{{ book.pages || '48' }}</td>
+          </tr>
+          <tr>
+            <td class="attr-label">Hình thức</td>
+            <td class="attr-value">{{ book.format || 'Bìa Mềm' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- PRODUCT DESCRIPTION -->
+    <section class="bd-section bd-description">
+      <h3 class="section-title">Mô tả sản phẩm</h3>
+      <div class="desc-content">
+        <p *ngIf="book.description">{{ book.description }}</p>
+        <p *ngIf="!book.description">
+          Ôi có chuyện gì xảy ra với Carmelito vậy? Cậu đột nhiên thấy trái tim mình thổn thức, chân cẳng run lẩy bẩy. Cậu vô cùng luống cuống hoảng hốt! Phải chăng cậu gà giò hồng đang ấp ủ điều gì đó? Cô em gái Carmen tự hỏi liệu có phải chuyến lưu diễn của Roxane, cô gà nhí màu hồng chính là nguyên nhân gây ra căn bệnh lạ kỳ của Carmelito.
+        </p>
+      </div>
+    </section>
+
+    <!-- RATINGS & REVIEWS -->
+    <section class="bd-section bd-reviews">
+      <h3 class="section-title">Đánh giá sản phẩm</h3>
+      <div class="review-stats">
+        <div class="score">
+          <span class="big-score">0</span><span class="total-score">/5</span>
+          <div class="stars">★★★★★</div>
+          <div class="count">(0 đánh giá)</div>
+        </div>
+        <div class="bars">
+          <div class="bar-row"><span class="star-label">5 sao</span><div class="bar-bg"><div class="bar-fill" style="width: 0%"></div></div><span class="pct">0%</span></div>
+          <div class="bar-row"><span class="star-label">4 sao</span><div class="bar-bg"><div class="bar-fill" style="width: 0%"></div></div><span class="pct">0%</span></div>
+          <div class="bar-row"><span class="star-label">3 sao</span><div class="bar-bg"><div class="bar-fill" style="width: 0%"></div></div><span class="pct">0%</span></div>
+          <div class="bar-row"><span class="star-label">2 sao</span><div class="bar-bg"><div class="bar-fill" style="width: 0%"></div></div><span class="pct">0%</span></div>
+          <div class="bar-row"><span class="star-label">1 sao</span><div class="bar-bg"><div class="bar-fill" style="width: 0%"></div></div><span class="pct">0%</span></div>
+        </div>
+        <div class="review-prompt">
+          <p>Chỉ có thành viên mới có thể viết nhận xét. Vui lòng <a routerLink="/login">đăng nhập</a> hoặc <a routerLink="/login">đăng ký</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUGGESTED BOOKS -->
+    <section class="bd-section bd-suggested">
+      <h3 class="section-title text-center">Gợi ý cho bạn</h3>
+      <div class="grid-4">
+        @for (p of suggestedBooks; track $index) {
+          <article class="card">
+            <div class="card-thumb">
+              @if (p.discount) { <span class="badge">{{ p.discount }}</span> }
+              <img [src]="p.img" [alt]="p.title" />
+            </div>
+            <div class="card-body">
+              <div class="card-title">{{ p.title }}</div>
+              <div class="card-author">{{ p.author }}</div>
+              <div class="card-price">
+                <span class="price-now">{{ p.price }} đ</span>
+                @if (p.oldPrice) { <span class="price-old">{{ p.oldPrice }}</span> }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  </ng-container>
+</main>

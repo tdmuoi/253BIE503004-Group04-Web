@@ -143,14 +143,14 @@
         <!-- Order Card Header -->
         <div class="order-card-header">
           <div class="header-left">
-            <span class="order-id">{{ order.id }}</span>
-            <span class="order-date">Ngày đặt: {{ order.date }}</span>
+            <span class="order-id">#{{ order._id.substring(order._id.length - 8).toUpperCase() }}</span>
+            <span class="order-date">Ngày đặt: {{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
           </div>
           <span class="order-status-badge" [class]="order.status">
             <span class="material-symbols-rounded status-icon">
               {{ order.status === 'delivered' ? 'check_circle' : 'local_shipping' }}
             </span>
-            <span>{{ order.statusLabel }}</span>
+            <span>{{ getStatusLabel(order.status) }}</span>
           </span>
         </div>
 
@@ -165,12 +165,11 @@
               </div>
               <div class="product-meta">
                 <h3 class="product-title">{{ item.title }}</h3>
-                <p class="product-author">{{ item.author }}</p>
-                <span class="product-qty">Số lượng: {{ item.qty }}</span>
+                <span class="product-qty">Số lượng: {{ item.quantity }}</span>
               </div>
             </div>
             <div class="product-price-col">
-              <span class="product-price">{{ item.price }}</span>
+              <span class="product-price">{{ (item.price * item.quantity) | number:'1.0-0' }}đ</span>
             </div>
           </div>
         </div>
@@ -181,15 +180,15 @@
         <div class="order-card-footer">
           <div class="footer-left">
             <span class="total-label">Tổng cộng:</span>
-            <span class="total-price">{{ order.total }}</span>
+            <span class="total-price">{{ order.final_amount | number:'1.0-0' }}đ</span>
           </div>
           <div class="footer-right">
-            <button type="button" class="details-btn" (click)="onViewDetails(order.id)">Xem chi tiết</button>
+            <button type="button" class="details-btn" (click)="onViewDetails(order._id)">Xem chi tiết</button>
             <button 
               type="button" 
               class="track-btn" 
               *ngIf="order.status === 'shipping'"
-              (click)="onTrackOrder(order.id)"
+              (click)="onTrackOrder(order._id)"
             >
               Theo dõi đơn hàng
             </button>
@@ -199,4 +198,94 @@
     </div>
 
   </main>
+</div>
+
+<!-- ── MODAL: CHI TIẾT ĐƠN HÀNG ── -->
+<div class="modal-overlay" *ngIf="showDetailsModal && selectedOrder" (click)="closeDetailsModal()" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div class="details-modal" (click)="$event.stopPropagation()" style="background: #fff; border-radius: 12px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 12px;">
+      <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #2d3a2e;">Chi tiết đơn hàng #{{ selectedOrder._id.substring(selectedOrder._id.length - 8).toUpperCase() }}</h3>
+      <button (click)="closeDetailsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #888;">&times;</button>
+    </div>
+    
+    <!-- Thông tin chung -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px solid #f0f0f0;">
+      <div>
+        <strong style="display: block; font-size: 11px; color: #888; margin-bottom: 4px;">TRẠNG THÁI</strong>
+        <span style="font-weight: 600;" [class]="selectedOrder.status">{{ getStatusLabel(selectedOrder.status) }}</span>
+      </div>
+      <div>
+        <strong style="display: block; font-size: 11px; color: #888; margin-bottom: 4px;">NGÀY ĐẶT</strong>
+        <span>{{ selectedOrder.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+    </div>
+    
+    <!-- Địa chỉ giao hàng -->
+    <div style="margin-bottom: 20px;">
+      <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #2d3a2e; border-left: 3px solid #2d3a2e; padding-left: 8px;">Thông tin nhận hàng</h4>
+      <div style="padding-left: 11px; line-height: 1.6; font-size: 13px;">
+        <p style="margin: 4px 0;"><strong>Họ tên:</strong> {{ selectedOrder.fullname }}</p>
+        <p style="margin: 4px 0;"><strong>SĐT:</strong> {{ selectedOrder.phone }}</p>
+        <p style="margin: 4px 0;"><strong>Email:</strong> {{ selectedOrder.email }}</p>
+        <p style="margin: 4px 0;"><strong>Địa chỉ:</strong> {{ selectedOrder.shipping_address }}</p>
+      </div>
+    </div>
+
+    <!-- Vận chuyển và Thanh toán -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div>
+        <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #2d3a2e; border-left: 3px solid #2d3a2e; padding-left: 8px;">Vận chuyển</h4>
+        <span style="font-size: 13px; padding-left: 11px; display: block;">
+          {{ selectedOrder.shipping_method === 'express' ? 'Giao hàng nhanh (2h)' : 'Giao hàng tiêu chuẩn' }}
+        </span>
+      </div>
+      <div>
+        <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #2d3a2e; border-left: 3px solid #2d3a2e; padding-left: 8px;">Thanh toán</h4>
+        <span style="font-size: 13px; padding-left: 11px; display: block;">
+          {{ selectedOrder.payment_method === 'transfer' ? 'Chuyển khoản ngân hàng' : selectedOrder.payment_method === 'wallet' ? 'Ví điện tử' : 'COD (Thanh toán khi nhận hàng)' }}
+        </span>
+      </div>
+    </div>
+    
+    <!-- Sản phẩm -->
+    <div style="margin-bottom: 20px;">
+      <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #2d3a2e; border-left: 3px solid #2d3a2e; padding-left: 8px;">Sản phẩm đã mua</h4>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f5f5f5; padding-bottom: 8px;" *ngFor="let item of selectedOrder.items">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img [src]="item.image" style="width: 40px; height: 50px; object-fit: cover; border-radius: 4px;" />
+            <div>
+              <div style="font-weight: 600; font-size: 13px;">{{ item.title }}</div>
+              <div style="font-size: 11px; color: #888;">Số lượng: {{ item.quantity }}</div>
+            </div>
+          </div>
+          <div style="font-weight: 600; font-size: 13px;">{{ (item.price * item.quantity) | number:'1.0-0' }}đ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tóm tắt chi phí -->
+    <div style="border-top: 1px solid #eee; padding-top: 15px; font-size: 13px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+        <span>Tạm tính</span>
+        <span>{{ selectedOrder.total_amount | number:'1.0-0' }}đ</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+        <span>Phí vận chuyển</span>
+        <span>{{ selectedOrder.shipping_fee | number:'1.0-0' }}đ</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 6px;" *ngIf="selectedOrder.discount_amount > 0">
+        <span>Giảm giá</span>
+        <span style="color: #ff4d4f;">-{{ selectedOrder.discount_amount | number:'1.0-0' }}đ</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-top: 12px; font-weight: 700; font-size: 15px; color: #2d3a2e; border-top: 1px dashed #eee; padding-top: 10px;">
+        <span>TỔNG CỘNG</span>
+        <span>{{ selectedOrder.final_amount | number:'1.0-0' }}đ</span>
+      </div>
+    </div>
+    
+    <div style="display: flex; justify-content: flex-end; margin-top: 24px; border-top: 1px solid #eee; padding-top: 15px;">
+      <button (click)="closeDetailsModal()" style="background: #2d3a2e; color: #fff; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">Đóng</button>
+    </div>
+  </div>
 </div>

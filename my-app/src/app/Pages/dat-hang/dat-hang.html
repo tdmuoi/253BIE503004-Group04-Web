@@ -41,25 +41,48 @@
             </svg>
             Thông tin giao hàng
           </div>
-          <button class="btn-edit">✏ Thay đổi</button>
+          <button class="btn-edit" (click)="toggleEditShipping()">
+            {{ isEditingShipping ? '💾 Lưu' : '✏ Thay đổi' }}
+          </button>
         </div>
 
-        <div class="info-grid">
+        <div class="info-grid" *ngIf="!isEditingShipping">
           <div class="info-item">
             <label>Họ và tên</label>
-            <p>Nguyễn Anh Thư</p>
+            <p>{{ fullname }}</p>
           </div>
           <div class="info-item">
             <label>Số điện thoại</label>
-            <p>0901234567</p>
+            <p>{{ phone }}</p>
           </div>
           <div class="info-item full">
             <label>Email nhận thông tin đơn hàng</label>
-            <p>anthu.ng@email.com</p>
+            <p>{{ email }}</p>
           </div>
           <div class="info-item full">
             <label>Địa chỉ giao hàng</label>
-            <p>123 Đường Lê Lợi, Quận 1, TP. Hồ Chí Minh</p>
+            <p>{{ address }}</p>
+          </div>
+        </div>
+
+        <div class="info-grid-edit" *ngIf="isEditingShipping" style="display: flex; flex-direction: column; gap: 12px; padding-top: 15px;">
+          <div style="display: flex; gap: 12px;">
+            <div style="flex: 1;">
+              <label style="font-size: 11px; font-weight: bold; color: #888; display: block; margin-bottom: 4px;">HỌ VÀ TÊN</label>
+              <input type="text" [(ngModel)]="fullname" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px;" />
+            </div>
+            <div style="flex: 1;">
+              <label style="font-size: 11px; font-weight: bold; color: #888; display: block; margin-bottom: 4px;">SỐ ĐIỆN THOẠI</label>
+              <input type="text" [(ngModel)]="phone" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px;" />
+            </div>
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: bold; color: #888; display: block; margin-bottom: 4px;">EMAIL</label>
+            <input type="email" [(ngModel)]="email" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px;" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: bold; color: #888; display: block; margin-bottom: 4px;">ĐỊA CHỈ GIAO HÀNG</label>
+            <textarea [(ngModel)]="address" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; min-height: 60px; font-family: inherit;"></textarea>
           </div>
         </div>
       </div>
@@ -164,26 +187,21 @@
         <div class="summary-body">
 
           <div class="summary-products">
-            <div class="summary-product">
-              <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/NorwegianWood.jpg" alt="Rừng Na Uy" />
+            <div class="summary-product" *ngFor="let item of cartItems">
+              <img [src]="item.img" [alt]="item.name" />
               <div class="summary-product-info">
-                <div class="summary-product-name">Rừng Na Uy</div>
-                <div class="summary-product-qty">Số lượng: 1</div>
-                <div class="summary-product-price">115.000đ</div>
+                <div class="summary-product-name">{{ item.name }}</div>
+                <div class="summary-product-qty">Số lượng: {{ item.quantity }}</div>
+                <div class="summary-product-price">{{ (item.price * item.quantity) | number:'1.0-0' }}đ</div>
               </div>
             </div>
-            <div class="summary-product">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/How_to_Win_Friends_and_Influence_People.jpg/220px-How_to_Win_Friends_and_Influence_People.jpg" alt="Đắc Nhân Tâm" />
-              <div class="summary-product-info">
-                <div class="summary-product-name">Đắc Nhân Tâm</div>
-                <div class="summary-product-qty">Số lượng: 1</div>
-                <div class="summary-product-price">85.000đ</div>
-              </div>
+            <div *ngIf="cartItems.length === 0" style="padding:15px; text-align:center; color:#888;">
+              Không có sản phẩm nào trong giỏ
             </div>
           </div>
 
           <div class="summary-lines">
-            <div class="summary-line"><span>Tạm tính</span><span>200.000đ</span></div>
+            <div class="summary-line"><span>Tạm tính</span><span>{{ subtotal | number:'1.0-0' }}đ</span></div>
             <div class="summary-line"><span>Phí vận chuyển</span><span>{{ shippingPrice | number:'1.0-0' }}đ</span></div>
             <div class="summary-line"><span>Giảm giá</span><span class="red">-0đ</span></div>
           </div>

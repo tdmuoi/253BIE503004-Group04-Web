@@ -36,7 +36,7 @@
     <div class="flash-wrap">
       <div class="grid-4">
         @for (p of flashSale; track $index) {
-          <article class="card">
+          <a [routerLink]="['/book-detail', p._id]" class="card">
             <div class="card-thumb">
               @if (p.discount) { <span class="badge">{{ p.discount }}</span> }
               <img [src]="p.img" [alt]="p.title" />
@@ -49,7 +49,7 @@
                 @if (p.oldPrice) { <span class="price-old">{{ p.oldPrice }}</span> }
               </div>
             </div>
-          </article>
+          </a>
         }
       </div>
     </div>
@@ -63,14 +63,14 @@
     </div>
     <div class="grid-4">
       @for (p of newBooks; track $index) {
-        <article class="card">
+        <a [routerLink]="['/book-detail', p._id]" class="card">
           <div class="card-thumb"><img [src]="p.img" [alt]="p.title" /></div>
           <div class="card-body">
             <div class="card-title">{{ p.title }}</div>
             <div class="card-author">{{ p.author }}</div>
             <div class="card-price"><span class="price-now">{{ p.price }}</span></div>
           </div>
-        </article>
+        </a>
       }
     </div>
   </section>
@@ -152,14 +152,14 @@
     </div>
     <div class="grid-5">
       @for (p of suggestions; track $index) {
-        <article class="card">
+        <a [routerLink]="['/book-detail', p._id]" class="card">
           <div class="card-thumb"><img [src]="p.img" [alt]="p.title" /></div>
           <div class="card-body">
             <div class="card-title">{{ p.title }}</div>
             <div class="card-author">{{ p.author }}</div>
             <div class="card-price"><span class="price-now">{{ p.price }}</span></div>
           </div>
-        </article>
+        </a>
       }
     </div>
     <div class="center">
