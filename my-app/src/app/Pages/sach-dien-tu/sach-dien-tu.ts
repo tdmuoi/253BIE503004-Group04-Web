@@ -72,12 +72,14 @@ export class SachDienTu implements OnInit, OnDestroy {
   }
 
   private loadBooks(): void {
+    console.log('[SachDienTu] loadBooks started');
     this.bookService.getBooks().subscribe({
       next: (data) => {
+        console.log(`[SachDienTu] Received ${data?.length} books from API`);
         this.books = data.map((b) => {
           // Categorize books logically based on title keywords
           let category = 'Văn học';
-          const title = b.title.toLowerCase();
+          const title = (b.title || '').toLowerCase();
           if (title.includes('manifest') || title.includes('đọc vị') || title.includes('kỹ năng') || title.includes('tâm lý') || title.includes('trì hoãn') || title.includes('kỷ luật') || title.includes('phản biện') || title.includes('chữa lành') || title.includes('đũa') || title.includes('bất hạnh')) {
             category = 'Tâm lý - Kỹ năng sống';
           } else if (title.includes('kinh tế') || title.includes('đầu tư') || title.includes('nvidia') || title.includes('học máy') || title.includes('tài chính') || title.includes('quốc gia')) {
@@ -98,7 +100,7 @@ export class SachDienTu implements OnInit, OnDestroy {
             ageRange = 'tuoi-teen';
           }
 
-          const priceVal = b.price_current || 0;
+          const priceVal = b.price_current || (b as any).price || 0;
           const oldPriceVal = b.price_old;
           const discountVal = b.discount_percent;
 
@@ -120,9 +122,10 @@ export class SachDienTu implements OnInit, OnDestroy {
             isFlashSale: discountVal ? discountVal < 0 : false
           };
         });
+        console.log('[SachDienTu] Mapping completed. Books mapped:', this.books.length);
       },
       error: (err) => {
-        console.error('Lỗi khi tải sách điện tử từ DB:', err);
+        console.error('[SachDienTu] Lỗi khi tải sách điện tử từ DB:', err);
       }
     });
   }
