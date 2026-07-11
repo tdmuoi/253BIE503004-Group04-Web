@@ -213,4 +213,35 @@ export class ThanhLi implements OnInit {
       }
     });
   }
+
+  // Chức năng xem chi tiết yêu cầu thanh lý
+  showDetailsModal = false;
+  selectedLiquidation: any = null;
+
+  viewDetails(reqId: string) {
+    const token = this.authService.getAccessToken();
+    if (!token) {
+      alert('Vui lòng đăng nhập để xem chi tiết.');
+      return;
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any>(`http://localhost:3002/api/liquidations/${reqId}`, { headers }).subscribe({
+      next: (data) => {
+        this.selectedLiquidation = data;
+        this.showDetailsModal = true;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Lỗi khi lấy chi tiết thanh lý:', err);
+        alert('Không thể tải chi tiết yêu cầu thanh lý này.');
+      }
+    });
+  }
+
+  closeDetailsModal() {
+    this.showDetailsModal = false;
+    this.selectedLiquidation = null;
+    this.cdr.detectChanges();
+  }
 }

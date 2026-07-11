@@ -53,4 +53,28 @@ router.get('/my-requests', verifyToken, async (req, res) => {
     }
 });
 
+// Lấy chi tiết 1 yêu cầu thanh lý (kèm đầy đủ hình ảnh)
+router.get('/:id', verifyToken, async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const liquidationId = req.params.id;
+        console.log('[Liquidation GET Detail] ID:', liquidationId, 'cho user:', userId);
+
+        const liquidationCol = Liquidation.collection();
+        const request = await liquidationCol.findOne({
+            _id: new ObjectId(liquidationId),
+            userId: userId.toString()
+        });
+
+        if (!request) {
+            return res.status(404).json({ error: 'Không tìm thấy yêu cầu thanh lý hoặc không có quyền truy cập.' });
+        }
+
+        res.json(request);
+    } catch (err) {
+        console.error('[Liquidation GET Detail] Error:', err);
+        res.status(500).json({ error: 'Lỗi server' });
+    }
+});
+
 module.exports = router;

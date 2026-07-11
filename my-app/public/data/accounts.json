@@ -1,0 +1,34 @@
+[
+  {
+    "id": "6a45cb58f1fc28b0bbfeae15",
+    "username": "User_4321",
+    "email": "0987654321@lightbooks.vn",
+    "phone": "0987654321",
+    "avatar": "https://api.dicebear.com/7.x/adventurer/svg?seed=lightbook_user",
+    "address": ""
+  },
+  {
+    "id": "6a45cd5ef1fc28b0bbfeae16",
+    "username": "Nguy?n Anh Thu",
+    "email": "anthu.ng@gmail.com",
+    "avatar": "https://lh3.googleusercontent.com/a/default-user"
+  },
+  {
+    "id": "6a45cfddb0f6d19d216cb1a6",
+    "username": "Huy Tran canh nhat",
+    "email": "trancanhnhathuyqt2006@gmail.com",
+    "avatar": "https://api.dicebear.com/7.x/identicon/svg?seed=trancanhnhathuyqt2006%40gmail.com"
+  },
+  {
+    "id": "6a45cfefb0f6d19d216cb1a7",
+    "username": "Trần Huy",
+    "email": "trancanhnhathuy@gmail.com",
+    "avatar": "https://api.dicebear.com/7.x/identicon/svg?seed=huy"
+  },
+  {
+    "id": "6a45d4ed520dee5b0fffd31e",
+    "username": "Huy Tran canh nhat",
+    "email": "trancanhnhathuyqt2006@gmail.com",
+    "avatar": "https://api.dicebear.com/7.x/identicon/svg?seed=trancanhnhathuyqt2006%40gmail.com"
+  }
+]

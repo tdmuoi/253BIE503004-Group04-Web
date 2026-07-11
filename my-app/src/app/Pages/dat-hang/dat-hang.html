@@ -306,7 +306,7 @@
 
           <!-- Actions -->
           <div class="modal-actions">
-            <button class="btn-modal-primary" (click)="navigateToSuccess()">
+            <button class="btn-modal-primary" (click)="onConfirmOrder()">
               <span style="display:inline-flex; align-items:center; gap:6px;">
                 Xác nhận đã thanh toán
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -360,7 +360,7 @@
 
       <div class="wallet-actions">
         <a class="btn-wallet-cancel" (click)="closeWalletModal()">Hủy giao dịch</a>
-        <button class="btn-wallet-submit-right" (click)="navigateToSuccess()">
+        <button class="btn-wallet-submit-right" (click)="onConfirmOrder()">
           Xác nhận đã thanh toán
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         </button>

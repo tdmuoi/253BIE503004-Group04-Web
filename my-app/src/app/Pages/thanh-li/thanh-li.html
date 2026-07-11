@@ -43,7 +43,7 @@
               </span>
             </td>
             <td class="action-cell">
-              <a href="javascript:void(0)" class="detail-link">Chi tiết</a>
+              <a href="javascript:void(0)" class="detail-link" (click)="viewDetails(req._id)">Chi tiết</a>
             </td>
           </tr>
           <tr *ngIf="recentRequests.length === 0">
@@ -364,5 +364,72 @@
       </div>
 
     </aside>
+  </div>
+</div>
+
+<!-- ── MODAL: CHI TIẾT YÊU CẦU THANH LÝ ── -->
+<div class="modal-overlay" *ngIf="showDetailsModal && selectedLiquidation" (click)="closeDetailsModal()" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div class="details-modal" (click)="$event.stopPropagation()" style="background: #fff; border-radius: 12px; width: 90%; max-width: 650px; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); font-family: 'Inter', sans-serif;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 12px;">
+      <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #1C3F30;">Chi tiết yêu cầu thanh lý #{{ selectedLiquidation._id | slice:-6 }}</h3>
+      <button (click)="closeDetailsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #888; line-height: 1;">&times;</button>
+    </div>
+    
+    <!-- Thông tin chung -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; background: #F8FAF9; padding: 15px; border-radius: 8px; border: 1px solid #EAEFEF;">
+      <div>
+        <strong style="display: block; font-size: 11px; color: #6E8478; margin-bottom: 4px; letter-spacing: 0.5px;">TRẠNG THÁI</strong>
+        <span style="font-weight: 600; padding: 4px 8px; border-radius: 4px; font-size: 12px; display: inline-block;" 
+              [class]="selectedLiquidation.status"
+              [style.background-color]="selectedLiquidation.status === 'approved' ? '#E8F5E9' : selectedLiquidation.status === 'rejected' ? '#FFEBEE' : '#FFF3E0'"
+              [style.color]="selectedLiquidation.status === 'approved' ? '#2E7D32' : selectedLiquidation.status === 'rejected' ? '#C62828' : '#EF6C00'">
+          {{ selectedLiquidation.status === 'approved' ? 'Đã duyệt' : selectedLiquidation.status === 'rejected' ? 'Từ chối' : 'Đang chờ' }}
+        </span>
+      </div>
+      <div>
+        <strong style="display: block; font-size: 11px; color: #6E8478; margin-bottom: 4px; letter-spacing: 0.5px;">NGÀY GỬI YÊU CẦU</strong>
+        <span style="font-size: 13px; color: #2C3E35; font-weight: 500;">{{ selectedLiquidation.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+    </div>
+    
+    <!-- Người gửi -->
+    <div style="margin-bottom: 20px;">
+      <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #1C3F30; border-left: 3px solid #1C3F30; padding-left: 8px;">Thông tin người thanh lý</h4>
+      <div style="padding-left: 11px; line-height: 1.6; font-size: 13px; color: #2C3E35;">
+        <p style="margin: 4px 0;"><strong>Họ tên:</strong> {{ selectedLiquidation.fullname }}</p>
+        <p style="margin: 4px 0;"><strong>Số điện thoại:</strong> {{ selectedLiquidation.phone }}</p>
+        <p style="margin: 4px 0;"><strong>Email:</strong> {{ selectedLiquidation.email }}</p>
+        <p style="margin: 4px 0;"><strong>Địa chỉ thu gom:</strong> {{ selectedLiquidation.address }}</p>
+      </div>
+    </div>
+
+    <!-- Vận chuyển -->
+    <div style="margin-bottom: 20px;">
+      <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600; color: #1C3F30; border-left: 3px solid #1C3F30; padding-left: 8px;">Phương thức vận chuyển</h4>
+      <span style="font-size: 13px; padding-left: 11px; display: block; color: #2C3E35;">
+        {{ selectedLiquidation.shippingMethod === 'postoffice' ? 'Gửi qua bưu điện (Bạn tự gửi sách đến kho)' : 'Người thanh lý tự vận chuyển (Đến cửa hàng Lightbooks)' }}
+      </span>
+    </div>
+    
+    <!-- Danh sách sản phẩm thanh lý -->
+    <div style="margin-bottom: 10px;">
+      <h4 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #1C3F30; border-left: 3px solid #1C3F30; padding-left: 8px;">Sách yêu cầu thanh lý ({{ selectedLiquidation.books?.length || 0 }})</h4>
+      <div style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+        <div *ngFor="let book of selectedLiquidation.books" style="display: flex; gap: 15px; margin-bottom: 12px; padding: 12px; border: 1px solid #EAEFEF; border-radius: 8px; background: #FAFCFC; align-items: center;">
+          <!-- Ảnh thực tế nếu có -->
+          <div style="width: 70px; height: 90px; background: #eceff1; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid #e0e0e0; flex-shrink: 0;">
+            <img *ngIf="book.image" [src]="book.image" style="width: 100%; height: 100%; object-fit: cover;" alt="Book Cover" />
+            <span *ngIf="!book.image" style="font-size: 10px; color: #b0bec5; text-align: center; padding: 2px;">Không có ảnh</span>
+          </div>
+          <!-- Chi tiết sách -->
+          <div style="flex-grow: 1;">
+            <h5 style="margin: 0 0 4px 0; font-size: 14px; font-weight: 600; color: #1C3F30;">{{ book.title }}</h5>
+            <p style="margin: 2px 0; font-size: 12px; color: #6E8478;"><strong>Tác giả:</strong> {{ book.author }}</p>
+            <p style="margin: 2px 0; font-size: 12px; color: #6E8478;"><strong>Thể loại:</strong> {{ book.category }}</p>
+            <p style="margin: 2px 0; font-size: 12px; color: #6E8478;"><strong>Tình trạng:</strong> {{ book.condition }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

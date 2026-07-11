@@ -30,12 +30,8 @@ export class BooksDetailComponent implements OnInit {
   showToast: boolean = false;
 
   // Similar books from Fahasa reference
-  suggestedBooks = [
-    { title: 'Chúc mừng sinh nhật cậu', price: '116.000', oldPrice: '145.000', discount: '-20%', img: 'https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-59.png?v=1781174581793', author: 'Guido Van Genechten' },
-    { title: 'Combo Hũ Cảm Xúc Và Hũ Tình Bạn', price: '142.400', oldPrice: '178.000', discount: '-20%', img: 'https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-58.png?v=1781174295570', author: 'Deborah Marcero' },
-    { title: 'Hũ tình bạn', price: '71.200', oldPrice: '89.000', discount: '-20%', img: 'https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-57.png?v=1781173330663', author: 'Deborah Marcero' },
-    { title: 'Phát triển EQ - Rèn nội lực vững vàng', price: '111.200', oldPrice: '139.000', discount: '-20%', img: 'https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-45.png?v=1781171532970', author: 'Viện nghiên cứu độc giả' }
-  ];
+  // Similar books from Fahasa reference
+  suggestedBooks: any[] = [];
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -63,14 +59,41 @@ export class BooksDetailComponent implements OnInit {
         };
         this.currentImage = this.book.image;
         this.loading = false;
+        this.loadSuggestions();
       }
+    });
+  }
+
+  loadSuggestions() {
+    this.bookService.getBooks().subscribe({
+      next: (books) => {
+        // Lọc cuốn sách hiện tại ra khỏi danh sách gợi ý
+        const currentId = this.book?._id || this.book?.id;
+        const filtered = books.filter(b => b._id !== currentId && b.id !== currentId);
+        
+        // Trộn ngẫu nhiên (hoặc chỉ lấy 4 cuốn đầu tiên)
+        const shuffled = [...filtered].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 4);
+        
+        this.suggestedBooks = selected.map(b => ({
+          _id: b._id || b.id || '',
+          title: b.title,
+          author: b.author,
+          price: b.price_current ? b.price_current.toLocaleString('vi-VN') : '0',
+          oldPrice: b.price_old ? b.price_old.toLocaleString('vi-VN') + ' đ' : null,
+          discount: b.discount_percent ? `-${b.discount_percent}%` : null,
+          img: b.image || 'https://bizweb.dktcdn.net/thumb/large/100/363/455/products/bia-sach-web-59.png?v=1781174581793'
+        }));
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Lỗi khi tải sách gợi ý:', err)
     });
   }
 
   fetchBook(id: string) {
     console.log(`[BooksDetail] fetchBook called with id: "${id}"`);
     this.loading = true;
-
+ 
     // Thử lấy từ /api/books trước, nếu lỗi thì thử /api/products
     this.bookService.getBookById(id).subscribe({
       next: (data) => {
@@ -88,7 +111,7 @@ export class BooksDetailComponent implements OnInit {
       }
     });
   }
-
+ 
   fetchFromProducts(id: string) {
     this.http.get<any>(`http://localhost:3002/api/products/${id}`).subscribe({
       next: (data) => {
@@ -110,7 +133,7 @@ export class BooksDetailComponent implements OnInit {
       }
     });
   }
-
+ 
   setBook(data: any) {
     this.book = data;
     if (!this.book.price_current && this.book.price) {
@@ -119,6 +142,7 @@ export class BooksDetailComponent implements OnInit {
     this.currentImage = data.image || data.url || 'https://via.placeholder.com/400x500?text=No+Image';
     this.loading = false;
     console.log(`[BooksDetail] Book loaded:`, this.book.title);
+    this.loadSuggestions();
     this.cdr.detectChanges();
   }
 

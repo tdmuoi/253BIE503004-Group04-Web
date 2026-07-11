@@ -194,7 +194,7 @@
       <h3 class="section-title text-center">Gợi ý cho bạn</h3>
       <div class="grid-4">
         @for (p of suggestedBooks; track $index) {
-          <article class="card">
+          <article class="card" [routerLink]="['/book-detail', p._id]" style="cursor: pointer;">
             <div class="card-thumb">
               @if (p.discount) { <span class="badge">{{ p.discount }}</span> }
               <img [src]="p.img" [alt]="p.title" />
