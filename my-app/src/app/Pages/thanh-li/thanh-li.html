@@ -22,7 +22,8 @@
       <table class="history-table">
         <thead>
           <tr>
-            <th>TÊN SÁCH</th>
+            <th>MÃ YÊU CẦU</th>
+            <th>SÁCH ĐÃ GỬI</th>
             <th>NGÀY GỬI</th>
             <th>TRẠNG THÁI</th>
             <th>HÀNH ĐỘNG</th>
@@ -30,19 +31,23 @@
         </thead>
         <tbody>
           <tr *ngFor="let req of recentRequests">
+            <td class="date-cell">#{{ req._id | slice:-6 }}</td>
             <td class="book-cell">
-              <span class="book-name">{{ req.title }}</span>
-              <span class="book-author">{{ req.author }}</span>
+              <span class="book-name">{{ req.books?.[0]?.title }} {{ req.books?.length > 1 ? '(+' + (req.books.length - 1) + ')' : '' }}</span>
+              <span class="book-author">{{ req.books?.[0]?.author }}</span>
             </td>
-            <td class="date-cell">{{ req.date }}</td>
+            <td class="date-cell">{{ req.createdAt | date:'dd/MM/yyyy' }}</td>
             <td class="status-cell">
               <span class="status-badge" [class]="req.status">
-                {{ req.statusLabel }}
+                {{ req.status === 'approved' ? 'Đã duyệt' : (req.status === 'rejected' ? 'Từ chối' : 'Đang chờ') }}
               </span>
             </td>
             <td class="action-cell">
               <a href="javascript:void(0)" class="detail-link">Chi tiết</a>
             </td>
+          </tr>
+          <tr *ngIf="recentRequests.length === 0">
+            <td colspan="5" style="text-align: center; padding: 2rem; color: #93A69E;">Chưa có yêu cầu thanh lý nào.</td>
           </tr>
         </tbody>
       </table>
@@ -212,6 +217,20 @@
                 {{ uploadedImageName() || 'Kéo thả ảnh vào đây hoặc nhấp để tải lên' }}
               </p>
             </div>
+          </div>
+
+          <!-- Added Books List -->
+          <div class="added-books-list" *ngIf="addedBooks.length > 0" style="margin-top: 1rem; border-top: 1px dashed #E3EAE6; padding-top: 1rem;">
+            <h4 style="font-size: 0.95rem; color: #0E3D2D; margin-bottom: 0.5rem;">Sách đã thêm ({{addedBooks.length}})</h4>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+              <li *ngFor="let book of addedBooks; let i = index" style="background: #F4F6F5; padding: 0.75rem 1rem; border-radius: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <strong>{{ book.title }}</strong> - {{ book.author }}
+                  <div style="font-size: 0.8rem; color: #5A6D65;">{{ book.category }} | {{ book.condition }}</div>
+                </div>
+                <span class="material-symbols-rounded" style="color: #0E3D2D;">check_circle</span>
+              </li>
+            </ul>
           </div>
 
           <!-- Add Another Book Link -->

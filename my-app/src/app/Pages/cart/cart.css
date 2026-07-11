@@ -297,3 +297,23 @@
   .right-col { width: 100%; }
   .form-row { flex-direction: column; }
 }
+
+/* Clickable product image and name links */
+.product-img-link {
+  display: block;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+.product-img-link:hover { opacity: 0.85; }
+
+.product-name-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.product-name-link:hover .product-name {
+  color: #1a6b3a;
+  text-decoration: underline;
+}

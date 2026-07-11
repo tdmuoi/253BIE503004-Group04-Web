@@ -7,7 +7,7 @@
 }
 
 .personal-page-container {
-  max-width: 1140px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem 1.5rem;
   box-sizing: border-box;
@@ -333,10 +333,11 @@
 
 .transaction-row {
   display: grid;
-  grid-template-columns: 120px 140px 1fr 140px 120px;
+  grid-template-columns: 210px 140px 1fr 140px 120px;
   align-items: center;
   padding: 1.8rem 0;
   border-bottom: 1px solid #EDF2F0;
+  gap: 1rem;
 }
 
 .tx-cell {
@@ -415,9 +416,10 @@
 /* Header Columns underneath (matching style layout) */
 .table-column-headers {
   display: grid;
-  grid-template-columns: 120px 140px 1fr 140px 120px;
+  grid-template-columns: 210px 140px 1fr 140px 120px;
   padding: 1.5rem 0;
   border-bottom: 1px solid #EDF2F0;
+  gap: 1rem;
 }
 
 .header-cell {

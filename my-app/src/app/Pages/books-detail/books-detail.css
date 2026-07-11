@@ -497,3 +497,26 @@
 .card-price { display: flex; align-items: baseline; gap: 6px; }
 .price-now { font-size: 14px; font-weight: 800; color: #0E3D2D; }
 .price-old { font-size: 11px; color: #bbb; text-decoration: line-through; }
+
+/* Toast Notification */
+.cart-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1a3a1e;
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 32px;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  z-index: 9999;
+  animation: toast-in 0.3s ease;
+  white-space: nowrap;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

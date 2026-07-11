@@ -32,8 +32,10 @@
           class="lb-header__search-input"
           placeholder="Tìm kiếm sách bạn yêu thích..."
           aria-label="Tìm kiếm sách"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
         />
-        <button class="lb-header__search-btn" aria-label="Tìm kiếm">
+        <button class="lb-header__search-btn" aria-label="Tìm kiếm" (click)="onSearch()">
           <img src="assets/icon/ic_find.png" alt="Tìm kiếm" />
         </button>
       </div>

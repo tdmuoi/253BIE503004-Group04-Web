@@ -6,9 +6,18 @@ const init = (database) => { db = database; };
 const collection = () => db.collection('orders');
 
 const createOrder = async (userId, orderData) => {
+    let userObjectId = null;
+    if (userId) {
+        // Nếu đã là ObjectId thì dùng trực tiếp, nếu là string thì convert
+        try {
+            userObjectId = userId instanceof ObjectId ? userId : new ObjectId(userId.toString());
+        } catch (_) {
+            userObjectId = null;
+        }
+    }
     const newOrder = {
         ...orderData,
-        userId: userId ? new ObjectId(userId) : null,
+        userId: userObjectId,
         createdAt: new Date(),
         updatedAt: new Date()
     };

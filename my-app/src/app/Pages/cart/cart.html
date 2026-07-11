@@ -33,10 +33,14 @@
 
         <!-- Iteration of products -->
         <div class="product-item" *ngFor="let item of products; let i = index">
-          <img class="product-img" [src]="item.img" [alt]="item.name" />
+          <a [routerLink]="item._id ? ['/book-detail', item._id] : null" class="product-img-link">
+            <img class="product-img" [src]="item.img" [alt]="item.name" />
+          </a>
           
           <div class="product-info">
-            <div class="product-name">{{ item.name }}</div>
+            <a [routerLink]="item._id ? ['/book-detail', item._id] : null" class="product-name-link">
+              <div class="product-name">{{ item.name }}</div>
+            </a>
             <div class="product-author">{{ item.author }}</div>
             <div class="product-badges">
               <span class="badge-new">MỚI</span>
@@ -116,7 +120,7 @@
           </div>
         </div>
 
-        <button class="btn-order" (click)="onCheckout()">ĐẶT HÀNG</button>
+        <button class="btn-order" (click)="onCheckout()">THANH TOÁN</button>
 
         <div class="terms-notice">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon" style="margin-top:2px;">

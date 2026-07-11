@@ -66,19 +66,18 @@ export class OrderManagementComponent implements OnInit {
   }
 
   loadOrders() {
-    const currentUser = this.authService.currentUser();
-    let url = 'http://localhost:3002/api/orders';
-    if (currentUser) {
-      if (currentUser.id) {
-        url += `?user_id=${currentUser.id}`;
-      } else if (currentUser.email) {
-        url += `?email=${currentUser.email}`;
-      }
+    const token = this.authService.getAccessToken();
+    if (!token) {
+      console.warn('Chưa đăng nhập, không thể tải đơn hàng.');
+      return;
     }
 
-    this.http.get<Order[]>(url).subscribe({
-      next: (res) => {
-        this.orders = res;
+    this.http.get<{orders: Order[]} | Order[]>(`http://localhost:3002/api/orders?t=${Date.now()}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: (res: any) => {
+        // Backend trả về { orders: [...] } hoặc [...]
+        this.orders = Array.isArray(res) ? res : (res.orders || []);
       },
       error: (err) => {
         console.error('Lỗi khi tải danh sách đơn hàng:', err);
@@ -131,10 +130,12 @@ export class OrderManagementComponent implements OnInit {
       this.selectedOrder = order;
       this.showDetailsModal = true;
     } else {
-      // Fetch details from API
-      this.http.get<Order>(`http://localhost:3002/api/orders/${id}`).subscribe({
-        next: (res) => {
-          this.selectedOrder = res;
+      const token = this.authService.getAccessToken();
+      this.http.get<{order: Order}>(`http://localhost:3002/api/orders/${id}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      }).subscribe({
+        next: (res: any) => {
+          this.selectedOrder = res.order || res;
           this.showDetailsModal = true;
         },
         error: (err) => {

@@ -88,8 +88,8 @@
           </div>
         </div>
         
-        <div class="flash-wrap">
-          <div class="grid-5">
+        <div class="flash-wrap" *ngIf="!isLoading">
+          <div class="grid-5" *ngIf="getFlashSaleBooks().length > 0">
             <a [routerLink]="['/book-detail', p._id]" class="card flash-card" *ngFor="let p of getFlashSaleBooks(); let idx = index" [class.popover-left]="idx % 5 >= 3">
               <div class="card-thumb">
                 <span class="flash-badge">{{ p.priceStr }} <i class="bi bi-lightning-fill"></i></span>
@@ -142,31 +142,40 @@
           </div>
         </div>
         
-        <!-- Grid sách tuyển tập gợi ý: 5 cuốn trên 1 hàng (Không còn hiệu ứng hover popover) -->
-        <div class="grid-5" *ngIf="getFilteredBooks().length > 0; else noBooks">
-          <a [routerLink]="['/book-detail', p._id]" class="card catalog-card" *ngFor="let p of getFilteredBooks()">
-            <div class="card-thumb">
-              <span class="badge" *ngIf="p.discount">{{ p.discount }}</span>
-              <img [src]="p.img" [alt]="p.title" />
-            </div>
-            <div class="card-body">
-              <div class="card-title">{{ p.title }}</div>
-              <div class="card-author">{{ p.author }}</div>
-              <div class="card-price">
-                <span class="price-now">{{ p.priceStr }}</span>
-                <span class="price-old" *ngIf="p.oldPrice">{{ p.oldPrice }}</span>
-              </div>
-            </div>
-          </a>
-        </div>
-        
-        <!-- Template hiển thị khi không có kết quả phù hợp -->
-        <ng-template #noBooks>
-          <div class="no-books-container">
-            <i class="bi bi-journal-x no-books-icon"></i>
-            <p class="no-books-text">Không tìm thấy sách điện tử phù hợp với bộ lọc của bạn.</p>
-            <button class="btn-reset" (click)="resetFilters()">Đặt lại bộ lọc</button>
+        <ng-container *ngIf="isLoading; else loadedContent">
+          <!-- Có thể thêm skeleton loading ở đây nếu muốn -->
+          <div style="text-align: center; padding: 4rem 2rem; color: #647a70;">
+            Đang tải dữ liệu...
           </div>
+        </ng-container>
+
+        <ng-template #loadedContent>
+          <!-- Grid sách tuyển tập gợi ý: 5 cuốn trên 1 hàng (Không còn hiệu ứng hover popover) -->
+          <div class="grid-5" *ngIf="getFilteredBooks().length > 0; else noBooks">
+            <a [routerLink]="['/book-detail', p._id]" class="card catalog-card" *ngFor="let p of getFilteredBooks()">
+              <div class="card-thumb">
+                <span class="badge" *ngIf="p.discount">{{ p.discount }}</span>
+                <img [src]="p.img" [alt]="p.title" />
+              </div>
+              <div class="card-body">
+                <div class="card-title">{{ p.title }}</div>
+                <div class="card-author">{{ p.author }}</div>
+                <div class="card-price">
+                  <span class="price-now">{{ p.priceStr }}</span>
+                  <span class="price-old" *ngIf="p.oldPrice">{{ p.oldPrice }}</span>
+                </div>
+              </div>
+            </a>
+          </div>
+          
+          <!-- Template hiển thị khi không có kết quả phù hợp -->
+          <ng-template #noBooks>
+            <div class="no-books-container">
+              <i class="bi bi-journal-x no-books-icon"></i>
+              <p class="no-books-text">Không tìm thấy sách điện tử phù hợp với bộ lọc của bạn.</p>
+              <button class="btn-reset" (click)="resetFilters()">Đặt lại bộ lọc</button>
+            </div>
+          </ng-template>
         </ng-template>
       </section>
 

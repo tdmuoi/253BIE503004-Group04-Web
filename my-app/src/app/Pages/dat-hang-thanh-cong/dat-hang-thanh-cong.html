@@ -49,7 +49,7 @@
   <div class="info-cards">
     <div class="info-card">
       <div class="info-card-label">Mã đơn hàng</div>
-      <div class="info-card-value">#1902</div>
+      <div class="info-card-value" style="font-size: 1.1rem; word-break: break-all;">{{ orderId || 'Đang cập nhật...' }}</div>
     </div>
     <div class="info-card">
       <div class="info-card-label">Dự kiến giao hàng</div>
@@ -58,7 +58,7 @@
           <rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/>
           <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
         </svg>
-        Thứ Năm, 24/10
+        {{ deliveryDate }}
       </div>
     </div>
   </div>

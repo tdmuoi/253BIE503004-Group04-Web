@@ -78,7 +78,39 @@ export class DatHang implements OnInit {
       }
     }
 
-    // 2. Load cart items from localStorage
+    // 2. Load cart items - luôn đọc localStorage trước
+    this.loadCartFromLocalStorage();
+
+    const user = this.authService.currentUser();
+    if (user) {
+      // Thử đồng bộ từ server, chỉ dùng nếu server có dữ liệu
+      this.http.get<{items: any[]}>('http://localhost:3002/api/carts', {
+        headers: { Authorization: `Bearer ${this.authService.getAccessToken()}` }
+      }).subscribe({
+        next: (res) => {
+          if (res.items && res.items.length > 0) {
+            // Server có dữ liệu → dùng server (ưu tiên hơn localStorage)
+            this.cartItems = res.items.map(item => ({
+              name: item.title || item.name || '',
+              author: item.author || '',
+              price: item.price || 0,
+              quantity: item.qty || item.quantity || 1,
+              img: item.image || item.img || '',
+              _id: item._id || null
+            }));
+            this.subtotal = this.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+          }
+          // Nếu server rỗng → giữ nguyên dữ liệu localStorage đã load
+        },
+        error: (err) => {
+          // Nếu lỗi API → giữ nguyên localStorage
+          console.error('Lỗi khi lấy giỏ hàng từ server (sẽ dùng localStorage):', err);
+        }
+      });
+    }
+  }
+
+  loadCartFromLocalStorage() {
     const rawCart = localStorage.getItem('cart_items');
     if (rawCart) {
       try {
@@ -130,7 +162,7 @@ export class DatHang implements OnInit {
     }));
 
     const orderData = {
-      user_id: user ? user.id : null,
+      user_id: user ? (user.id || (user as any)._id || null) : null,
       fullname: this.fullname,
       phone: this.phone,
       email: this.email,
@@ -146,7 +178,7 @@ export class DatHang implements OnInit {
 
     // Post to backend database
     this.http.post('http://localhost:3002/api/orders', orderData).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         console.log('Đặt hàng thành công:', res);
         // Clear cart
         localStorage.removeItem('cart_items');
@@ -154,7 +186,7 @@ export class DatHang implements OnInit {
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new Event('cart:updated'));
         }
-        this.navigateToSuccess();
+        this.navigateToSuccess(res._id || res.id);
       },
       error: (err) => {
         console.error('Lỗi khi đặt hàng:', err);
@@ -171,10 +203,10 @@ export class DatHang implements OnInit {
     this.showWalletModal = false;
   }
 
-  navigateToSuccess() {
+  navigateToSuccess(orderId?: string) {
     this.showTransferModal = false;
     this.showWalletModal = false;
-    void this.router.navigate(['/dat-hang-thanh-cong']);
+    void this.router.navigate(['/dat-hang-thanh-cong'], { queryParams: { orderId } });
   }
 
   copyToClipboard(text: string, label: string) {

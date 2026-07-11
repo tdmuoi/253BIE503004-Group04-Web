@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 export interface User {
   id?: string;
   username: string;
+  name?: string;
   email?: string;
   phone?: string;
   avatar: string;
@@ -34,22 +35,51 @@ export class AuthService {
     const cachedUser = localStorage.getItem('lightbooks_user');
     if (cachedUser) {
       try {
-        this.currentUser.set(JSON.parse(cachedUser));
+        const raw = JSON.parse(cachedUser);
+        // Tương thích ngược: nếu user cũ lưu _id thay vì id, hoặc lưu cả object response
+        const actualUser = raw.user || raw; // trường hợp cũ lưu cả { token, user: {...} }
+        const userObj: User = {
+          ...actualUser,
+          id: actualUser.id || actualUser._id?.toString(),
+        };
+        this.currentUser.set(userObj);
       } catch {
         this.clearSession();
       }
     }
 
     // Refresh user session from API in the background if token exists
-    if (this.getAccessToken()) {
+    const token = this.getAccessToken();
+    if (token) {
       this.loadUserProfile().subscribe({
-        error: () => console.log('Không thể phân giải thông tin từ AccessToken (hết hạn hoặc không hợp lệ).')
+        error: () => {
+          console.log('Không thể phân giải thông tin từ AccessToken (hết hạn hoặc không hợp lệ).');
+          this.clearSession();
+        }
       });
+    } else if (cachedUser) {
+      console.warn('Stale session without token detected. Clearing session.');
+      this.clearSession();
     }
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
+    if (token) return token;
+
+    // Fallback to lightbooks_user cache
+    const cachedUser = localStorage.getItem('lightbooks_user');
+    if (cachedUser) {
+      try {
+        const raw = JSON.parse(cachedUser);
+        const fbToken = raw.token || raw.accessToken || (raw.user && (raw.user.token || raw.user.accessToken));
+        if (fbToken) {
+          localStorage.setItem('accessToken', fbToken);
+          return fbToken;
+        }
+      } catch (_) {}
+    }
+    return null;
   }
 
   getRefreshToken(): string | null {
@@ -86,11 +116,17 @@ export class AuthService {
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
-    return this.http.get<User>('http://localhost:3002/api/me', { headers, withCredentials: true }).pipe(
+    return this.http.get<any>('http://localhost:3002/api/me', { headers, withCredentials: true }).pipe(
       tap({
-        next: (user) => {
-          this.currentUser.set(user);
-          localStorage.setItem('lightbooks_user', JSON.stringify(user));
+        next: (rawUser: any) => {
+          // /api/me trả về { id, username, ... } (đã có id từ server)
+          // Nhưng để chắc chắn, fallback _id → id
+          const userObj: User = {
+            ...rawUser,
+            id: rawUser.id || rawUser._id?.toString(),
+          };
+          this.currentUser.set(userObj);
+          localStorage.setItem('lightbooks_user', JSON.stringify(userObj));
         },
         error: () => {
           this.clearSession();
@@ -100,13 +136,21 @@ export class AuthService {
   }
 
   // Real backend login
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(this.loginUrl, { email, password }).pipe(
-      tap(user => {
-        this.currentUser.set(user);
-        this.saveTokens(user);
-        localStorage.setItem('lightbooks_user', JSON.stringify(user));
-        localStorage.setItem('lightbook_user', JSON.stringify(user));
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(this.loginUrl, { email, password }).pipe(
+      tap((res: any) => {
+        // Server trả về { message, token, user: { _id, username, ... } }
+        const rawUser = res.user || res;
+        const userObj: User = {
+          ...rawUser,
+          id: rawUser.id || rawUser._id?.toString(),
+        };
+        this.currentUser.set(userObj);
+        // Lưu token: server có thể trả trong res.token hoặc res.accessToken
+        const tokenRes = { accessToken: res.token || res.accessToken, refreshToken: res.refreshToken };
+        this.saveTokens(tokenRes);
+        localStorage.setItem('lightbooks_user', JSON.stringify(userObj));
+        localStorage.setItem('lightbook_user', JSON.stringify(userObj));
         
         // Dispatch event so that page-header and other components update immediately
         if (typeof window !== 'undefined') {
@@ -117,13 +161,19 @@ export class AuthService {
   }
 
   // Real backend register
-  register(phone: string, password: string, otpCode: string): Observable<User> {
-    return this.http.post<User>(this.registerUrl, { phone, password, otpCode }).pipe(
-      tap(user => {
-        this.currentUser.set(user);
-        this.saveTokens(user);
-        localStorage.setItem('lightbooks_user', JSON.stringify(user));
-        localStorage.setItem('lightbook_user', JSON.stringify(user));
+  register(phone: string, password: string, otpCode: string): Observable<any> {
+    return this.http.post<any>(this.registerUrl, { phone, password, otpCode }).pipe(
+      tap((res: any) => {
+        const rawUser = res.user || res;
+        const userObj: User = {
+          ...rawUser,
+          id: rawUser.id || rawUser._id?.toString(),
+        };
+        this.currentUser.set(userObj);
+        const tokenRes = { accessToken: res.token || res.accessToken, refreshToken: res.refreshToken };
+        this.saveTokens(tokenRes);
+        localStorage.setItem('lightbooks_user', JSON.stringify(userObj));
+        localStorage.setItem('lightbook_user', JSON.stringify(userObj));
         
         // Dispatch event
         if (typeof window !== 'undefined') {
@@ -134,13 +184,19 @@ export class AuthService {
   }
 
   // Real backend social login/register
-  loginSocial(provider: string, email: string, name: string, avatar: string): Observable<User> {
-    return this.http.post<User>(this.socialUrl, { provider, email, name, avatar }).pipe(
-      tap(user => {
-        this.currentUser.set(user);
-        this.saveTokens(user);
-        localStorage.setItem('lightbooks_user', JSON.stringify(user));
-        localStorage.setItem('lightbook_user', JSON.stringify(user));
+  loginSocial(provider: string, email: string, name: string, avatar: string): Observable<any> {
+    return this.http.post<any>(this.socialUrl, { provider, email, name, avatar }).pipe(
+      tap((res: any) => {
+        const rawUser = res.user || res;
+        const userObj: User = {
+          ...rawUser,
+          id: rawUser.id || rawUser._id?.toString(),
+        };
+        this.currentUser.set(userObj);
+        const tokenRes = { accessToken: res.token || res.accessToken, refreshToken: res.refreshToken };
+        this.saveTokens(tokenRes);
+        localStorage.setItem('lightbooks_user', JSON.stringify(userObj));
+        localStorage.setItem('lightbook_user', JSON.stringify(userObj));
         
         // Dispatch event
         if (typeof window !== 'undefined') {

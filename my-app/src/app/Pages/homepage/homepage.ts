@@ -92,7 +92,7 @@ export class Homepage implements OnInit, OnDestroy {
       next: (books) => {
         console.log('API returned books length:', books.length);
         const mappedProducts: Product[] = books.map(book => ({
-          _id: book._id,
+          _id: book._id ? String(book._id) : String((book as any).id || ''),
           title: book.title,
           author: book.author,
           img: book.image || book.url || '',

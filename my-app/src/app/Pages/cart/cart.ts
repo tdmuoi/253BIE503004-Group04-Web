@@ -1,8 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 interface CartItem {
   name: string;
@@ -16,13 +17,14 @@ interface CartItem {
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })
 export class Cart implements OnInit {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly http = inject(HttpClient);
 
   products: CartItem[] = [];
   shippingPrice: number = 30000;
@@ -42,7 +44,68 @@ export class Cart implements OnInit {
   }
 
   ngOnInit() {
-    // 1. Load cart items from localStorage
+    // Prefill delivery info from logged-in user if available
+    const user = this.authService.currentUser();
+    if (user) {
+      this.fullname = user.username || '';
+      this.email = user.email || '';
+      this.phone = user.phone || '';
+      this.address = user.address || '';
+    }
+
+    this.loadCart();
+  }
+
+  loadCart() {
+    // Luôn load từ localStorage trước để hiển thị ngay lập tức
+    this.loadFromLocalStorage();
+
+    const user = this.authService.currentUser();
+    if (user) {
+      // Sau đó thử đồng bộ từ server (chỉ dùng nếu server có dữ liệu)
+      this.http.get<{items: any[]}>('http://localhost:3002/api/carts', {
+        headers: { Authorization: `Bearer ${this.authService.getAccessToken()}` }
+      }).subscribe({
+        next: (res) => {
+          if (res.items && res.items.length > 0) {
+            // Server có dữ liệu → dùng server (ưu tiên)
+            this.products = res.items.map(item => ({
+              name: item.title || item.name,
+              author: item.author || '',
+              price: item.price || 0,
+              quantity: item.qty || item.quantity || 1,
+              img: item.image || item.img || '',
+              _id: item._id || null
+            }));
+            // Đồng bộ lại localStorage
+            this.syncLocalStorage();
+          } else if (this.products.length > 0) {
+            // Server rỗng nhưng localStorage có data → đồng bộ localStorage lên server
+            const toSave = this.products.map(p => ({
+              title: p.name,
+              author: p.author,
+              price: p.price,
+              quantity: p.quantity,
+              image: p.img,
+              _id: p._id
+            }));
+            this.http.post('http://localhost:3002/api/carts', { items: toSave }, {
+              headers: { Authorization: `Bearer ${this.authService.getAccessToken()}` }
+            }).subscribe({
+              next: () => console.log('Đã đồng bộ localStorage lên server'),
+              error: (err) => console.error('Lỗi đồng bộ:', err)
+            });
+          }
+        },
+        error: (err) => {
+          // Nếu API lỗi, giữ nguyên localStorage đã load
+          console.error('Lỗi khi tải giỏ hàng từ server (sẽ dùng localStorage):', err);
+        }
+      });
+    }
+  }
+
+  loadFromLocalStorage() {
     const rawCart = localStorage.getItem('cart_items');
     if (rawCart) {
       try {
@@ -61,19 +124,9 @@ export class Cart implements OnInit {
         console.error('Lỗi khi đọc giỏ hàng từ localStorage:', e);
       }
     }
-
-    // 2. Prefill delivery info from logged-in user if available
-    const user = this.authService.currentUser();
-    if (user) {
-      this.fullname = user.username || '';
-      this.email = user.email || '';
-      this.phone = user.phone || '';
-      this.address = user.address || '';
-    }
   }
 
-  saveCart() {
-    // Map items to standard format to save back
+  syncLocalStorage() {
     const toSave = this.products.map(p => ({
       title: p.name,
       name: p.name,
@@ -86,10 +139,30 @@ export class Cart implements OnInit {
       _id: p._id
     }));
     localStorage.setItem('cart_items', JSON.stringify(toSave));
-    
-    // Dispatch cart:updated event to notify the page header
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new Event('cart:updated'));
+    }
+  }
+
+  saveCart() {
+    this.syncLocalStorage();
+    const user = this.authService.currentUser();
+    if (user) {
+      // Sync to backend if logged in
+      const toSave = this.products.map(p => ({
+        title: p.name,
+        author: p.author,
+        price: p.price,
+        quantity: p.quantity,
+        image: p.img,
+        _id: p._id
+      }));
+      this.http.post('http://localhost:3002/api/carts', { items: toSave }, {
+        headers: { Authorization: `Bearer ${this.authService.getAccessToken()}` }
+      }).subscribe({
+        next: () => console.log('Đã đồng bộ giỏ hàng lên server'),
+        error: (err) => console.error('Lỗi khi đồng bộ giỏ hàng:', err)
+      });
     }
   }
 

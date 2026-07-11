@@ -25,7 +25,8 @@ app.use(cors({
     },
     credentials: true
 }));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Setup mock socket.io helper to prevent controller crashes if socket.io is not installed
 app.set('io', {
@@ -65,6 +66,10 @@ async function startServer() {
             // Index may not exist or is already dropped
         }
         
+        // Import models to initialize
+const PersonalBook = require('./models/PersonalBook');
+const Liquidation = require('./models/Liquidation');
+        
         // Initialize all model DB instances
         User.init(db);
         Otp.init(db);
@@ -76,6 +81,11 @@ async function startServer() {
         Contact.init(db);
         Promotion.init(db);
         Review.init(db);
+        PersonalBook.init(db);
+        Liquidation.init(db);
+
+        // Expose db to all routes via app.locals
+        app.locals.db = db;
 
         // Load Routes
         const authRoutes = require('./routes/authRoutes');
@@ -87,6 +97,8 @@ async function startServer() {
         const cartRoutes = require('./routes/cartRoutes');
         const agencyRoutes = require('./routes/agencyRoutes');
         const adminRoutes = require('./routes/adminRoutes');
+        const personalBookRoutes = require('./routes/personalBookRoutes');
+        const liquidationRoutes = require('./routes/liquidationRoutes');
 
         // Initialize agencyRoutes db instance
         agencyRoutes.init(db);
@@ -103,6 +115,8 @@ async function startServer() {
         app.use('/api/carts', cartRoutes);
         app.use('/api/agencies', agencyRoutes.router); // Corrected to mount .router
         app.use('/api/admin', adminRoutes);
+        app.use('/api/personal-books', personalBookRoutes);
+        app.use('/api/liquidations', liquidationRoutes);
 
         // --- Backward Compatibility Router Aliases ---
         const { login, register, socialLogin } = require('./controllers/authController');

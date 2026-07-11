@@ -1,6 +1,7 @@
-import { Component, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, ChangeDetectorRef, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 const CART_KEY = 'cart_items';
 const USER_KEY = 'lightbooks_user';
@@ -8,7 +9,7 @@ const USER_KEY = 'lightbooks_user';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './page-header.html',
   styleUrl: './page-header.css',
 })
@@ -20,6 +21,14 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   isUserDropdownOpen = false;
   showLogoutModal = false;
   showLoginRequiredModal = false;
+
+  searchQuery = '';
+
+  onSearch() {
+    if (this.searchQuery.trim()) {
+      this.router.navigate(['/sach-dien-tu'], { queryParams: { search: this.searchQuery.trim() } });
+    }
+  }
 
   readonly categories = [
     {

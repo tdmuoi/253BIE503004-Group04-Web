@@ -154,7 +154,7 @@
         <!-- Loop over filtered list -->
         <div class="shelf-book-card" *ngFor="let book of filteredBooks">
           <div class="shelf-cover-wrapper">
-            <img [src]="book.image" [alt]="book.title" class="shelf-cover-img" />
+            <img [src]="book.image || '/img/placeholder.jpg'" [alt]="book.title" class="shelf-cover-img" />
             <div class="hover-overlay" (click)="readBook(book.title)">
               <span class="material-symbols-rounded">menu_book</span>
             </div>
@@ -175,4 +175,55 @@
     </section>
 
   </main>
+
+  <!-- UPLOAD MODAL -->
+  <div class="modal-overlay" *ngIf="showUploadModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 class="modal-title">Thêm sách yêu thích</h2>
+        <button type="button" class="close-btn" (click)="closeUploadModal()">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Tên sách <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="newBook.title" placeholder="Nhập tên sách..." class="form-input">
+        </div>
+        
+        <div class="form-group">
+          <label>Tác giả <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="newBook.author" placeholder="Nhập tên tác giả..." class="form-input">
+        </div>
+        
+        <div class="form-group">
+          <label>Ảnh bìa sách (Tùy chọn)</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" class="form-file-input">
+        </div>
+
+        <div class="form-checkboxes">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="newBook.favorite">
+            <span>Yêu thích</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="newBook.read">
+            <span>Đã đọc</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="newBook.ebook">
+            <span>Sách điện tử</span>
+          </label>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="closeUploadModal()">Hủy</button>
+        <button type="button" class="btn-submit" (click)="onUploadSubmit()" [disabled]="uploading">
+          {{ uploading ? 'Đang tải lên...' : 'Lưu Sách' }}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,7 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../Services/auth.service';
+
+interface Transaction {
+  id: string;
+  _id?: string;
+  date: string;
+  time: string;
+  description: string;
+  amount: number;
+  type: 'purchase' | 'deposit';
+  status: 'success' | 'pending' | 'cancelled';
+  statusText: string;
+}
 
 @Component({
   selector: 'app-transaction-history',
@@ -10,9 +23,10 @@ import { AuthService } from '../../../Services/auth.service';
   templateUrl: './transaction-history.html',
   styleUrl: './transaction-history.css'
 })
-export class TransactionHistoryComponent {
+export class TransactionHistoryComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly http = inject(HttpClient);
 
   // Active filter state: 'all' | 'deposit' | 'purchase'
   readonly currentFilter = signal<'all' | 'deposit' | 'purchase'>('all');
@@ -29,59 +43,59 @@ export class TransactionHistoryComponent {
     };
   }
 
-  // Transactions list matching the screenshot
-  readonly transactions = [
-    {
-      id: 'LB240901',
-      date: '14/10/2024',
-      time: '14:30',
-      description: 'Mua sách "Muôn kiếp nhân sinh"',
-      amount: -125000,
-      type: 'purchase',
-      status: 'success', // 'success' = Hoàn tất, 'pending' = Đang xử lý, 'cancelled' = Đã hủy
-      statusText: 'Hoàn tất'
-    },
-    {
-      id: 'LB240902',
-      date: '12/10/2024',
-      time: '09:15',
-      description: 'Nạp tiền vào tài khoản (Momo)',
-      amount: 500000,
-      type: 'deposit',
-      status: 'success',
-      statusText: 'Hoàn tất'
-    },
-    {
-      id: 'LB240903',
-      date: '11/10/2024',
-      time: '18:45',
-      description: 'Gia hạn gói Member 6 tháng',
-      amount: -299000,
-      type: 'purchase',
-      status: 'pending',
-      statusText: 'Đang xử lý'
-    },
-    {
-      id: 'LB240904',
-      date: '08/10/2024',
-      time: '21:20',
-      description: 'Mua Audio Book "Dế Mèn Phiêu Lưu Ký"',
-      amount: -85000,
-      type: 'purchase',
-      status: 'cancelled',
-      statusText: 'Đã hủy'
-    },
-    {
-      id: 'LB240905',
-      date: '05/10/2024',
-      time: '10:00',
-      description: 'Khuyến mãi nạp đầu tháng',
-      amount: 50000,
-      type: 'deposit',
-      status: 'success',
-      statusText: 'Hoàn tất'
+  // Transactions list
+  transactions: Transaction[] = [];
+
+  ngOnInit() {
+    this.loadTransactions();
+  }
+
+  loadTransactions() {
+    const token = this.authService.getAccessToken();
+    if (!token) {
+      console.warn('Chưa đăng nhập, không thể tải lịch sử giao dịch.');
+      return;
     }
-  ];
+
+    // Lấy đơn hàng từ API, rồi chuyển thành transaction
+    this.http.get<any>(`http://localhost:3002/api/orders?t=${Date.now()}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: (res: any) => {
+        const orders: any[] = Array.isArray(res) ? res : (res.orders || []);
+        this.transactions = orders.map((order: any) => {
+          const dateObj = new Date(order.createdAt || Date.now());
+          const status = this.mapOrderStatus(order.status || 'confirming');
+          const itemTitles = (order.items || []).map((i: any) => i.title).join(', ');
+          return {
+            id: order._id || order.id || 'N/A',
+            _id: order._id,
+            date: dateObj.toLocaleDateString('vi-VN'),
+            time: dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+            description: itemTitles ? `Mua sách "${itemTitles}"` : 'Mua sách',
+            amount: -(order.final_amount || 0),
+            type: 'purchase' as 'purchase',
+            status: status.code as 'success' | 'pending' | 'cancelled',
+            statusText: status.label
+          };
+        });
+      },
+      error: (err) => {
+        console.error('Lỗi khi tải lịch sử giao dịch:', err);
+      }
+    });
+  }
+
+  mapOrderStatus(status: string): { code: string; label: string } {
+    switch (status) {
+      case 'delivered': return { code: 'success', label: 'Hoàn tất' };
+      case 'cancelled': return { code: 'cancelled', label: 'Đã hủy' };
+      case 'confirming':
+      case 'preparing':
+      case 'shipping':
+      default: return { code: 'pending', label: 'Đang xử lý' };
+    }
+  }
 
   // Sidebar navigation handler
   navigate(routePath: string) {

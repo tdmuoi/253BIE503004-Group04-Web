@@ -62,9 +62,20 @@ export class SachDienTu implements OnInit, OnDestroy {
 
   // Dynamic Books Dataset loaded from MongoDB
   books: Book[] = [];
+  searchQuery = '';
+  isLoading = true;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
+      // Handle search query
+      const search = params['search'];
+      if (search) {
+        this.searchQuery = search.toLowerCase();
+      } else {
+        this.searchQuery = '';
+      }
+
+      // Handle category parameter
       const cat = params['category'];
       if (cat && this.selectedCategories.hasOwnProperty(cat)) {
         // Reset all categories first
@@ -86,6 +97,7 @@ export class SachDienTu implements OnInit, OnDestroy {
 
   private loadBooks(): void {
     console.log('[SachDienTu] loadBooks started');
+    this.isLoading = true;
     this.bookService.getBooks().subscribe({
       next: (data) => {
         console.log(`[SachDienTu] Received ${data?.length} books from API`);
@@ -135,9 +147,11 @@ export class SachDienTu implements OnInit, OnDestroy {
             isFlashSale: discountVal ? discountVal < 0 : false
           };
         });
+        this.isLoading = false;
         console.log('[SachDienTu] Mapping completed. Books mapped:', this.books.length);
       },
       error: (err) => {
+        this.isLoading = false;
         console.error('[SachDienTu] Lỗi khi tải sách điện tử từ DB:', err);
       }
     });
@@ -172,6 +186,14 @@ export class SachDienTu implements OnInit, OnDestroy {
   // Get filtered and sorted books for Suggestions section
   getFilteredBooks(): Book[] {
     let result = [...this.books];
+
+    // 0. Filter by Search Query
+    if (this.searchQuery) {
+      result = result.filter(b => 
+        (b.title && b.title.toLowerCase().includes(this.searchQuery)) ||
+        (b.author && b.author.toLowerCase().includes(this.searchQuery))
+      );
+    }
 
     // 1. Filter by Price Ranges (OR within price group)
     const hasPriceFilter = Object.values(this.selectedPriceRanges).some(v => v);
