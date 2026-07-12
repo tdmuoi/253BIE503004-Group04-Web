@@ -398,6 +398,47 @@ router.put('/orders/:id/status', async (req, res) => {
   }
 });
 
+// @desc    Update order customer details (admin)
+// @route   PUT /api/admin/orders/:id/customer
+router.put('/orders/:id/customer', async (req, res) => {
+  try {
+    const { name, email, phone, address } = req.body;
+    const orderId = req.params.id;
+
+    const { ObjectId } = require('mongodb');
+    let filter;
+    try {
+      filter = { _id: new ObjectId(orderId) };
+    } catch (e) {
+      filter = { id: orderId };
+    }
+
+    const updateFields = {
+      updatedAt: new Date(),
+      fullname: name,
+      customerName: name,
+      email: email,
+      phone: phone,
+      shipping_address: address,
+      address: address,
+      'customerInfo.fullname': name,
+      'customerInfo.email': email,
+      'customerInfo.phone': phone,
+      'customerInfo.address': address
+    };
+
+    const result = await req.app.locals.db.collection('orders').updateOne(filter, { $set: updateFields });
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.json({ message: 'Customer details updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 // @desc    Thống kê đơn hàng và doanh thu theo chi nhánh (admin)
 // @route   GET /api/admin/orders/agency-stats
 router.get('/orders/agency-stats', async (req, res) => {

@@ -19,17 +19,17 @@ export class PersonalInformationComponent {
   // User details from AuthService
   get user() {
     return this.authService.currentUser() || {
-      username: 'Huy',
-      email: 'nhathuy.ux@gmail.com',
+      username: 'user1',
+      email: 'user1@gmail.com',
       avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=lightbook_user'
     };
   }
 
   // Profile edit form
   readonly profileForm = this.fb.nonNullable.group({
-    fullname: ['Nhất Huy', [Validators.required]],
-    username: [{ value: 'canhhuy369', disabled: true }],
-    email: ['nhathuy.ux@gmail.com', [Validators.required, Validators.email]],
+    fullname: ['User One', [Validators.required]],
+    username: [{ value: 'user1', disabled: true }],
+    email: ['user1@gmail.com', [Validators.required, Validators.email]],
     phone: ['098 **** 217', [Validators.required]],
     dob: ['1995-10-24', [Validators.required]], // ISO format for date picker
     gender: ['Nam', [Validators.required]]

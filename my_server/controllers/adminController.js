@@ -84,15 +84,19 @@ exports.getDashboardStats = async (req, res) => {
     // Recent Orders (last 5)
     const recentOrders = orders.sort((a, b) => {
       return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-    }).slice(0, 5).map(o => ({
-      id: o._id.toString(),
-      orderId: o.id || o.orderId || `#LB-${o._id.toString().substring(0, 5).toUpperCase()}`,
-      customerName: o.customerInfo?.fullname || o.customerName || 'Khách hàng',
-      customerAvatar: o.customerAvatar || '',
-      date: new Date(o.createdAt || o.date || new Date()).toISOString(),
-      total: parseFloat(o.total_amount || o.final_amount || o.total || 0) || 0,
-      status: o.status || 'Pending'
-    }));
+    }).slice(0, 5).map(o => {
+      let name = o.customerInfo?.fullname || o.customerName || 'Khách hàng';
+      if (name.includes('Trần Huy') || name.includes('trancanhnhathuy') || name.includes('Nhất Huy')) name = 'User One';
+      return {
+        id: o._id.toString(),
+        orderId: o.id || o.orderId || `#LB-${o._id.toString().substring(0, 5).toUpperCase()}`,
+        customerName: name,
+        customerAvatar: o.customerAvatar || '',
+        date: new Date(o.createdAt || o.date || new Date()).toISOString(),
+        total: parseFloat(o.total_amount || o.final_amount || o.total || 0) || 0,
+        status: o.status || 'Pending'
+      };
+    });
 
     res.json({
       metrics: {
@@ -151,19 +155,25 @@ exports.getOrders = async (req, res) => {
 
     const total = await db.collection('orders').countDocuments(query);
 
-    const formattedOrders = orders.map(o => ({
-      id: o._id.toString(),
-      orderId: o.id || o.orderId || `#LB-${o._id.toString().substring(0, 5).toUpperCase()}`,
-      customer: {
-        name: o.customerInfo?.fullname || o.customerName || 'Khách hàng',
-        email: o.customerInfo?.email || o.email || 'email@example.com',
-        initials: (o.customerInfo?.fullname || o.customerName || 'KH').substring(0,2).toUpperCase()
-      },
-      date: o.createdAt || o.date || new Date(),
-      total: o.total_amount || o.final_amount || o.total || 0,
-      status: o.status || 'Pending',
-      deliveryAgency: o.deliveryAgency || ''
-    }));
+    const formattedOrders = orders.map(o => {
+      let name = o.customerInfo?.fullname || o.customerName || 'Khách hàng';
+      let email = o.customerInfo?.email || o.email || 'email@example.com';
+      if (email.includes('trancanhnhathuy') || email.includes('nhathuy')) email = 'user1@gmail.com';
+      if (name.includes('Trần Huy') || name.includes('trancanhnhathuy') || name.includes('Nhất Huy')) name = 'User One';
+      return {
+        id: o._id.toString(),
+        orderId: o.id || o.orderId || `#LB-${o._id.toString().substring(0, 5).toUpperCase()}`,
+        customer: {
+          name,
+          email,
+          initials: name.substring(0, 2).toUpperCase()
+        },
+        date: o.createdAt || o.date || new Date(),
+        total: o.total_amount || o.final_amount || o.total || 0,
+        status: o.status || 'Pending',
+        deliveryAgency: o.deliveryAgency || ''
+      };
+    });
 
     res.json({
       summary: {
@@ -255,8 +265,16 @@ exports.getOrderDetails = async (req, res) => {
         image: item.image || item.image_url || ''
       })),
       customer: {
-        name: order.fullname || order.customerName || order.customerInfo?.fullname || 'Khách hàng',
-        email: order.email || order.customerInfo?.email || 'email@example.com',
+        name: (() => {
+          let name = order.fullname || order.customerName || order.customerInfo?.fullname || 'Khách hàng';
+          if (name.includes('Trần Huy') || name.includes('trancanhnhathuy') || name.includes('Nhất Huy')) return 'User One';
+          return name;
+        })(),
+        email: (() => {
+          let email = order.email || order.customerInfo?.email || 'email@example.com';
+          if (email.includes('trancanhnhathuy') || email.includes('nhathuy')) return 'user1@gmail.com';
+          return email;
+        })(),
         phone: order.phone || order.customerInfo?.phone || 'Chưa có',
         address: order.shipping_address || order.customerInfo?.address || order.address || 'Chưa có',
         avatar: order.customerAvatar || ''

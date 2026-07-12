@@ -23,22 +23,22 @@ export class LinkSocialComponent {
   // User details
   get user() {
     return this.authService.currentUser() || {
-      username: 'Huy',
-      email: 'nhathuy.ux@gmail.com',
+      username: 'user1',
+      email: 'user1@gmail.com',
       avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=lightbook_user'
     };
   }
-
+ 
   // Sidebar navigation handler
   navigate(routePath: string) {
     void this.router.navigate([routePath]);
   }
-
+ 
   // Logout handler
   onLogout() {
     this.authService.logout();
   }
-
+ 
   // Social linking toggles
   toggleFacebook() {
     if (this.facebookLinked()) {
@@ -48,10 +48,10 @@ export class LinkSocialComponent {
       }
     } else {
       this.facebookLinked.set(true);
-      alert('Đã liên kết tài khoản Lightbook với Facebook của Nhất Huy.');
+      alert('Đã liên kết tài khoản Lightbook với Facebook.');
     }
   }
-
+ 
   toggleGoogle() {
     if (this.googleLinked()) {
       if (confirm('Bạn có muốn hủy liên kết với tài khoản Google không?')) {
@@ -60,7 +60,7 @@ export class LinkSocialComponent {
       }
     } else {
       this.googleLinked.set(true);
-      alert('Đã liên kết tài khoản Lightbook với Google nhathuy.ux@gmail.com.');
+      alert('Đã liên kết tài khoản Lightbook với Google.');
     }
   }
 

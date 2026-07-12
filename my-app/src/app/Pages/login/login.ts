@@ -208,12 +208,12 @@ export class LoginPage implements OnInit {
     }
 
     this.loading.set(true);
-    // Standard simulation: Facebook returns "Trần Huy" (trancanhnhathuy@gmail.com)
+    // Standard simulation: Facebook returns "User One" (user1@gmail.com)
     this.authService.loginSocial(
       'facebook',
-      'trancanhnhathuy@gmail.com',
-      'Trần Huy',
-      'https://api.dicebear.com/7.x/identicon/svg?seed=huy'
+      'user1@gmail.com',
+      'User One',
+      'https://api.dicebear.com/7.x/identicon/svg?seed=user1'
     ).subscribe({
       next: () => {
         this.loading.set(false);

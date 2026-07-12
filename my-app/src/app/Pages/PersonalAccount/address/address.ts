@@ -74,8 +74,8 @@ export class AddressComponent {
   // User details
   get user() {
     return this.authService.currentUser() || {
-      username: 'Huy',
-      email: 'nhathuy.ux@gmail.com',
+      username: 'user1',
+      email: 'user1@gmail.com',
       avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=lightbook_user'
     };
   }
