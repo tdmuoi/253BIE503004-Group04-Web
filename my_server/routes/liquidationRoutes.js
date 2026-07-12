@@ -31,6 +31,34 @@ router.post('/', async (req, res) => {
             shippingMethod: liquidationData.shippingMethod || 'postoffice'
         });
 
+        // Notify admin and user
+        try {
+            const db = req.app.locals.db;
+            if (db) {
+                await db.collection('notifications').insertOne({
+                    userId: 'admin',
+                    title: 'Yêu cầu thanh lý mới',
+                    content: `Độc giả ${liquidationData.fullname || 'Thành viên'} vừa gửi một yêu cầu thanh lý sách cũ.`,
+                    type: 'liquidation_new',
+                    read: false,
+                    createdAt: new Date()
+                });
+
+                if (userId) {
+                    await db.collection('notifications').insertOne({
+                        userId: userId.toString(),
+                        title: 'Yêu cầu thanh lý đang chờ duyệt',
+                        content: `Yêu cầu thanh lý sách cũ của bạn đã được tiếp nhận thành công và đang chờ hệ thống phê duyệt.`,
+                        type: 'liquidation_status',
+                        read: false,
+                        createdAt: new Date()
+                    });
+                }
+            }
+        } catch (e) {
+            console.error('Failed to insert liquidation notification:', e);
+        }
+
         console.log('[Liquidation POST] Đã lưu yêu cầu thanh lý, _id:', newLiquidation._id);
         res.status(201).json(newLiquidation);
     } catch (err) {

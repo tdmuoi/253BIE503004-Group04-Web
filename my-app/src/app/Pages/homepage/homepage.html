@@ -1,8 +1,48 @@
 <main class="page">
 
   <!-- ══ HERO BANNER ══ -->
-  <section class="hero-banner">
-    <img class="hero-img" src="assets/img/herobanner.jpg" alt="Ngày hội đọc sách - Reading Festival" />
+  <section class="hero-banner-new" style="background-color: #F5F2EB; border-radius: 16px; margin-top: 24px; padding: 40px 60px; display: flex; align-items: center; justify-content: space-between; gap: 40px; position: relative; overflow: hidden; min-height: 320px; box-shadow: inset 0 0 40px rgba(0,0,0,0.02); box-sizing: border-box;">
+    
+    <!-- Left side content -->
+    <div class="hero-left" style="flex: 1; display: flex; flex-direction: column; gap: 12px; z-index: 2;">
+      <span class="hero-sub" style="font-size: 13px; font-weight: 700; color: #b7791f; letter-spacing: 2px; text-transform: uppercase;">Reading Festival</span>
+      <h1 class="hero-title" style="font-family: 'Playfair Display', 'Georgia', serif; font-size: 42px; font-weight: 800; color: #083325; margin: 0; line-height: 1.2;">NGÀY HỘI<br>ĐỌC SÁCH</h1>
+      <p class="hero-desc" style="font-size: 14px; color: #4a5568; margin: 0; max-width: 420px; line-height: 1.6;">Khám phá và nhận ngay hàng ngàn ưu đãi sách điện tử, sách cũ cùng nhiều phần quà hấp dẫn nhân dịp Ngày hội đọc sách năm nay!</p>
+      <a routerLink="/sach-dien-tu" class="hero-btn" style="align-self: flex-start; margin-top: 12px; padding: 12px 24px; background: #083325; color: white; border-radius: 30px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(8,51,37,0.15); transition: background 0.2s;">Khám phá ngay</a>
+    </div>
+
+    <!-- Right side creative graphic with 3D book -->
+    <div class="hero-right" style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; height: 320px;">
+      
+      <!-- Graphic backdrops matching screenshot -->
+      <div class="backdrop-arch" style="position: absolute; width: 180px; height: 260px; background: #083325; border-radius: 100px 100px 0 0; opacity: 0.8; transform: translate(-45px, -15px); z-index: 0;"></div>
+      <div class="backdrop-arch-pink" style="position: absolute; width: 130px; height: 200px; background: #e9c3b8; border-radius: 50px 50px 0 0; transform: translate(55px, 25px); z-index: 0;"></div>
+      <div class="floating-sphere" style="position: absolute; width: 35px; height: 35px; background: #e9c3b8; border-radius: 50%; transform: translate(-100px, -70px); z-index: 1; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.15);"></div>
+      <div class="floating-sphere-2" style="position: absolute; width: 25px; height: 25px; background: #083325; border-radius: 50%; transform: translate(100px, -100px); z-index: 1;"></div>
+
+      <!-- 3D Interactive Book (Giant thick book) -->
+      <div class="book-3d-container">
+        <div class="book-3d">
+          <div class="book-back-3d"></div>
+          <div class="book-page-3d page-1"></div>
+          <div class="book-page-3d page-2"></div>
+          <div class="book-page-3d page-3"></div>
+          <div class="book-page-3d page-4"></div>
+          <div class="book-page-3d page-5"></div>
+          <div class="book-page-3d page-6"></div>
+          <div class="book-page-3d page-7"></div>
+          <div class="book-page-3d page-8"></div>
+          <div class="book-page-3d page-9"></div>
+          <div class="book-page-3d page-10"></div>
+          <div class="book-page-3d page-11"></div>
+          <div class="book-page-3d page-12"></div>
+          <div class="book-page-3d page-13"></div>
+          <div class="book-page-3d page-14"></div>
+          <div class="book-page-3d page-15"></div>
+          <div class="book-front-3d"></div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ══ SEARCH CATEGORIES ══ -->

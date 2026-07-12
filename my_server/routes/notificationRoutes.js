@@ -6,11 +6,12 @@ const { verifyToken } = require('../middleware/authMiddleware');
 router.get('/', verifyToken, async (req, res) => {
   try {
     const db = req.app.locals.db;
-    const userId = req.user.id;
+    const userId = req.user._id || req.user.id;
     const isAdmin = req.user.role === 'admin';
+    const roleQuery = req.query.role;
     
     let query;
-    if (isAdmin) {
+    if (isAdmin && roleQuery === 'admin') {
       // Admin sees notifications targeted to 'admin'
       query = { userId: 'admin' };
     } else {
@@ -34,11 +35,12 @@ router.get('/', verifyToken, async (req, res) => {
 router.post('/read-all', verifyToken, async (req, res) => {
   try {
     const db = req.app.locals.db;
-    const userId = req.user.id;
+    const userId = req.user._id || req.user.id;
     const isAdmin = req.user.role === 'admin';
+    const roleQuery = req.query.role;
 
     let query;
-    if (isAdmin) {
+    if (isAdmin && roleQuery === 'admin') {
       query = { userId: 'admin' };
     } else {
       query = { userId: userId.toString() };

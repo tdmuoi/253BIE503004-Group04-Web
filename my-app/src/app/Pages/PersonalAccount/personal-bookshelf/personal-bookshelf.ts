@@ -47,7 +47,7 @@ export class PersonalBookshelfComponent implements OnInit {
   ];
 
   // Grid list of bookshelf books (fetched from DB)
-  shelfBooks: any[] = [];
+  readonly shelfBooks = signal<any[]>([]);
 
   // Modal Upload State
   showUploadModal = false;
@@ -72,7 +72,7 @@ export class PersonalBookshelfComponent implements OnInit {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.get<any[]>('http://localhost:3002/api/personal-books', { headers }).subscribe({
       next: (data) => {
-        this.shelfBooks = data || [];
+        this.shelfBooks.set(data || []);
       },
       error: (err) => {
         console.error('Lỗi khi lấy danh sách sách cá nhân:', err);
@@ -84,8 +84,9 @@ export class PersonalBookshelfComponent implements OnInit {
   get filteredBooks() {
     const q = this.searchQuery().toLowerCase().trim();
     const filter = this.currentFilter();
+    const books = this.shelfBooks();
     
-    return this.shelfBooks.filter(book => {
+    return books.filter(book => {
       // Apply Search Filter
       const matchSearch = book.title.toLowerCase().includes(q) || book.author.toLowerCase().includes(q);
       
@@ -171,8 +172,25 @@ export class PersonalBookshelfComponent implements OnInit {
     });
   }
 
-  // Read book trigger
-  readBook(title: string) {
-    alert(`Đang tải sách: "${title}"... Chúc bạn đọc sách vui vẻ!`);
+  // Navigation to book details
+  goToBookDetail(book: any) {
+    if (book.bookId) {
+      void this.router.navigate(['/book-detail', book.bookId]);
+    } else {
+      // Try to find the book in the system by title
+      this.http.get<any[]>('http://localhost:3002/api/books').subscribe({
+        next: (books) => {
+          const matched = books.find(b => b.title.toLowerCase().trim() === book.title.toLowerCase().trim());
+          if (matched) {
+            void this.router.navigate(['/book-detail', matched._id]);
+          } else {
+            alert(`Cuốn sách "${book.title}" này được thêm thủ công hoặc không có trong hệ thống nên không có trang chi tiết!`);
+          }
+        },
+        error: () => {
+          alert('Không thể kết nối đến hệ thống để tìm kiếm thông tin sách.');
+        }
+      });
+    }
   }
 }

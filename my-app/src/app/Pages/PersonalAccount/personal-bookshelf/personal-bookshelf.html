@@ -39,7 +39,7 @@
         
         <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
           <span class="material-symbols-rounded">workspace_premium</span>
-          <span>Thành tích đọc</span>
+          <span>Thành tích mua hàng</span>
         </button>
         
         <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
@@ -97,7 +97,7 @@
               <h3 class="reading-title">{{ book.title }}</h3>
               <p class="reading-author">{{ book.author }}</p>
             </div>
-            <button type="button" class="continue-btn" (click)="readBook(book.title)">Tiếp tục đọc</button>
+            <button type="button" class="continue-btn" (click)="goToBookDetail(book)">Tiếp tục đọc</button>
           </div>
         </div>
       </div>
@@ -158,17 +158,17 @@
       <div class="bookshelf-grid">
         <!-- Loop over filtered list -->
         <div class="shelf-book-card" *ngFor="let book of filteredBooks">
-          <div class="shelf-cover-wrapper">
+          <div class="shelf-cover-wrapper" (click)="goToBookDetail(book)" style="cursor: pointer;">
             <img [src]="book.image || '/img/placeholder.jpg'" [alt]="book.title" class="shelf-cover-img" />
-            <div class="hover-overlay" (click)="readBook(book.title)">
+            <div class="hover-overlay" (click)="goToBookDetail(book); $event.stopPropagation()">
               <span class="material-symbols-rounded">menu_book</span>
             </div>
           </div>
-          <div class="shelf-book-info">
+          <div class="shelf-book-info" (click)="goToBookDetail(book)" style="cursor: pointer;">
             <h3 class="shelf-book-title" [title]="book.title">{{ book.title }}</h3>
             <p class="shelf-book-author">{{ book.author }}</p>
           </div>
-          <button type="button" class="read-now-btn" (click)="readBook(book.title)">Đọc ngay</button>
+          <button type="button" class="read-now-btn" (click)="goToBookDetail(book)">Đọc ngay</button>
         </div>
 
         <!-- Dashed Add Book Card at the end -->

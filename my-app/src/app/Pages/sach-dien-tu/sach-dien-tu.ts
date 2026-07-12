@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { BookService } from '../../Services/book.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../../Services/auth.service';
 
 interface Book {
   _id?: string;
@@ -32,6 +34,8 @@ interface Book {
 export class SachDienTu implements OnInit, OnDestroy {
   private bookService = inject(BookService);
   private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  private http = inject(HttpClient);
 
   // Countdown Timer
   readonly dd = signal('00');
@@ -89,6 +93,7 @@ export class SachDienTu implements OnInit, OnDestroy {
 
     this.startTimer();
     this.loadBooks();
+    this.loadFavoriteBooks();
   }
 
   ngOnDestroy(): void {
@@ -247,5 +252,63 @@ export class SachDienTu implements OnInit, OnDestroy {
     this.selectedPriceRanges = { under50: false, from50to100: false, above100: false };
     this.selectedCategories = { vanHoc: false, kinhTe: false, tamLyKyNang: false, thieuNhi: false, tieuSuHoiKy: false };
     this.selectedAgeRanges = { thieuNhi: false, tuoiTeen: false, nguoiLon: false };
+  }
+
+  // --- FAVORITE BOOK BOOKSHELF INTEGRATION ---
+  favoriteBookIds = new Set<string>();
+
+  loadFavoriteBooks() {
+    const token = this.authService.getAccessToken();
+    if (!token) return;
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any[]>('http://localhost:3002/api/personal-books', { headers }).subscribe({
+      next: (data) => {
+        this.favoriteBookIds.clear();
+        (data || []).forEach(b => {
+          if (b.favorite) {
+            this.favoriteBookIds.add(b.title.toLowerCase().trim());
+          }
+        });
+      },
+      error: (err) => console.error('Error loading favorite books:', err)
+    });
+  }
+
+  toggleFavorite(book: any, event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const token = this.authService.getAccessToken();
+    if (!token) {
+      alert('Vui lòng đăng nhập để lưu sách vào mục yêu thích!');
+      return;
+    }
+
+    const titleNormalized = (book.title || '').trim();
+    const payload = {
+      title: titleNormalized,
+      author: book.author || 'Tác giả',
+      image: book.img || book.image || '',
+      favorite: !this.isFavorited(book),
+      read: false,
+      ebook: true,
+      bookId: book._id
+    };
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.post('http://localhost:3002/api/personal-books', payload, { headers }).subscribe({
+      next: () => {
+        this.loadFavoriteBooks();
+      },
+      error: (err) => {
+        console.error('Lỗi khi cập nhật yêu thích:', err);
+      }
+    });
+  }
+
+  isFavorited(book: any): boolean {
+    if (!book || !book.title) return false;
+    return this.favoriteBookIds.has(book.title.toLowerCase().trim());
   }
 }

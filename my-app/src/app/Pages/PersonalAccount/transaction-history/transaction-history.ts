@@ -44,7 +44,7 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   // Transactions list
-  transactions: Transaction[] = [];
+  readonly transactions = signal<Transaction[]>([]);
 
   ngOnInit() {
     this.loadTransactions();
@@ -63,7 +63,7 @@ export class TransactionHistoryComponent implements OnInit {
     }).subscribe({
       next: (res: any) => {
         const orders: any[] = Array.isArray(res) ? res : (res.orders || []);
-        this.transactions = orders.map((order: any) => {
+        const txList = orders.map((order: any) => {
           const dateObj = new Date(order.createdAt || Date.now());
           const status = this.mapOrderStatus(order.status || 'confirming');
           const itemTitles = (order.items || []).map((i: any) => i.title).join(', ');
@@ -79,6 +79,7 @@ export class TransactionHistoryComponent implements OnInit {
             statusText: status.label
           };
         });
+        this.transactions.set(txList);
       },
       error: (err) => {
         console.error('Lỗi khi tải lịch sử giao dịch:', err);
@@ -107,18 +108,56 @@ export class TransactionHistoryComponent implements OnInit {
     this.authService.logout();
   }
 
+  // Active page state
+  readonly currentPage = signal<number>(1);
+  readonly pageSize = 5;
+
   // Filter selection
   setFilter(filter: 'all' | 'deposit' | 'purchase') {
     this.currentFilter.set(filter);
+    this.currentPage.set(1);
   }
 
-  // Filtered transactions computed property (in TS)
-  get filteredTransactions() {
+  // Helper: Get all transactions matching the filter
+  get allFilteredTransactions(): Transaction[] {
     const filter = this.currentFilter();
+    const list = this.transactions();
     if (filter === 'all') {
-      return this.transactions;
+      return list;
     }
-    return this.transactions.filter(t => t.type === filter);
+    return list.filter(t => t.type === filter);
+  }
+
+  // Paginated subset of transactions
+  get pagedTransactions(): Transaction[] {
+    const list = this.allFilteredTransactions;
+    const startIndex = (this.currentPage() - 1) * this.pageSize;
+    return list.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  // Pagination getters
+  get totalPages(): number {
+    const total = this.allFilteredTransactions.length;
+    return Math.max(1, Math.ceil(total / this.pageSize));
+  }
+
+  get pages(): number[] {
+    const total = this.totalPages;
+    const arr = [];
+    for (let i = 1; i <= total; i++) {
+      arr.push(i);
+    }
+    return arr;
+  }
+
+  get displayStart(): number {
+    if (this.allFilteredTransactions.length === 0) return 0;
+    return (this.currentPage() - 1) * this.pageSize + 1;
+  }
+
+  get displayEnd(): number {
+    const end = this.currentPage() * this.pageSize;
+    return Math.min(end, this.allFilteredTransactions.length);
   }
 
   // Format money amount nicely
@@ -128,10 +167,10 @@ export class TransactionHistoryComponent implements OnInit {
     return `${sign} ${val}đ`;
   }
 
-  // Simulate Pagination clicks
-  onPageClick(page: number | string) {
-    if (typeof page === 'number') {
-      alert(`Chuyển đến trang ${page}`);
+  // Handle actual Pagination clicks
+  onPageClick(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage.set(page);
     }
   }
 }

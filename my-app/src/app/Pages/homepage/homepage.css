@@ -47,17 +47,114 @@
 .center { text-align: center; margin-top: 26px; }
 
 /* ── HERO BANNER ── */
-.hero-banner {
-  margin-top: 24px;
-  border-radius: 16px;
-  overflow: hidden;
+.hero-banner-new {
+  position: relative;
 }
-.hero-img {
+
+/* 3D Interactive Book Styles (Giant & Thick Book) */
+.book-3d-container {
+  perspective: 1500px;
+  width: 190px;
+  height: 260px;
+  position: relative;
+  cursor: pointer;
+  z-index: 10;
+  transform: translate(25px, 20px);
+}
+
+.book-3d {
   width: 100%;
-  height: 340px;
-  object-fit: cover;
-  object-position: center;
-  display: block;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transform: rotateY(-15deg) rotateX(10deg);
+  transition: transform 0.5s ease;
+}
+
+.book-3d-container:hover .book-3d {
+  transform: rotateY(-30deg) rotateX(8deg) scale(1.05);
+}
+
+.book-front-3d {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('/assets/img/cover_book_3d.jpg') no-repeat center center;
+  background-size: cover;
+  transform-origin: left center;
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 20;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+  border-radius: 2px 8px 8px 2px;
+}
+
+.book-back-3d {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #083325;
+  transform: translateZ(-20px);
+  z-index: 1;
+  box-shadow: 6px 6px 18px rgba(0,0,0,0.25);
+  border-radius: 2px 8px 8px 2px;
+}
+
+.book-page-3d {
+  position: absolute;
+  width: 96%;
+  height: 96%;
+  top: 2%;
+  left: 2%;
+  background: linear-gradient(to right, #e2e8f0 0%, #f7fafc 5%, #ffffff 100%);
+  transform-origin: left center;
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 5;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.08);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Stacking 15 pages at rest */
+.book-page-3d.page-1  { transform: translateZ(-1px); }
+.book-page-3d.page-2  { transform: translateZ(-2px); }
+.book-page-3d.page-3  { transform: translateZ(-3px); }
+.book-page-3d.page-4  { transform: translateZ(-4px); }
+.book-page-3d.page-5  { transform: translateZ(-5px); }
+.book-page-3d.page-6  { transform: translateZ(-6px); }
+.book-page-3d.page-7  { transform: translateZ(-7px); }
+.book-page-3d.page-8  { transform: translateZ(-8px); }
+.book-page-3d.page-9  { transform: translateZ(-9px); }
+.book-page-3d.page-10 { transform: translateZ(-10px); }
+.book-page-3d.page-11 { transform: translateZ(-11px); }
+.book-page-3d.page-12 { transform: translateZ(-12px); }
+.book-page-3d.page-13 { transform: translateZ(-13px); }
+.book-page-3d.page-14 { transform: translateZ(-14px); }
+.book-page-3d.page-15 { transform: translateZ(-15px); }
+
+/* Front Cover Flip Open on Hover */
+.book-3d-container:hover .book-front-3d {
+  transform: rotateY(-125deg);
+}
+
+/* Fanning out pages at different speeds/angles on Hover */
+.book-3d-container:hover .book-page-3d.page-1  { transform: translateZ(-1px) rotateY(-110deg); }
+.book-3d-container:hover .book-page-3d.page-2  { transform: translateZ(-2px) rotateY(-102deg); }
+.book-3d-container:hover .book-page-3d.page-3  { transform: translateZ(-3px) rotateY(-94deg); }
+.book-3d-container:hover .book-page-3d.page-4  { transform: translateZ(-4px) rotateY(-86deg); }
+.book-3d-container:hover .book-page-3d.page-5  { transform: translateZ(-5px) rotateY(-78deg); }
+.book-3d-container:hover .book-page-3d.page-6  { transform: translateZ(-6px) rotateY(-70deg); }
+.book-3d-container:hover .book-page-3d.page-7  { transform: translateZ(-7px) rotateY(-62deg); }
+.book-3d-container:hover .book-page-3d.page-8  { transform: translateZ(-8px) rotateY(-54deg); }
+.book-3d-container:hover .book-page-3d.page-9  { transform: translateZ(-9px) rotateY(-46deg); }
+.book-3d-container:hover .book-page-3d.page-10 { transform: translateZ(-10px) rotateY(-38deg); }
+.book-3d-container:hover .book-page-3d.page-11 { transform: translateZ(-11px) rotateY(-30deg); }
+.book-3d-container:hover .book-page-3d.page-12 { transform: translateZ(-12px) rotateY(-24deg); }
+.book-3d-container:hover .book-page-3d.page-13 { transform: translateZ(-13px) rotateY(-18deg); }
+.book-3d-container:hover .book-page-3d.page-14 { transform: translateZ(-14px) rotateY(-12deg); }
+.book-3d-container:hover .book-page-3d.page-15 { transform: translateZ(-15px) rotateY(-6deg); }
+
+.hero-btn:hover {
+  background: #0d4e3a !important;
+  box-shadow: 0 6px 16px rgba(8,51,37,0.25) !important;
 }
 
 /* ── SEARCH CATEGORIES ── */

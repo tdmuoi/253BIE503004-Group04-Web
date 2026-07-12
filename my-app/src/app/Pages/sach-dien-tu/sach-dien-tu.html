@@ -116,7 +116,9 @@
                   <a [routerLink]="['/book-detail', p._id]" class="popover-detail-link">Chi tiết</a>
                   <div class="popover-actions">
                     <button class="btn-read"><i class="bi bi-book-fill"></i> Đọc sách</button>
-                    <button class="btn-like"><i class="bi bi-heart-fill"></i></button>
+                    <button class="btn-like" (click)="toggleFavorite(p, $event)" [style.background-color]="isFavorited(p) ? '#ffecd2' : ''">
+                      <i class="bi bi-heart-fill" [style.color]="isFavorited(p) ? '#e53e3e' : '#718096'"></i>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -181,7 +183,9 @@
                   <a [routerLink]="['/book-detail', p._id]" class="popover-detail-link">Chi tiết</a>
                   <div class="popover-actions">
                     <button class="btn-read"><i class="bi bi-book-fill"></i> Đọc sách</button>
-                    <button class="btn-like"><i class="bi bi-heart-fill"></i></button>
+                    <button class="btn-like" (click)="toggleFavorite(p, $event)" [style.background-color]="isFavorited(p) ? '#ffecd2' : ''">
+                      <i class="bi bi-heart-fill" [style.color]="isFavorited(p) ? '#e53e3e' : '#718096'"></i>
+                    </button>
                   </div>
                 </div>
               </div>

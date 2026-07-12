@@ -55,7 +55,7 @@ export class OrderManagementComponent implements OnInit {
   }
 
   // Dynamic list of orders
-  orders: Order[] = [];
+  readonly orders = signal<Order[]>([]);
 
   // Modal details
   selectedOrder: Order | null = null;
@@ -77,7 +77,7 @@ export class OrderManagementComponent implements OnInit {
     }).subscribe({
       next: (res: any) => {
         // Backend trả về { orders: [...] } hoặc [...]
-        this.orders = Array.isArray(res) ? res : (res.orders || []);
+        this.orders.set(Array.isArray(res) ? res : (res.orders || []));
       },
       error: (err) => {
         console.error('Lỗi khi tải danh sách đơn hàng:', err);
@@ -88,15 +88,39 @@ export class OrderManagementComponent implements OnInit {
   // Filter orders listing
   get filteredOrders() {
     const filter = this.currentFilter();
-    if (filter === 'all') return this.orders;
-    return this.orders.filter(order => order.status === filter);
+    const ordersList = this.orders();
+    if (filter === 'all') return ordersList;
+    
+    return ordersList.filter(order => {
+      if (!order.status) return false;
+      const statusLower = order.status.toLowerCase();
+      
+      switch (filter) {
+        case 'confirming':
+          return statusLower === 'confirming';
+        case 'preparing':
+          return statusLower === 'preparing' || statusLower === 'processing';
+        case 'shipping':
+          return statusLower === 'shipping' || statusLower === 'shipped';
+        case 'delivered':
+          return statusLower === 'delivered';
+        case 'cancelled':
+          return statusLower === 'cancelled';
+        default:
+          return statusLower === filter;
+      }
+    });
   }
 
   getStatusLabel(status: string): string {
-    switch (status) {
+    if (!status) return '';
+    const statusLower = status.toLowerCase();
+    switch (statusLower) {
       case 'confirming': return 'Chờ xác nhận';
-      case 'preparing': return 'Chờ lấy hàng';
-      case 'shipping': return 'Đang giao';
+      case 'preparing':
+      case 'processing': return 'Chờ lấy hàng';
+      case 'shipping':
+      case 'shipped': return 'Đang giao';
       case 'delivered': return 'Đã giao';
       case 'cancelled': return 'Đã hủy';
       default: return status;
@@ -125,7 +149,7 @@ export class OrderManagementComponent implements OnInit {
 
   onViewDetails(id: string) {
     // Find order in our current list
-    const order = this.orders.find(o => o._id === id);
+    const order = this.orders().find(o => o._id === id);
     if (order) {
       this.selectedOrder = order;
       this.showDetailsModal = true;

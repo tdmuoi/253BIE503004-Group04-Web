@@ -15,6 +15,7 @@ const createPersonalBook = async (bookData) => {
     favorite: bookData.favorite !== undefined ? bookData.favorite : true,
     read: bookData.read !== undefined ? bookData.read : false,
     ebook: bookData.ebook !== undefined ? bookData.ebook : false,
+    bookId: bookData.bookId || null,
     createdAt: new Date()
   };
   const result = await books.insertOne(newBook);

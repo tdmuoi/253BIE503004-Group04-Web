@@ -23,12 +23,16 @@ export class NotificationService {
   readonly notifications = signal<Notification[]>([]);
   readonly unreadCount = signal<number>(0);
 
-  loadNotifications() {
+  loadNotifications(role?: string) {
     const token = this.auth.getAccessToken();
     if (!token) return;
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<Notification[]>(this.apiUrl, { headers }).subscribe({
+    let url = this.apiUrl;
+    if (role) {
+      url += `?role=${role}`;
+    }
+    this.http.get<Notification[]>(url, { headers }).subscribe({
       next: (res) => {
         if (res) {
           this.notifications.set(res);
@@ -41,14 +45,18 @@ export class NotificationService {
     });
   }
 
-  markAllAsRead() {
+  markAllAsRead(role?: string) {
     const token = this.auth.getAccessToken();
     if (!token) return;
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.post(`${this.apiUrl}/read-all`, {}, { headers }).subscribe({
+    let url = `${this.apiUrl}/read-all`;
+    if (role) {
+      url += `?role=${role}`;
+    }
+    this.http.post(url, {}, { headers }).subscribe({
       next: () => {
-        this.loadNotifications();
+        this.loadNotifications(role);
       },
       error: (err) => {
         console.error('Failed to mark notifications as read', err);

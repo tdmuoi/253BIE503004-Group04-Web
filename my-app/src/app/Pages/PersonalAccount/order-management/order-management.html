@@ -39,7 +39,7 @@
         
         <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
           <span class="material-symbols-rounded">workspace_premium</span>
-          <span>Thành tích đọc</span>
+          <span>Thành tích mua hàng</span>
         </button>
         
         <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
@@ -151,9 +151,9 @@
             <span class="order-id">{{ order._id }}</span>
             <span class="order-date">Ngày đặt: {{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
           </div>
-          <span class="order-status-badge" [class]="order.status">
+          <span [class]="'order-status-badge ' + (order.status || '').toLowerCase()">
             <span class="material-symbols-rounded status-icon">
-              {{ order.status === 'delivered' ? 'check_circle' : 'local_shipping' }}
+              {{ (order.status || '').toLowerCase() === 'delivered' ? 'check_circle' : 'local_shipping' }}
             </span>
             <span>{{ getStatusLabel(order.status) }}</span>
           </span>

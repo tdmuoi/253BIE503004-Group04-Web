@@ -39,7 +39,7 @@
         
         <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
           <span class="material-symbols-rounded">workspace_premium</span>
-          <span>Thành tích đọc</span>
+          <span>Thành tích mua hàng</span>
         </button>
         
         <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/transaction-history')">
@@ -118,9 +118,18 @@
         </button>
       </div>
 
+      <!-- Table Column Headers (on top of the list) -->
+      <div class="table-column-headers">
+        <div class="header-cell">MÃ GIAO DỊCH</div>
+        <div class="header-cell">NGÀY GIAO DỊCH</div>
+        <div class="header-cell">NỘI DUNG</div>
+        <div class="header-cell">SỐ TIỀN</div>
+        <div class="header-cell">TRẠNG THÁI</div>
+      </div>
+
       <!-- Transaction Log Rows -->
       <div class="transaction-rows-container">
-        <div class="transaction-row" *ngFor="let tx of filteredTransactions">
+        <div class="transaction-row" *ngFor="let tx of pagedTransactions">
           <!-- Trans ID -->
           <div class="tx-cell tx-id">
             {{ tx.id }}
@@ -155,31 +164,38 @@
         </div>
       </div>
 
-      <!-- Table Column Headers (at bottom, matching design) -->
-      <div class="table-column-headers">
-        <div class="header-cell">MÃ GIAO DỊCH</div>
-        <div class="header-cell">NGÀY GIAO DỊCH</div>
-        <div class="header-cell">NỘI DUNG</div>
-        <div class="header-cell">SỐ TIỀN</div>
-        <div class="header-cell">TRẠNG THÁI</div>
-      </div>
-
       <!-- Table Footer / Pagination -->
       <div class="table-pagination-footer">
-        <span class="records-summary">Hiển thị 1-{{ filteredTransactions.length }} trên 24 giao dịch</span>
+        <span class="records-summary">
+          Hiển thị {{ displayStart }}-{{ displayEnd }} trên {{ allFilteredTransactions.length }} giao dịch
+        </span>
         
         <div class="pagination-controls">
-          <button type="button" class="pagination-arrow-btn" (click)="onPageClick('<')">
+          <button 
+            type="button" 
+            class="pagination-arrow-btn" 
+            [disabled]="currentPage() === 1" 
+            (click)="onPageClick(currentPage() - 1)"
+          >
             <span class="material-symbols-rounded">chevron_left</span>
           </button>
           
-          <button type="button" class="pagination-num-btn active" (click)="onPageClick(1)">1</button>
-          <button type="button" class="pagination-num-btn" (click)="onPageClick(2)">2</button>
-          <button type="button" class="pagination-num-btn" (click)="onPageClick(3)">3</button>
-          <span class="pagination-ellipsis">...</span>
-          <button type="button" class="pagination-num-btn" (click)="onPageClick(5)">5</button>
+          <button 
+            type="button" 
+            class="pagination-num-btn" 
+            *ngFor="let page of pages" 
+            [class.active]="currentPage() === page" 
+            (click)="onPageClick(page)"
+          >
+            {{ page }}
+          </button>
           
-          <button type="button" class="pagination-arrow-btn" (click)="onPageClick('>')">
+          <button 
+            type="button" 
+            class="pagination-arrow-btn" 
+            [disabled]="currentPage() === totalPages" 
+            (click)="onPageClick(currentPage() + 1)"
+          >
             <span class="material-symbols-rounded">chevron_right</span>
           </button>
         </div>

@@ -354,13 +354,31 @@ exports.updateLiquidationStatus = async (req, res) => {
       return res.status(400).json({ message: 'ID không hợp lệ' });
     }
 
+    const liquidationDoc = await db.collection('liquidation').findOne({ _id: new ObjectId(id) });
+    if (!liquidationDoc) {
+      return res.status(404).json({ message: 'Không tìm thấy yêu cầu thanh lý' });
+    }
+
     const result = await db.collection('liquidation').updateOne(
       { _id: new ObjectId(id) },
       { $set: { status: status.toLowerCase(), updatedAt: new Date() } }
     );
 
-    if (result.matchedCount === 0) {
-      return res.status(404).json({ message: 'Không tìm thấy yêu cầu thanh lý' });
+    // Notify customer
+    if (liquidationDoc.userId) {
+      try {
+        let statusText = status.toLowerCase() === 'approved' ? 'đã được phê duyệt' : 'đã bị từ chối';
+        await db.collection('notifications').insertOne({
+          userId: liquidationDoc.userId.toString(),
+          title: 'Cập nhật trạng thái yêu cầu thanh lý',
+          content: `Yêu cầu thanh lý sách cũ của bạn ${statusText}.`,
+          type: 'liquidation_status',
+          read: false,
+          createdAt: new Date()
+        });
+      } catch (e) {
+        console.error('Failed to create customer liquidation status notification:', e);
+      }
     }
 
     res.json({ success: true, message: 'Cập nhật trạng thái thanh lý thành công' });

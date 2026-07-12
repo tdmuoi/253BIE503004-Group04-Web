@@ -33,20 +33,20 @@ export class AdminLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.notiService.loadNotifications();
+    this.notiService.loadNotifications('admin');
   }
 
   toggleNotiDropdown(event: Event) {
     event.stopPropagation();
     this.isNotiDropdownOpen = !this.isNotiDropdownOpen;
     if (this.isNotiDropdownOpen) {
-      this.notiService.loadNotifications();
+      this.notiService.loadNotifications('admin');
     }
   }
 
   markAllAsRead(event: Event) {
     event.stopPropagation();
-    this.notiService.markAllAsRead();
+    this.notiService.markAllAsRead('admin');
   }
 
   logout() {
