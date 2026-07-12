@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 interface FooterLink {
   label: string;
   link: string;
+  fragment?: string;
 }
 
 interface FooterColumn {
@@ -22,27 +23,27 @@ export class Footer {
     {
       title: 'VỀ CHÚNG TÔI',
       links: [
-        { label: 'Lightbook News', link: '/dashboard' },
-        { label: 'Cộng đồng Lightbook', link: '/dashboard' },
+        { label: 'Lightbook News', link: '/about-us' },
+        { label: 'Cộng đồng Lightbook', link: '/about-us' },
         { label: 'Sứ mệnh - Tầm nhìn', link: '/about-us' },
       ],
     },
     {
       title: 'DANH MỤC',
       links: [
-        { label: 'Sách mới', link: '/dashboard' },
-        { label: 'Sách cũ', link: '/dashboard' },
-        { label: 'Sách điện tử', link: '/dashboard' },
+        { label: 'Sách mới', link: '/homepage' },
+        { label: 'Sách cũ', link: '/sach-cu' },
+        { label: 'Sách điện tử', link: '/sach-dien-tu' },
         { label: 'Thanh lý sách', link: '/thanh-li' },
       ],
     },
     {
       title: 'CHÍNH SÁCH',
       links: [
-        { label: 'Bảo mật', link: '/policy' },
-        { label: 'Bán hàng', link: '/policy' },
-        { label: 'Thanh toán', link: '/policy' },
-        { label: 'Cẩm nang khách hàng', link: '/policy' },
+        { label: 'Bảo mật', link: '/policy', fragment: 'bao-mat' },
+        { label: 'Bán hàng', link: '/policy', fragment: 'ban-hang' },
+        { label: 'Thanh toán', link: '/policy', fragment: 'thanh-toan' },
+        { label: 'Cẩm nang khách hàng', link: '/policy', fragment: 'cam-nang' },
       ],
     },
   ];

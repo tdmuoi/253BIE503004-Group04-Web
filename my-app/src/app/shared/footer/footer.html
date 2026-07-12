@@ -12,7 +12,7 @@
         <div class="footer-col">
           <h4>{{ col.title }}</h4>
           @for (item of col.links; track item.label) {
-            <a [routerLink]="item.link">{{ item.label }}</a>
+            <a [routerLink]="item.link" [fragment]="item.fragment">{{ item.label }}</a>
           }
         </div>
       }
@@ -21,10 +21,12 @@
       <div class="footer-col">
         <h4>KẾT NỐI</h4>
         <div class="socials">
-          <a href="#" class="social fb" aria-label="Facebook">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M15.5 8.5h-2V7c0-.6.4-.75.7-.75H15.5V3.5h-2C11 3.5 10.5 5.3 10.5 6.6V8.5H9V11h1.5v9h3v-9h2z"/></svg>
+          <a href="https://www.facebook.com" target="_blank" class="social fb" aria-label="Facebook" style="background: none; padding: 0; overflow: hidden;">
+            <img src="assets/img/Facebook_icon.svg.webp" alt="Facebook" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
           </a>
-          <a href="#" class="social zalo" aria-label="Zalo">Zalo</a>
+          <a href="https://zalo.me" target="_blank" class="social zalo" aria-label="Zalo" style="background: none; padding: 0; overflow: hidden;">
+            <img src="assets/img/Icon_of_Zalo.svg.webp" alt="Zalo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;" />
+          </a>
         </div>
       </div>
     </div>

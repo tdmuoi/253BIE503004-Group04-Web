@@ -20,7 +20,13 @@ export class Policy implements OnInit, AfterViewInit {
         setTimeout(() => {
           const element = document.getElementById(fragment);
           if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const headerOffset = 150; // Account for sticky header + add top spacing cushion
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
           }
         }, 150);
       }
