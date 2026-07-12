@@ -5,10 +5,12 @@ import { HttpClient } from '@angular/common/http';
 import { BookService } from '../../Services/book.service';
 import { AuthService } from '../../Services/auth.service';
 
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-books-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './books-detail.html',
   styleUrl: './books-detail.css'
 })
@@ -143,6 +145,13 @@ export class BooksDetailComponent implements OnInit {
     this.loading = false;
     console.log(`[BooksDetail] Book loaded:`, this.book.title);
     this.loadSuggestions();
+    
+    // Tải danh sách đánh giá
+    const currentId = this.book._id || this.book.id;
+    if (currentId) {
+      this.loadReviews(currentId);
+    }
+    
     this.cdr.detectChanges();
   }
 
@@ -218,5 +227,111 @@ export class BooksDetailComponent implements OnInit {
     this.toastMessage = msg;
     this.showToast = true;
     setTimeout(() => { this.showToast = false; }, 2500);
+  }
+
+  // --- REVIEW SYSTEM STATE ---
+  reviews: any[] = [];
+  averageScore = 0;
+  totalReviews = 0;
+  ratingDistribution = [0, 0, 0, 0, 0]; // Index 0 is 1 star, Index 4 is 5 stars
+  
+  ratingInput = 5;
+  contentInput = '';
+  submittingReview = false;
+
+  get isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  loadReviews(productId: string) {
+    this.http.get<any[]>(`http://localhost:3002/api/reviews?productId=${productId}`).subscribe({
+      next: (data) => {
+        this.reviews = data || [];
+        this.calculateStats();
+      },
+      error: (err) => console.error('Lỗi khi tải đánh giá:', err)
+    });
+  }
+
+  calculateStats() {
+    this.totalReviews = this.reviews.length;
+    if (this.totalReviews === 0) {
+      this.averageScore = 0;
+      this.ratingDistribution = [0, 0, 0, 0, 0];
+      this.cdr.detectChanges();
+      return;
+    }
+
+    let sum = 0;
+    const dist = [0, 0, 0, 0, 0];
+    this.reviews.forEach(rev => {
+      const r = Math.max(1, Math.min(5, Math.floor(Number(rev.rating || 5))));
+      sum += r;
+      dist[r - 1]++;
+    });
+
+    this.averageScore = parseFloat((sum / this.totalReviews).toFixed(1));
+    this.ratingDistribution = dist;
+    this.cdr.detectChanges();
+  }
+
+  getStarPercentage(star: number): string {
+    if (this.totalReviews === 0) return '0%';
+    const count = this.ratingDistribution[star - 1];
+    return Math.round((count / this.totalReviews) * 100) + '%';
+  }
+
+  submitReview() {
+    if (!this.isLoggedIn) {
+      alert('Vui lòng đăng nhập để viết đánh giá!');
+      return;
+    }
+    const currentId = this.book?._id || this.book?.id;
+    if (!currentId) return;
+
+    if (!this.contentInput.trim()) {
+      alert('Vui lòng nhập nội dung bình luận!');
+      return;
+    }
+
+    this.submittingReview = true;
+    const userObj = this.authService.currentUser();
+    const payload = {
+      productId: String(currentId),
+      username: userObj?.name || userObj?.username || 'Thành viên',
+      avatar: userObj?.avatar || 'https://api.dicebear.com/7.x/adventurer/svg?seed=lightbook_user',
+      rating: this.ratingInput,
+      content: this.contentInput.trim()
+    };
+
+    this.http.post('http://localhost:3002/api/reviews', payload).subscribe({
+      next: () => {
+        this.submittingReview = false;
+        this.contentInput = '';
+        this.ratingInput = 5;
+        this.loadReviews(currentId);
+        this.showToastMessage('✅ Gửi đánh giá thành công!');
+      },
+      error: (err) => {
+        this.submittingReview = false;
+        alert('Gửi đánh giá thất bại: ' + (err.error?.error || err.message));
+      }
+    });
+  }
+
+  getRelativeTime(dateString: any): string {
+    if (!dateString) return 'Vừa xong';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+
+    if (diffSec < 60) return 'Vừa xong';
+    if (diffMin < 60) return `${diffMin} phút trước`;
+    if (diffHour < 24) return `${diffHour} giờ trước`;
+    return `${diffDay} ngày trước`;
   }
 }
