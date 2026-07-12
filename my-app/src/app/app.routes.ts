@@ -19,6 +19,7 @@ import { AboutUs } from './Pages/about-us/about-us';
 import { Policy } from './Pages/policy/policy';
 import { Homepage } from './Pages/homepage/homepage';
 import { SachDienTu } from './Pages/sach-dien-tu/sach-dien-tu';
+import { SachCu } from './Pages/sach-cu/sach-cu';
 import { BooksDetailComponent } from './Pages/books-detail/books-detail';
 
 // --- ADMIN IMPORTS ---
@@ -54,6 +55,7 @@ export const routes: Routes = [
   { path: 'book-detail', component: BooksDetailComponent },
   { path: 'homepage', component: Homepage },
   { path: 'sach-dien-tu', component: SachDienTu },
+  { path: 'sach-cu', component: SachCu },
   { path: 'about-us', component: AboutUs },
   { path: 'policy', component: Policy },
   { path: 'login', component: LoginPage },

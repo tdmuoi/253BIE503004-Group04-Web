@@ -152,7 +152,7 @@
         <ng-template #loadedContent>
           <!-- Grid sách tuyển tập gợi ý: 5 cuốn trên 1 hàng (Không còn hiệu ứng hover popover) -->
           <div class="grid-5" *ngIf="getFilteredBooks().length > 0; else noBooks">
-            <a [routerLink]="['/book-detail', p._id]" class="card catalog-card" *ngFor="let p of getFilteredBooks()">
+            <a [routerLink]="['/book-detail', p._id]" class="card catalog-card" *ngFor="let p of getFilteredBooks(); let idx = index" [class.popover-left]="idx % 5 >= 3">
               <div class="card-thumb">
                 <span class="badge" *ngIf="p.discount">{{ p.discount }}</span>
                 <img [src]="p.img" [alt]="p.title" />
@@ -163,6 +163,26 @@
                 <div class="card-price">
                   <span class="price-now">{{ p.priceStr }}</span>
                   <span class="price-old" *ngIf="p.oldPrice">{{ p.oldPrice }}</span>
+                </div>
+              </div>
+              <!-- Hover Popover cho catalog card -->
+              <div class="card-hover-popover">
+                <div class="popover-cover">
+                  <img [src]="p.img" [alt]="p.title" />
+                </div>
+                <div class="popover-info">
+                  <h4 class="popover-title">{{ p.title }}</h4>
+                  <div class="popover-author">{{ p.author }}</div>
+                  <div class="popover-price">
+                    <span class="price-now">{{ p.priceStr }}</span>
+                    <span class="price-old" *ngIf="p.oldPrice">{{ p.oldPrice }}</span>
+                  </div>
+                  <p class="popover-desc">{{ p.description }}</p>
+                  <a [routerLink]="['/book-detail', p._id]" class="popover-detail-link">Chi tiết</a>
+                  <div class="popover-actions">
+                    <button class="btn-read"><i class="bi bi-book-fill"></i> Đọc sách</button>
+                    <button class="btn-like"><i class="bi bi-heart-fill"></i></button>
+                  </div>
                 </div>
               </div>
             </a>

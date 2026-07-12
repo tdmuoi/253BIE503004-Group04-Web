@@ -1,17 +1,17 @@
 // importBooks.js
 // Chạy: node importBooks.js
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 const dns = require('dns');
 dns.setDefaultResultOrder('ipv4first');
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 const { MongoClient } = require('mongodb');
 const fs = require('fs');
-const path = require('path');
 
-// Lấy connection string từ .env (biến DB_URL)
+
 const uri = process.env.DB_URL;
 
-// Đường dẫn tới books.json (my_server và my-app là 2 thư mục anh em)
+
 const jsonPath = path.join(__dirname, '..', '..', 'my-app', 'public', 'data', 'books.json');
 
 async function importBooks() {

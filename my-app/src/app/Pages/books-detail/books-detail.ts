@@ -96,12 +96,11 @@ export class BooksDetailComponent implements OnInit {
     console.log(`[BooksDetail] fetchBook called with id: "${id}"`);
     this.loading = true;
  
-    // Thử lấy từ /api/books trước, nếu lỗi thì thử /api/products
+    // Thử lấy từ /api/books trước, nếu lỗi thì thử /api/products, cuối cùng thử /api/old-books
     this.bookService.getBookById(id).subscribe({
       next: (data) => {
         console.log(`[BooksDetail] getBookById next received:`, data);
         if (!data || Object.keys(data).length === 0) {
-          // Không có data, thử /api/products
           this.fetchFromProducts(id);
           return;
         }
@@ -118,17 +117,44 @@ export class BooksDetailComponent implements OnInit {
     this.http.get<any>(`http://localhost:3002/api/products/${id}`).subscribe({
       next: (data) => {
         if (!data || Object.keys(data).length === 0) {
+          // Thử tiếp với old-books
+          this.fetchFromOldBooks(id);
+          return;
+        }
+        if (!data.price_current) data.price_current = data.price || 0;
+        this.setBook(data);
+      },
+      error: (err) => {
+        console.warn('[BooksDetail] /api/products thất bại, thử /api/old-books:', err);
+        this.fetchFromOldBooks(id);
+      }
+    });
+  }
+
+  fetchFromOldBooks(id: string) {
+    this.http.get<any>(`http://localhost:3002/api/old-books/${id}`).subscribe({
+      next: (data) => {
+        if (!data || Object.keys(data).length === 0) {
           this.error = 'Không tìm thấy sách này.';
           this.loading = false;
           this.cdr.detectChanges();
           return;
         }
-        // Normalize fields
-        if (!data.price_current) data.price_current = data.price || 0;
-        this.setBook(data);
+        // Normalize fields từ old_books schema sang schema dùng trong template
+        const normalized = {
+          ...data,
+          title: data.name || data.title || '',
+          image: data.thumbnail || data.image || '',
+          price_current: data.current_price || 0,
+          price_old: data.original_price || null,
+          discount_percent: data.original_price && data.current_price
+            ? Math.round((1 - data.current_price / data.original_price) * 100)
+            : null,
+        };
+        this.setBook(normalized);
       },
       error: (err) => {
-        console.error('[BooksDetail] Lỗi khi tải thông tin sách:', err);
+        console.error('[BooksDetail] Lỗi khi tải thông tin sách cũ:', err);
         this.error = 'Không thể tải thông tin sách. Vui lòng thử lại sau.';
         this.loading = false;
         this.cdr.detectChanges();

@@ -20,7 +20,6 @@
     </div>
   </section>
 
-  <!-- ══ FLASH SALE ══ -->
   <section class="section">
     <div class="row-head">
       <div class="flash-head">
@@ -36,7 +35,7 @@
     <div class="flash-wrap">
       <div class="grid-4">
         @for (p of flashSale; track $index) {
-          <a [routerLink]="['/book-detail', p._id]" class="card">
+          <a [routerLink]="['/book-detail', p._id]" class="card" [class.popover-left]="$index % 4 >= 2">
             <div class="card-thumb">
               @if (p.discount) { <span class="badge">{{ p.discount }}</span> }
               <img [src]="p.img" [alt]="p.title" />
@@ -47,6 +46,21 @@
               <div class="card-price">
                 <span class="price-now">{{ p.price }}</span>
                 @if (p.oldPrice) { <span class="price-old">{{ p.oldPrice }}</span> }
+              </div>
+            </div>
+            <div class="card-hover-popover">
+              <div class="popover-cover">
+                <img [src]="p.img" [alt]="p.title" />
+              </div>
+              <div class="popover-info">
+                <h4 class="popover-title">{{ p.title }}</h4>
+                <div class="popover-author">{{ p.author }}</div>
+                <div class="popover-price">
+                  <span class="pop-price-now">{{ p.price }}</span>
+                  @if (p.oldPrice) { <span class="pop-price-old">{{ p.oldPrice }}</span> }
+                </div>
+                <p class="popover-desc">Một tác phẩm xuất sắc được phân phối chính thức bởi Lightbooks.</p>
+                <a [routerLink]="['/book-detail', p._id]" class="popover-detail-link">Xem chi tiết →</a>
               </div>
             </div>
           </a>
@@ -63,12 +77,26 @@
     </div>
     <div class="grid-4">
       @for (p of newBooks; track $index) {
-        <a [routerLink]="['/book-detail', p._id]" class="card">
+        <a [routerLink]="['/book-detail', p._id]" class="card" [class.popover-left]="$index % 4 >= 2">
           <div class="card-thumb"><img [src]="p.img" [alt]="p.title" /></div>
           <div class="card-body">
             <div class="card-title">{{ p.title }}</div>
             <div class="card-author">{{ p.author }}</div>
             <div class="card-price"><span class="price-now">{{ p.price }}</span></div>
+          </div>
+          <div class="card-hover-popover">
+            <div class="popover-cover">
+              <img [src]="p.img" [alt]="p.title" />
+            </div>
+            <div class="popover-info">
+              <h4 class="popover-title">{{ p.title }}</h4>
+              <div class="popover-author">{{ p.author }}</div>
+              <div class="popover-price">
+                <span class="pop-price-now">{{ p.price }}</span>
+              </div>
+              <p class="popover-desc">Một tác phẩm xuất sắc được phân phối chính thức bởi Lightbooks.</p>
+              <a [routerLink]="['/book-detail', p._id]" class="popover-detail-link">Xem chi tiết →</a>
+            </div>
           </div>
         </a>
       }
@@ -154,12 +182,27 @@
     </div>
     <div class="grid-5">
       @for (p of suggestions.slice(0, visibleSuggestionsLimit); track $index) {
-        <a [routerLink]="['/book-detail', p._id]" class="card">
+        <a [routerLink]="['/book-detail', p._id]" class="card" [class.popover-left]="$index % 5 >= 3">
           <div class="card-thumb"><img [src]="p.img" [alt]="p.title" /></div>
           <div class="card-body">
             <div class="card-title">{{ p.title }}</div>
             <div class="card-author">{{ p.author }}</div>
             <div class="card-price"><span class="price-now">{{ p.price }}</span></div>
+          </div>
+          <div class="card-hover-popover">
+            <div class="popover-cover">
+              <img [src]="p.img" [alt]="p.title" />
+            </div>
+            <div class="popover-info">
+              <h4 class="popover-title">{{ p.title }}</h4>
+              <div class="popover-author">{{ p.author }}</div>
+              <div class="popover-price">
+                <span class="pop-price-now">{{ p.price }}</span>
+                @if (p.oldPrice) { <span class="pop-price-old">{{ p.oldPrice }}</span> }
+              </div>
+              <p class="popover-desc">Một tác phẩm xuất sắc được phân phối chính thức bởi Lightbooks.</p>
+              <a [routerLink]="['/book-detail', p._id]" class="popover-detail-link">Xem chi tiết →</a>
+            </div>
           </div>
         </a>
       }

@@ -237,6 +237,32 @@ const Liquidation = require('./models/Liquidation');
             }
         });
 
+        // API lấy danh sách sách cũ từ collection 'old_books'
+        app.get('/api/old-books', async (req, res) => {
+            try {
+                const oldBooks = await db.collection('old_books').find({}).toArray();
+                res.json(oldBooks);
+            } catch (err) {
+                console.error('Lỗi khi lấy danh sách sách cũ:', err);
+                res.status(500).json({ error: 'Lỗi server' });
+            }
+        });
+
+        // API lấy chi tiết 1 sách cũ theo ID
+        app.get('/api/old-books/:id', async (req, res) => {
+            try {
+                const bookId = req.params.id;
+                const book = await db.collection('old_books').findOne({ _id: new ObjectId(bookId) });
+                if (!book) {
+                    return res.status(404).json({ error: 'Không tìm thấy sách cũ' });
+                }
+                res.json(book);
+            } catch (err) {
+                console.error('Lỗi khi lấy chi tiết sách cũ:', err);
+                res.status(500).json({ error: 'Lỗi server hoặc ID không hợp lệ' });
+            }
+        });
+
         app.listen(port, () => {
             console.log(`My server listening on port ${port}`);
         });
