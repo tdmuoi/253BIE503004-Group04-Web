@@ -207,6 +207,38 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     this.isCategoriesMenuOpen = false;
   }
 
+  // Handle category menu clicks and redirect to matching pages
+  onCategoryClick(catGroupName: string, subcatName: string, itemName?: string) {
+    this.closeCategoriesMenu();
+    
+    // 1. Resolve path based on category group
+    let targetPath = '/sach-dien-tu';
+    if (catGroupName === 'Sách Cũ') {
+      targetPath = '/sach-cu';
+    }
+    
+    // 2. Map category parameter key
+    const searchName = itemName || subcatName;
+    const catKey = this.getCategoryKey(searchName);
+    
+    // 3. Navigate
+    void this.router.navigate([targetPath], { queryParams: { category: catKey } });
+  }
+
+  getCategoryKey(name: string): string {
+    const n = name.toLowerCase().trim();
+    if (n.includes('tiểu thuyết') || n.includes('văn học') || n.includes('thơ') || n.includes('truyện ngắn')) return 'vanHoc';
+    if (n.includes('kinh tế') || n.includes('kinh doanh') || n.includes('marketing') || n.includes('bán hàng') || n.includes('quản trị')) return 'kinhTe';
+    if (n.includes('tâm lý') || n.includes('kỹ năng') || n.includes('nhân cách')) return 'tamLyKyNang';
+    if (n.includes('thiếu nhi') || n.includes('manga') || n.includes('bách khoa') || n.includes('vừa học') || n.includes('comic')) return 'thieuNhi';
+    if (n.includes('tiểu sử') || n.includes('hồi ký') || n.includes('cuộc đời') || n.includes('nghệ thuật') || n.includes('giải trí')) return 'tieuSuHoiKy';
+    if (n.includes('tôn giáo') || n.includes('tâm linh')) return 'tonGiao';
+    if (n.includes('tử vi') || n.includes('phong thủy')) return 'tuVi';
+    if (n.includes('chính trị') || n.includes('lịch sử') || n.includes('địa lý')) return 'chinhTri';
+    if (n.includes('ngoại văn') || n.includes('ielts') || n.includes('tiếng') || n.includes('dịch')) return 'ngoaiVan';
+    return 'vanHoc'; // Default fallback
+  }
+
   private cartUpdatedHandler = () => this.updateCartBadge();
   private userUpdatedHandler = () => this.updateUser();
 

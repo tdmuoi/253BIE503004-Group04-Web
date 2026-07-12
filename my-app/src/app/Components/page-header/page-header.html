@@ -138,13 +138,13 @@
             <h5 class="lb-categories-column__title">{{ sub.name }}</h5>
             <ul class="lb-categories-column__list">
               <li class="lb-categories-column__item" *ngFor="let item of sub.items">
-                <a href="#" class="lb-categories-column__link" (click)="closeCategoriesMenu()">
+                <a href="javascript:void(0)" class="lb-categories-column__link" (click)="onCategoryClick(categories[activeCategoryIndex].name, sub.name, item.name)">
                   <i class="lb-categories-item-icon bi" [ngClass]="item.icon"></i>
                   <span class="lb-categories-item-text">{{ item.name }}</span>
                 </a>
               </li>
               <li class="lb-categories-column__item">
-                <a href="#" class="lb-categories-column__link lb-categories-column__link--all" (click)="closeCategoriesMenu()">Xem tất cả</a>
+                <a href="javascript:void(0)" class="lb-categories-column__link lb-categories-column__link--all" (click)="onCategoryClick(categories[activeCategoryIndex].name, sub.name)">Xem tất cả</a>
               </li>
             </ul>
           </div>

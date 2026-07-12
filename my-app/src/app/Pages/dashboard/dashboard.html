@@ -35,18 +35,48 @@
     </div>
   </div>
 
-  <!-- Dashboard Shelf Mockup -->
+  <!-- Dashboard Shelf Section -->
   <div class="shelf-container">
     <div class="shelf-header">
       <h2 class="shelf-title">Tủ sách cá nhân của bạn</h2>
       <div class="title-underline"></div>
     </div>
 
-    <div class="empty-shelf-card">
+    <!-- Loading State -->
+    <div class="empty-shelf-card" *ngIf="isLoading()">
+      <h3>Đang tải tủ sách...</h3>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-shelf-card" *ngIf="!isLoading() && shelfBooks().length === 0">
       <span class="material-symbols-rounded empty-icon">auto_stories</span>
       <h3>Tủ sách trống</h3>
       <p>Bạn chưa thêm bất kỳ cuốn sách nào vào thư viện. Hãy khám phá cửa hàng sách để tìm những cuốn sách thú vị nhé!</p>
-      <button type="button" class="explore-btn">KHÁM PHÁ CỬA HÀNG</button>
+      <button type="button" class="explore-btn" (click)="goToStore()">KHÁM PHÁ CỬA HÀNG</button>
+    </div>
+
+    <!-- Active Books Shelf State -->
+    <div class="active-shelf-container" *ngIf="!isLoading() && shelfBooks().length > 0">
+      <div class="dashboard-books-grid">
+        <div class="dashboard-book-card" *ngFor="let book of shelfBooks().slice(0, 5)">
+          <div class="dashboard-book-cover">
+            <img [src]="book.image || '/img/placeholder.jpg'" [alt]="book.title" class="dashboard-book-img" />
+          </div>
+          <h4 class="dashboard-book-title" [title]="book.title">{{ book.title }}</h4>
+          <p class="dashboard-book-author">{{ book.author }}</p>
+        </div>
+      </div>
+      
+      <div class="dashboard-shelf-actions">
+        <button type="button" class="manage-shelf-btn" (click)="goToPersonalBookshelf()">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>ĐI TỚI TỦ SÁCH CÁ NHÂN</span>
+        </button>
+        <button type="button" class="explore-more-btn" (click)="goToStore()">
+          <span class="material-symbols-rounded">explore</span>
+          <span>KHÁM PHÁ THÊM</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>
