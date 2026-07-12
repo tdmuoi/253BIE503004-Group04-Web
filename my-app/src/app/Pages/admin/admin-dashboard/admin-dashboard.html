@@ -1,0 +1,155 @@
+<div class="dashboard-wrapper" *ngIf="data">
+  <!-- Metrics Cards -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-icon bg-green-light">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+      </div>
+      <div class="metric-trend text-green">+12%</div>
+      <p class="metric-label">Tổng doanh thu</p>
+      <h3 class="metric-value">{{ data.metrics.totalRevenue | number:'1.0-0' }} đ</h3>
+    </div>
+    
+    <div class="metric-card">
+      <div class="metric-icon bg-green-light">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+      </div>
+      <div class="metric-trend text-green">+8%</div>
+      <p class="metric-label">Đơn hàng mới</p>
+      <h3 class="metric-value">{{ data.metrics.newOrders | number:'1.0-0' }}</h3>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon bg-green-light">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+      </div>
+      <div class="metric-trend text-green">+15%</div>
+      <p class="metric-label">Người dùng</p>
+      <h3 class="metric-value">{{ data.metrics.totalUsers | number:'1.0-0' }}</h3>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon bg-red-light">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </div>
+      <div class="metric-trend text-red">-2%</div>
+      <p class="metric-label">Đang chờ trả</p>
+      <h3 class="metric-value text-red">{{ data.metrics.pendingReturns }}</h3>
+    </div>
+  </div>
+
+  <div class="middle-grid">
+    <!-- Chart Section -->
+    <div class="card chart-card">
+      <div class="card-header">
+        <div>
+          <h2>Hiệu suất bán hàng</h2>
+          <p>Thống kê doanh thu theo tuần</p>
+        </div>
+        <select class="custom-select">
+          <option>7 ngày qua</option>
+          <option>30 ngày qua</option>
+        </select>
+      </div>
+      
+      <div class="chart-container">
+        <div class="bar-chart-container">
+          <!-- Y-axis labels on the left -->
+          <div class="y-axis">
+            <span>1.5M</span>
+            <span>1.0M</span>
+            <span>0.5M</span>
+            <span>0</span>
+          </div>
+          
+          <!-- Bars -->
+          <div class="bars-wrapper">
+            <div class="bar-item" *ngFor="let item of data.salesPerformance">
+              <div class="bar-track">
+                <!-- The actual bar representing the value -->
+                <div class="bar-fill" [style.height]="getBarHeightPercent(item.value) + '%'">
+                  <!-- Tooltip or value text above the bar if value > 0 -->
+                  <span class="bar-value-tooltip" *ngIf="item.value > 0">
+                    {{ item.value >= 1000 ? (item.value / 1000) + 'K' : item.value }}
+                  </span>
+                </div>
+              </div>
+              <span class="bar-label">{{ item.day }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hot Categories -->
+    <div class="card categories-card">
+      <div class="card-header">
+        <div>
+          <h2>Danh mục hot</h2>
+          <p>Tỷ lệ theo thể loại</p>
+        </div>
+      </div>
+      
+      <div class="categories-list">
+        <div class="category-item" *ngFor="let cat of data.hotCategories">
+          <div class="cat-info">
+            <span class="cat-name">{{ cat.name }}</span>
+            <span class="cat-pct">{{ cat.percentage }}%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" [style.width]="cat.percentage + '%'"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Orders Table -->
+  <div class="card recent-orders-card">
+    <div class="card-header">
+      <div>
+        <h2>Đơn hàng gần đây</h2>
+        <p>Cập nhật lúc 14:30 hôm nay</p>
+      </div>
+      <button class="btn-secondary" routerLink="/admin/orders">Xem tất cả</button>
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>MÃ ĐƠN</th>
+          <th>KHÁCH HÀNG</th>
+          <th>NGÀY ĐẶT</th>
+          <th>TỔNG TIỀN</th>
+          <th>TRẠNG THÁI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of data.recentOrders">
+          <td class="font-bold text-green">{{ order.orderId }}</td>
+          <td>
+            <div class="customer-cell">
+              <img [src]="order.customerAvatar || 'https://api.dicebear.com/7.x/identicon/svg?seed=' + order.customerName" class="avatar-small">
+              <span>{{ order.customerName }}</span>
+            </div>
+          </td>
+          <td class="text-gray">{{ order.date | date:'dd/MM/yyyy, HH:mm' }}</td>
+          <td class="font-bold">{{ order.total | number:'1.0-0' }} đ</td>
+          <td>
+            <span class="status-badge" [ngClass]="{
+              'status-processing': order.status === 'Processing' || order.status === 'Pending',
+              'status-delivered': order.status === 'Delivered',
+              'status-shipping': order.status === 'Shipping'
+            }">
+              {{ order.status === 'Delivered' ? 'Đã giao hàng' : (order.status === 'Processing' || order.status === 'Pending' ? 'Đang xử lý' : (order.status === 'Shipping' || order.status === 'Shipped' ? 'Đang giao' : order.status)) }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="loading-state" *ngIf="loading">
+  <div class="spinner"></div>
+</div>

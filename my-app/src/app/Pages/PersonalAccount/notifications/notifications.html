@@ -1,0 +1,124 @@
+<div class="personal-page-container">
+  
+  <!-- LEFT COLUMN: NAVIGATION SIDEBAR -->
+  <aside class="sidebar-column">
+    <!-- User Profile Header Card -->
+    <div class="profile-card">
+      <div class="avatar-row">
+        <img [src]="user.avatar || 'https://api.dicebear.com/7.x/adventurer/svg?seed=lightbook_user'" alt="Avatar" class="avatar-img" />
+        <div class="user-meta">
+          <h2 class="user-name">{{ user.username }}</h2>
+          <div class="vip-badge-row">
+            <span class="vip-badge">VIP 2</span>
+            <span class="user-id">ID: 7904217</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="nav-menu">
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-information')">
+          <span class="material-symbols-rounded">person</span>
+          <span>Thông tin cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/personal-bookshelf')">
+          <span class="material-symbols-rounded">menu_book</span>
+          <span>Tủ sách cá nhân</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/order-management')">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <span>Quản lý đơn hàng</span>
+        </button>
+        
+        <button type="button" class="nav-item active" (click)="navigate('/PersonalAccount/notifications')">
+          <span class="material-symbols-rounded">notifications</span>
+          <span>Thông báo</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/achievement')">
+          <span class="material-symbols-rounded">workspace_premium</span>
+          <span>Thành tích đọc</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/transaction-history')">
+          <span class="material-symbols-rounded">history</span>
+          <span>Lịch sử giao dịch</span>
+        </button>
+        
+        <button type="button" class="nav-item" (click)="navigate('/PersonalAccount/customer-support')">
+          <span class="material-symbols-rounded">contact_support</span>
+          <span>Hỗ trợ khách hàng</span>
+        </button>
+      </nav>
+
+      <div class="divider"></div>
+
+      <!-- Logout Trigger -->
+      <button type="button" class="logout-btn" (click)="onLogout()">
+        <span class="material-symbols-rounded">logout</span>
+        <span>Đăng xuất</span>
+      </button>
+    </div>
+
+    <!-- Membership Upgrade Widget -->
+    <div class="membership-upgrade-card">
+      <div class="card-inner">
+        <div class="title-row">
+          <span class="material-symbols-rounded gold-icon">workspace_premium</span>
+          <span class="card-title">Nâng cấp gói hội viên</span>
+        </div>
+        <p class="card-desc">Đọc không giới hạn hơn 20,000+ tựa sách bản quyền hấp dẫn nhất.</p>
+        <button type="button" class="upgrade-action-btn">Nâng cấp ngay</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: MAIN FORM -->
+  <main class="form-column">
+    <div class="form-card">
+      <!-- Section Title Header -->
+      <div class="section-header flex-between">
+        <div>
+          <h1 class="section-title">Thông báo</h1>
+          <p class="section-subtitle">Quản lý và xem tất cả các cập nhật đơn hàng, ưu đãi và tin tức của bạn.</p>
+        </div>
+        <button class="mark-all-read-btn" (click)="markAllAsRead()" *ngIf="notiService.unreadCount() > 0">
+          Đánh dấu đã đọc tất cả
+        </button>
+      </div>
+
+      <div class="tab-filters">
+        <button class="tab-filter-btn" [class.active]="activeTab === 'all'" (click)="setTab('all')">Tất cả</button>
+        <button class="tab-filter-btn" [class.active]="activeTab === 'unread'" (click)="setTab('unread')">
+          Chưa đọc <span class="tab-badge" *ngIf="notiService.unreadCount() > 0">{{ notiService.unreadCount() }}</span>
+        </button>
+      </div>
+
+      <!-- Notifications List -->
+      <div class="notifications-list" *ngIf="filteredNotifications.length > 0">
+        <div class="noti-item-page" *ngFor="let noti of filteredNotifications" [class.unread]="!noti.read">
+          <div class="noti-icon-container">
+            <span class="material-symbols-rounded">notifications_active</span>
+          </div>
+          <div class="noti-details-container">
+            <span class="noti-time-text">{{ getRelativeTime(noti.createdAt) }}</span>
+            <h3 class="noti-title-text">{{ noti.title }}</h3>
+            <p class="noti-desc-text">{{ noti.content }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-notifications" *ngIf="filteredNotifications.length === 0">
+        <div class="empty-icon-wrap">
+          <span class="material-symbols-rounded">shopping_bag</span>
+        </div>
+        <h3>Chưa có cập nhật đơn hàng</h3>
+        <p>Các thông báo mới về tình trạng đơn hàng sẽ được hiển thị tại đây.</p>
+      </div>
+    </div>
+  </main>
+
+</div>

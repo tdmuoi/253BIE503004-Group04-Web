@@ -2,18 +2,14 @@ const express = require('express');
 const router = express.Router();
 const PersonalBook = require('../models/PersonalBook');
 const { verifyToken: authMiddleware } = require('../middleware/authMiddleware');
-const upload = require('../middleware/upload');
 
 // POST /api/personal-books
-router.post('/', authMiddleware, upload.single('image'), async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
     try {
         const userId = req.user.id;
         const { title, author, favorite, read, ebook } = req.body;
         
-        let imageUrl = '';
-        if (req.file) {
-            imageUrl = req.file.path; // Cloudinary URL
-        }
+        let imageUrl = req.body.image || req.body.imageUrl || '';
 
         if (!title || !author) {
             return res.status(400).json({ error: 'Title and author are required' });

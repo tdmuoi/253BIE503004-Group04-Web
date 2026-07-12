@@ -1,0 +1,236 @@
+<div class="orders-wrapper">
+  <!-- Page Header -->
+  <div class="admin-page-header flex-header">
+    <div>
+      <h1 class="admin-page-title">Danh sách đơn hàng</h1>
+      <p class="admin-page-subtitle">Quản lý và theo dõi tất cả đơn hàng của khách hàng</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-outline" (click)="exportToCSV()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Xuất file
+      </button>
+      <button class="btn-primary" (click)="openAddModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Đơn hàng mới
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="data">
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="summary-icon bg-green-light">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+        <div class="summary-info">
+          <span class="summary-label">Tổng đơn hàng</span>
+          <h2 class="summary-value text-green">{{ data.summary.totalOrders | number:'1.0-0' }}</h2>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-icon bg-orange-light">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dd6b20" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><circle cx="12" cy="15" r="2"></circle></svg>
+        </div>
+        <div class="summary-info">
+          <span class="summary-label">Đang xử lý</span>
+          <h2 class="summary-value text-orange">{{ data.summary.processing | number:'1.0-0' }}</h2>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-icon bg-red-light">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </div>
+        <div class="summary-info">
+          <span class="summary-label">Trả hàng / Hủy</span>
+          <h2 class="summary-value text-red">{{ data.summary.returns | number:'1.0-0' }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content-card">
+      <div class="table-toolbar">
+        <div class="tabs">
+          <button class="tab-btn" *ngFor="let tab of tabs" [class.active]="activeTab === tab" (click)="setTab(tab)">
+            {{ tab === 'All Orders' ? 'Tất cả đơn' : (tab === 'Pending' ? 'Chờ xử lý' : (tab === 'Shipped' ? 'Đang giao' : (tab === 'Completed' ? 'Đã hoàn thành' : tab))) }}
+          </button>
+        </div>
+        <div class="toolbar-actions">
+          <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" placeholder="Tìm kiếm theo mã đơn hoặc khách hàng..." [(ngModel)]="searchQuery" (keyup.enter)="onSearch()">
+          </div>
+          <button class="filter-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+          </button>
+        </div>
+      </div>
+
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Mã đơn hàng</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Tổng cộng</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of data.orders">
+            <td class="font-bold text-green">{{ order.orderId }}</td>
+            <td>
+              <div class="customer-info">
+                <div class="avatar-initials" [ngClass]="{'bg-green-light': true}">{{ order.customer.initials }}</div>
+                <div class="customer-text">
+                  <span class="c-name">{{ order.customer.name }}</span>
+                  <span class="c-email">{{ order.customer.email }}</span>
+                </div>
+              </div>
+            </td>
+            <td class="text-gray">{{ order.date | date:'dd/MM/yyyy' }}</td>
+            <td class="font-bold">{{ order.total | number:'1.0-0' }} VND</td>
+            <td>
+              <span class="status-badge" [ngClass]="order.status.toLowerCase()">
+                <span class="status-dot"></span>
+                {{ order.status === 'Pending' ? 'Chờ xử lý' : (order.status === 'Processing' ? 'Đang đóng gói' : (order.status === 'Shipping' || order.status === 'Shipped' ? 'Đang giao' : (order.status === 'Delivered' ? 'Đã giao' : (order.status === 'Cancelled' ? 'Đã hủy' : order.status)))) }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="icon-btn" (click)="viewDetails(order.id)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+                <button class="icon-btn" (click)="openEditModal(order)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+ 
+      <!-- Pagination -->
+      <div class="pagination-container">
+        <span class="showing-text">Hiển thị {{ (currentPage - 1) * 10 + 1 }}-{{ (currentPage * 10) > data.total ? data.total : (currentPage * 10) }} trong số {{ data.total }} đơn hàng</span>
+        <div class="pagination-controls">
+          <button class="page-btn" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">&lt;</button>
+          <button class="page-btn" *ngFor="let p of getPagesArray()" [class.active]="p === currentPage" (click)="changePage(p)">
+            {{ p }}
+          </button>
+          <button class="page-btn" (click)="changePage(currentPage + 1)" [disabled]="currentPage === data.totalPages">&gt;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Edit Order Modal -->
+  <div class="modal-overlay" *ngIf="editingOrder" (click)="closeEditModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Cập nhật Đơn hàng</h2>
+        <button class="close-btn" (click)="closeEditModal()">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Mã đơn hàng</label>
+          <input type="text" [value]="editingOrder.orderId" disabled class="form-control disabled-input">
+        </div>
+
+        <div class="form-group">
+          <label>Khách hàng</label>
+          <input type="text" [value]="editingOrder.customerName" disabled class="form-control disabled-input">
+        </div>
+
+        <div class="form-group">
+          <label>Trạng thái đơn hàng</label>
+          <select [(ngModel)]="editingOrder.status" class="form-control select-input">
+            <option value="Pending">Đang xử lý (Pending)</option>
+            <option value="Processing">Đang đóng gói (Processing)</option>
+            <option value="Shipping">Đang vận chuyển (Shipping)</option>
+            <option value="Delivered">Đã giao hàng (Delivered)</option>
+            <option value="Cancelled">Đã hủy (Cancelled)</option>
+            <option value="Refunded">Đã hoàn tiền (Refunded)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Đơn vị vận chuyển / Chi nhánh</label>
+          <input type="text" [(ngModel)]="editingOrder.deliveryAgency" placeholder="Ví dụ: Giao Hàng Nhanh, Viettel Post..." class="form-control text-input">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeEditModal()" [disabled]="updating">Hủy</button>
+        <button class="btn-save" (click)="saveOrderChanges()" [disabled]="updating">
+          {{ updating ? 'Đang lưu...' : 'Lưu thay đổi' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Add New Order Modal Popup -->
+  <div class="modal-overlay" *ngIf="showAddModal" (click)="closeAddModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Tạo Đơn Hàng Mới</h2>
+        <button class="close-btn" (click)="closeAddModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Tên khách hàng</label>
+            <input type="text" [(ngModel)]="newOrderData.customerName" placeholder="Nhập tên đầy đủ khách hàng..." class="form-control text-input">
+          </div>
+
+          <div class="form-group">
+            <label>Email khách hàng</label>
+            <input type="email" [(ngModel)]="newOrderData.customerEmail" placeholder="Nhập email..." class="form-control text-input">
+          </div>
+
+          <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" [(ngModel)]="newOrderData.customerPhone" placeholder="Nhập số điện thoại..." class="form-control text-input">
+          </div>
+
+          <div class="form-group full-width">
+            <label>Địa chỉ nhận hàng</label>
+            <input type="text" [(ngModel)]="newOrderData.customerAddress" placeholder="Nhập địa chỉ giao hàng cụ thể..." class="form-control text-input">
+          </div>
+
+          <div class="form-group">
+            <label>Tổng tiền thanh toán (VND)</label>
+            <input type="number" [(ngModel)]="newOrderData.total" placeholder="Nhập tổng số tiền..." class="form-control text-input">
+          </div>
+
+          <div class="form-group">
+            <label>Trạng thái ban đầu</label>
+            <select [(ngModel)]="newOrderData.status" class="form-control status-select">
+              <option value="Pending">Chờ xử lý (Pending)</option>
+              <option value="Processing">Đang đóng gói (Processing)</option>
+              <option value="Shipping">Đang vận chuyển (Shipping)</option>
+              <option value="Delivered">Đã giao hàng (Delivered)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeAddModal()">Hủy bỏ</button>
+        <button class="btn-save" (click)="saveNewOrder()">Tạo đơn hàng</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+</div>

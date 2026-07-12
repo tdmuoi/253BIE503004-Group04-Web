@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb');
 
 let db;
 const init = (database) => { db = database; };
-const collection = () => db.collection('products');
+const collection = () => db.collection('books');
 
 const findAll = async () => {
   const list = await collection().find({}).toArray();

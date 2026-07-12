@@ -64,7 +64,12 @@ export class LoginPage implements OnInit {
   ngOnInit(): void {
     // Redirect immediately if already logged in
     if (this.authService.isAuthenticated()) {
-      void this.router.navigate(['/dashboard']);
+      const userRole = this.authService.currentUser()?.role;
+      if (userRole === 'admin') {
+        void this.router.navigate(['/admin/dashboard']);
+      } else {
+        void this.router.navigate(['/dashboard']);
+      }
     }
 
     // Load recommendations from database
@@ -181,7 +186,12 @@ export class LoginPage implements OnInit {
       next: () => {
         this.loading.set(false);
         this.showGoogleModal.set(false);
-        void this.router.navigate(['/dashboard']);
+        const userRole = this.authService.currentUser()?.role;
+        if (userRole === 'admin') {
+          void this.router.navigate(['/admin/dashboard']);
+        } else {
+          void this.router.navigate(['/dashboard']);
+        }
       },
       error: (err) => {
         this.loading.set(false);
@@ -208,7 +218,12 @@ export class LoginPage implements OnInit {
       next: () => {
         this.loading.set(false);
         this.showFacebookModal.set(false);
-        void this.router.navigate(['/dashboard']);
+        const userRole = this.authService.currentUser()?.role;
+        if (userRole === 'admin') {
+          void this.router.navigate(['/admin/dashboard']);
+        } else {
+          void this.router.navigate(['/dashboard']);
+        }
       },
       error: (err) => {
         this.loading.set(false);
@@ -232,7 +247,12 @@ export class LoginPage implements OnInit {
       this.authService.login(email, password).subscribe({
         next: () => {
           this.loading.set(false);
+          const userRole = this.authService.currentUser()?.role;
+        if (userRole === 'admin') {
+          void this.router.navigate(['/admin/dashboard']);
+        } else {
           void this.router.navigate(['/dashboard']);
+        }
         },
         error: (err) => {
           this.loading.set(false);
@@ -254,7 +274,12 @@ export class LoginPage implements OnInit {
       this.authService.register(phone, password, otpCode).subscribe({
         next: () => {
           this.loading.set(false);
+          const userRole = this.authService.currentUser()?.role;
+        if (userRole === 'admin') {
+          void this.router.navigate(['/admin/dashboard']);
+        } else {
           void this.router.navigate(['/dashboard']);
+        }
         },
         error: (err) => {
           this.loading.set(false);
@@ -288,7 +313,12 @@ export class LoginPage implements OnInit {
         this.showGoogleCustomForm.set(false);
         this.customGoogleEmail = '';
         this.customGooglePassword = '';
-        void this.router.navigate(['/dashboard']);
+        const userRole = this.authService.currentUser()?.role;
+        if (userRole === 'admin') {
+          void this.router.navigate(['/admin/dashboard']);
+        } else {
+          void this.router.navigate(['/dashboard']);
+        }
       },
       error: (err) => {
         this.loading.set(false);

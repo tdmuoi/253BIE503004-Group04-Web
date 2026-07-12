@@ -1,0 +1,149 @@
+<div class="customers-wrapper">
+  <!-- Page Header -->
+  <div class="admin-page-header">
+    <div>
+      <h1 class="admin-page-title">Hồ sơ khách hàng</h1>
+      <p class="admin-page-subtitle">Quản lý và thấu hiểu hành vi đọc sách của độc giả của bạn.</p>
+    </div>
+  </div>
+
+  <div *ngIf="data">
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="summary-info">
+          <span class="summary-label">TỔNG KHÁCH HÀNG</span>
+          <div class="summary-value-row">
+            <h2 class="summary-value text-green">{{ data.summary.totalUsers | number:'1.0-0' }}</h2>
+            <span class="trend-badge positive">+12% tháng này</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-info">
+          <span class="summary-label">ĐANG HOẠT ĐỘNG</span>
+          <div class="summary-value-row">
+            <h2 class="summary-value text-green">{{ data.summary.activeUsers | number:'1.0-0' }}</h2>
+            <span class="trend-badge positive">64% tỉ lệ active</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-info">
+          <div class="summary-header-row">
+            <span class="summary-label">TỶ LỆ MUA LẠI</span>
+            <span class="summary-rate-pct">{{ data.summary.repurchaseRate }}%</span>
+          </div>
+          <div class="progress-track-container">
+            <div class="progress-track">
+              <div class="progress-fill" [style.width]="data.summary.repurchaseRate + '%'"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-info">
+          <span class="summary-label">TRUNG BÌNH CHI TIÊU</span>
+          <div class="summary-value-row">
+            <h2 class="summary-value text-green">
+              {{ data.summary.avgSpend >= 1000 ? (data.summary.avgSpend / 1000 | number:'1.0-0') + 'k' : data.summary.avgSpend }}
+            </h2>
+            <span class="trend-badge-sub">VND trên mỗi đơn hàng</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Table Card -->
+    <div class="content-card">
+      <!-- Toolbar Filters -->
+      <div class="table-toolbar">
+        <div class="search-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" placeholder="Tìm tên, email hoặc SĐT..." [(ngModel)]="searchQuery" (keyup.enter)="onSearch()">
+        </div>
+
+        <div class="toolbar-actions">
+          <select class="status-select" [value]="statusFilter" (change)="setStatusFilter($any($event.target).value)">
+            <option value="All">Tất cả trạng thái</option>
+            <option value="Active">Đang hoạt động</option>
+            <option value="Locked">Đã khóa</option>
+          </select>
+          <button class="filter-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Customers Table -->
+      <table class="customers-table">
+        <thead>
+          <tr>
+            <th>KHÁCH HÀNG</th>
+            <th>LIÊN HỆ</th>
+            <th>ĐƠN HÀNG</th>
+            <th>CHI TIÊU</th>
+            <th>NGÀY THAM GIA</th>
+            <th>THAO TÁC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cus of data.customers">
+            <td>
+              <div class="customer-cell">
+                <div class="cus-name-row">
+                  <span class="cus-name">{{ cus.name }}</span>
+                  <span class="role-badge" [ngClass]="{
+                    'role-vip': cus.role === 'admin' || cus.orderCount >= 10,
+                    'role-member': cus.role !== 'admin' && cus.orderCount < 10
+                  }">
+                    {{ cus.role === 'admin' ? 'ADMIN' : (cus.orderCount >= 10 ? 'VIP' : 'MEMBER') }}
+                  </span>
+                </div>
+                <span class="cus-id">Mã: {{ cus.cusId }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="contact-cell">
+                <span class="c-email">{{ cus.email }}</span>
+                <span class="c-phone">{{ cus.phone }}</span>
+              </div>
+            </td>
+            <td class="font-bold text-center">{{ cus.orderCount }}</td>
+            <td class="font-bold text-green">{{ cus.totalSpend | number:'1.0-0' }} VND</td>
+            <td class="text-gray">{{ cus.createdAt | date:'dd ThMM, yyyy' }}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="icon-btn" [routerLink]="['/admin/customers', cus.id]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+                <button class="icon-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination-container">
+        <span class="showing-text">Đang hiển thị {{ (currentPage - 1) * 10 + 1 }} đến {{ (currentPage * 10) > data.total ? data.total : (currentPage * 10) }} trong tổng số {{ data.total }} khách hàng</span>
+        <div class="pagination-controls">
+          <button class="page-btn" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">&lt;</button>
+          <button class="page-btn" *ngFor="let p of getPagesArray()" [class.active]="p === currentPage" (click)="changePage(p)">
+            {{ p }}
+          </button>
+          <button class="page-btn" (click)="changePage(currentPage + 1)" [disabled]="currentPage === data.totalPages">&gt;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+</div>

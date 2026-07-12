@@ -3,7 +3,6 @@ const router = express.Router();
 const { register, login, socialLogin, adminLogin, updateProfile, updateUsername, changePassword } = require('../controllers/authController');const { forgotPassword, verifyOtp, resetPassword } = require('../controllers/forgotPasswordController'); 
 const { verifyToken, checkAdmin } = require('../middleware/authMiddleware');
 const User = require('../models/User');
-const upload = require('../middleware/upload');
 
 // Public routes
 router.post('/register', register);
@@ -35,8 +34,8 @@ router.get('/profile', verifyToken, async (req, res) => {
   }
 });
 
-// Sửa route PUT /profile: thêm upload.single('avatar') để nhận file từ form field 'avatar'
-router.put('/profile', verifyToken, upload.single('avatar'), updateProfile);
+// Sửa route PUT /profile: bỏ upload.single('avatar')
+router.put('/profile', verifyToken, updateProfile);
 
 // Admin only route example
 router.get('/admin', verifyToken, checkAdmin, (req, res) => {

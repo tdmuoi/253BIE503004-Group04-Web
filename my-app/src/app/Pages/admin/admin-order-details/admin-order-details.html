@@ -1,0 +1,178 @@
+<div class="order-details-wrapper">
+  <!-- Breadcrumb and Actions -->
+  <div class="top-nav">
+    <div class="breadcrumb">
+      <a routerLink="/admin/orders">Đơn hàng</a>
+      <span class="separator">›</span>
+      <span *ngIf="data" class="current">{{ data.orderId }}</span>
+    </div>
+  </div>
+
+  <div class="admin-page-header flex-header" *ngIf="data">
+    <div>
+      <h1 class="admin-page-title">Chi tiết đơn hàng</h1>
+      <p class="admin-page-subtitle">Đặt ngày {{ data.placedOn | date:'dd/MM/yyyy \\l\\ú\\c HH:mm' }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-outline">In hóa đơn</button>
+      <button class="btn-primary">Hủy đơn hàng</button>
+    </div>
+  </div>
+
+  <div *ngIf="data" class="details-grid">
+    <!-- Left Column -->
+    <div class="left-column">
+      <!-- Timeline Card -->
+      <div class="card timeline-card">
+        <div class="timeline-container">
+          <div class="timeline-step" [class.completed]="true">
+            <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+            <div class="step-text">
+              <div class="step-title">Chờ xử lý</div>
+              <div class="step-date">{{ data.timeline.pending | date:'dd/MM, HH:mm' }}</div>
+            </div>
+          </div>
+          <div class="timeline-connector" [class.completed]="data.timeline.packed"></div>
+          
+          <div class="timeline-step" [class.completed]="data.timeline.packed">
+            <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg></div>
+            <div class="step-text">
+              <div class="step-title">Đang đóng gói</div>
+              <div class="step-date">{{ data.timeline.packed ? (data.timeline.packed | date:'dd/MM, HH:mm') : 'Chưa có' }}</div>
+            </div>
+          </div>
+          <div class="timeline-connector" [class.completed]="data.timeline.shipping"></div>
+          
+          <div class="timeline-step" [class.completed]="data.timeline.shipping">
+            <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></div>
+            <div class="step-text">
+              <div class="step-title">Đang giao</div>
+              <div class="step-date">{{ data.timeline.shipping ? (data.timeline.shipping | date:'dd/MM, HH:mm') : 'Chưa có' }}</div>
+            </div>
+          </div>
+          <div class="timeline-connector" [class.completed]="data.timeline.delivered"></div>
+          
+          <div class="timeline-step" [class.completed]="data.timeline.delivered">
+            <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+            <div class="step-text">
+              <div class="step-title">Đã giao</div>
+              <div class="step-date">{{ data.timeline.delivered ? (data.timeline.delivered | date:'dd/MM, HH:mm') : 'Chưa có' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products List -->
+      <div class="card products-card">
+        <div class="card-header">
+          <h2>Sản phẩm ({{ data.items.length }})</h2>
+          <span class="in-stock-badge">Còn hàng</span>
+        </div>
+        
+        <div class="products-list">
+          <div class="product-item" *ngFor="let item of data.items">
+            <img [src]="item.image || 'https://via.placeholder.com/60x80'" [alt]="item.name" class="product-img">
+            <div class="product-info">
+              <h4>{{ item.name }}</h4>
+              <p>Tác giả: {{ item.author }}</p>
+              <p>{{ item.type }}</p>
+              <p class="qty-text">Số lượng: <strong>{{ item.quantity }}</strong></p>
+            </div>
+            <div class="product-price">
+              {{ item.price | number:'1.0-0' }} VND
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tracking Timeline -->
+      <div class="card tracking-card">
+        <h2>Theo dõi vận chuyển</h2>
+        <div class="tracking-list">
+          <div class="tracking-item" *ngFor="let event of data.trackingEvents">
+            <div class="tracking-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            </div>
+            <div class="tracking-info">
+              <h4>{{ event.status === 'Pending' ? 'Chờ xử lý' : (event.status === 'Processing' ? 'Đang đóng gói' : (event.status === 'Shipping' || event.status === 'Shipped' ? 'Đang giao' : (event.status === 'Delivered' ? 'Đã giao' : event.status))) }}</h4>
+              <span>{{ event.time | date:'dd/MM/yyyy - HH:mm' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+      <!-- Customer Info -->
+      <div class="card customer-card">
+        <div class="card-header">
+          <h3>KHÁCH HÀNG</h3>
+          <button class="icon-btn-small"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></button>
+        </div>
+        
+        <div class="customer-profile">
+          <img [src]="data.customer.avatar || 'https://api.dicebear.com/7.x/identicon/svg?seed=' + data.customer.name" class="c-avatar-lg">
+          <div>
+            <h4 class="c-name">{{ data.customer.name }}</h4>
+            <span class="c-email">{{ data.customer.email }}</span>
+          </div>
+        </div>
+        
+        <div class="contact-info">
+          <div class="info-row">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>{{ data.customer.phone }}</span>
+          </div>
+          <div class="info-row">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>{{ data.customer.address }}</span>
+          </div>
+        </div>
+
+        <!-- Map Placeholder -->
+        <div class="map-placeholder">
+          <div class="map-marker">
+            <div class="dot"></div>
+            <span>Vị trí giao hàng</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Info -->
+      <div class="card payment-card">
+        <h3>THANH TOÁN</h3>
+        <div class="payment-rows">
+          <div class="pay-row">
+            <span class="text-gray">Tạm tính</span>
+            <span>{{ data.payment.subtotal | number:'1.0-0' }} VND</span>
+          </div>
+          <div class="pay-row">
+            <span class="text-gray">Vận chuyển</span>
+            <span>{{ data.payment.shippingFee | number:'1.0-0' }} VND</span>
+          </div>
+          <div class="pay-row discount-row">
+            <span class="text-gray">Giảm giá (LB10)</span>
+            <span>-{{ data.payment.discount | number:'1.0-0' }} VND</span>
+          </div>
+        </div>
+        <div class="pay-total">
+          <span class="total-label">Tổng cộng</span>
+          <span class="total-amount">{{ data.payment.total | number:'1.0-0' }} VND</span>
+        </div>
+        
+        <div class="payment-method">
+          <div class="method-info">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0b422e" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            <span>{{ data.payment.method === 'transfer' || data.payment.method === 'transfer_vnpay' ? 'Chuyển khoản / VNPay' : (data.payment.method === 'wallet' || data.payment.method === 'momo' ? 'Ví MoMo' : (data.payment.method === 'cod' ? 'Thanh toán COD' : data.payment.method)) }}</span>
+          </div>
+          <span class="paid-badge">{{ data.payment.status === 'Paid' ? 'Đã thanh toán' : (data.payment.status === 'Unpaid' ? 'Chưa thanh toán' : data.payment.status) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+</div>

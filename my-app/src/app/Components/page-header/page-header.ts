@@ -2,6 +2,8 @@ import { Component, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, ChangeDetecto
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NotificationService } from '../../Services/notification.service';
+import { AuthService } from '../../Services/auth.service';
 
 const CART_KEY = 'cart_items';
 const USER_KEY = 'lightbooks_user';
@@ -14,11 +16,15 @@ const USER_KEY = 'lightbooks_user';
   styleUrl: './page-header.css',
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
+  readonly notiService = inject(NotificationService);
+  private readonly auth = inject(AuthService);
+
   isCategoriesMenuOpen = false;
   activeCategoryIndex = 0;
   cartCount = 0;
   currentUser: any = null;
   isUserDropdownOpen = false;
+  isNotiDropdownOpen = false;
   showLogoutModal = false;
   showLoginRequiredModal = false;
 
@@ -248,6 +254,9 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     try {
       const raw = localStorage.getItem(USER_KEY);
       this.currentUser = raw ? JSON.parse(raw) : null;
+      if (this.currentUser) {
+        this.notiService.loadNotifications();
+      }
     } catch (_) {
       this.currentUser = null;
     }
@@ -276,9 +285,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   }
 
   doLogout(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem(USER_KEY);
-    }
+    this.auth.logout();
     this.currentUser = null;
     this.showLogoutModal = false;
     this.router.navigate(['/']);
@@ -295,5 +302,67 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   goToLogin(): void {
     this.showLoginRequiredModal = false;
     this.router.navigate(['/login']);
+  }
+
+  private userTimeoutId: any;
+  private notiTimeoutId: any;
+
+  onUserMouseEnter(): void {
+    if (this.userTimeoutId) {
+      clearTimeout(this.userTimeoutId);
+    }
+  }
+
+  onUserMouseLeave(): void {
+    this.userTimeoutId = setTimeout(() => {
+      this.isUserDropdownOpen = false;
+      this.cdr.detectChanges();
+    }, 1200);
+  }
+
+  onNotiMouseEnter(): void {
+    if (this.notiTimeoutId) {
+      clearTimeout(this.notiTimeoutId);
+    }
+  }
+
+  onNotiMouseLeave(): void {
+    this.notiTimeoutId = setTimeout(() => {
+      this.isNotiDropdownOpen = false;
+      this.cdr.detectChanges();
+    }, 1200);
+  }
+
+  toggleNotificationsDropdown(event: Event): void {
+    event.stopPropagation();
+    if (!this.currentUser) {
+      this.showLoginRequiredModal = true;
+      return;
+    }
+    this.isNotiDropdownOpen = !this.isNotiDropdownOpen;
+    if (this.isNotiDropdownOpen) {
+      this.notiService.loadNotifications();
+    }
+  }
+
+  markAllAsRead(event: Event): void {
+    event.stopPropagation();
+    this.notiService.markAllAsRead();
+  }
+
+  getRelativeTime(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+
+    if (diffSec < 60) return 'Vừa xong';
+    if (diffMin < 60) return `${diffMin} phút trước`;
+    if (diffHour < 24) return `${diffHour} giờ trước`;
+    return `${diffDay} ngày trước`;
   }
 }

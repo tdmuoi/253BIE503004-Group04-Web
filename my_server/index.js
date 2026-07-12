@@ -99,6 +99,7 @@ const Liquidation = require('./models/Liquidation');
         const adminRoutes = require('./routes/adminRoutes');
         const personalBookRoutes = require('./routes/personalBookRoutes');
         const liquidationRoutes = require('./routes/liquidationRoutes');
+        const notificationRoutes = require('./routes/notificationRoutes');
 
         // Initialize agencyRoutes db instance
         agencyRoutes.init(db);
@@ -117,6 +118,7 @@ const Liquidation = require('./models/Liquidation');
         app.use('/api/admin', adminRoutes);
         app.use('/api/personal-books', personalBookRoutes);
         app.use('/api/liquidations', liquidationRoutes);
+        app.use('/api/notifications', notificationRoutes);
 
         // --- Backward Compatibility Router Aliases ---
         const { login, register, socialLogin } = require('./controllers/authController');

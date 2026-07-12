@@ -11,6 +11,7 @@ import { CustomerSupportComponent } from './Pages/PersonalAccount/customer-suppo
 import { AddressComponent } from './Pages/PersonalAccount/address/address';
 import { AccountSecurityComponent } from './Pages/PersonalAccount/account-security/account-security';
 import { LinkSocialComponent } from './Pages/PersonalAccount/link-social/link-social';
+import { NotificationsComponent } from './Pages/PersonalAccount/notifications/notifications';
 import { Cart } from './Pages/cart/cart';
 import { DatHang } from './Pages/dat-hang/dat-hang';
 import { DatHangThanhCong } from './Pages/dat-hang-thanh-cong/dat-hang-thanh-cong';
@@ -20,7 +21,35 @@ import { Homepage } from './Pages/homepage/homepage';
 import { SachDienTu } from './Pages/sach-dien-tu/sach-dien-tu';
 import { BooksDetailComponent } from './Pages/books-detail/books-detail';
 
+// --- ADMIN IMPORTS ---
+import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout';
+import { AdminDashboardComponent } from './Pages/admin/admin-dashboard/admin-dashboard';
+import { AdminOrdersComponent } from './Pages/admin/admin-orders/admin-orders';
+import { AdminOrderDetailsComponent } from './Pages/admin/admin-order-details/admin-order-details';
+import { AdminReturnsComponent } from './Pages/admin/admin-returns/admin-returns';
+import { AdminCustomersComponent } from './Pages/admin/admin-customers/admin-customers';
+import { AdminCustomerDetailsComponent } from './Pages/admin/admin-customer-details/admin-customer-details';
+import { AdminProductsComponent } from './Pages/admin/admin-products/admin-products';
+import { AdminSettingsComponent } from './Pages/admin/admin-settings/admin-settings';
+
 export const routes: Routes = [
+  // ... Admin Routes
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'orders', component: AdminOrdersComponent },
+      { path: 'orders/:id', component: AdminOrderDetailsComponent },
+      { path: 'returns', component: AdminReturnsComponent },
+      { path: 'customers', component: AdminCustomersComponent },
+      { path: 'customers/:id', component: AdminCustomerDetailsComponent },
+      { path: 'products', component: AdminProductsComponent },
+      { path: 'settings', component: AdminSettingsComponent }
+    ]
+  },
+  
   { path: 'book-detail/:id', component: BooksDetailComponent },
   { path: 'book-detail', component: BooksDetailComponent },
   { path: 'homepage', component: Homepage },
@@ -45,10 +74,12 @@ export const routes: Routes = [
       { path: 'customer-support', component: CustomerSupportComponent },
       { path: 'address', component: AddressComponent },
       { path: 'account-security', component: AccountSecurityComponent },
-      { path: 'link-social', component: LinkSocialComponent }
+      { path: 'link-social', component: LinkSocialComponent },
+      { path: 'notifications', component: NotificationsComponent }
     ]
   },
   // Redirect flat paths to nested ones for convenience
+  { path: 'notifications-list', redirectTo: 'PersonalAccount/notifications', pathMatch: 'full' },
   { path: 'personal-info', redirectTo: 'PersonalAccount/personal-information', pathMatch: 'full' },
   { path: 'bookshelf', redirectTo: 'PersonalAccount/personal-bookshelf', pathMatch: 'full' },
   { path: 'orders', redirectTo: 'PersonalAccount/order-management', pathMatch: 'full' },

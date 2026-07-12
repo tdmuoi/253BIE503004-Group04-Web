@@ -162,8 +162,8 @@
             <div class="payment-sub">Ngân hàng nội địa</div>
           </div>
 
-          <!-- Ví điện tử -->
-          <div class="payment-option" [class.selected]="selectedPayment === 'wallet'" (click)="selectPayment('wallet')">
+           <!-- Ví điện tử -->
+          <div class="payment-option" [class.selected]="selectedPayment === 'wallet'" (click)="selectPayment('wallet')" *ngIf="!settings || settings.vnpayConnected || settings.momoConnected">
             <div class="payment-check"></div>
             <div class="payment-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2d3a2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -173,7 +173,9 @@
               </svg>
             </div>
             <div class="payment-name">Ví điện tử</div>
-            <div class="payment-sub">Momo, ZaloPay, VNPay</div>
+            <div class="payment-sub">
+              {{ (settings?.vnpayConnected && settings?.momoConnected) ? 'Momo, VNPay' : (settings?.vnpayConnected ? 'VNPay Gateway' : (settings?.momoConnected ? 'MoMo E-Wallet' : 'Momo, ZaloPay, VNPay')) }}
+            </div>
           </div>
         </div>
       </div>

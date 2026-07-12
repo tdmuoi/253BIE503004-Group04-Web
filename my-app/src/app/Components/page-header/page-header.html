@@ -52,7 +52,7 @@
         </a>
 
         <!-- Tài khoản -->
-        <div class="lb-header__action-btn lb-header__user-wrap" (click)="toggleUserDropdown($event)">
+        <div class="lb-header__action-btn lb-header__user-wrap" (click)="toggleUserDropdown($event)" (mouseenter)="onUserMouseEnter()" (mouseleave)="onUserMouseLeave()">
           <span class="lb-header__icon-wrap">
             <img src="assets/icon/ic_profile.png" alt="Tài khoản" />
           </span>
@@ -61,6 +61,7 @@
             <div class="lb-header__dropdown-info">
               <span class="lb-header__dropdown-name">{{ currentUser?.name || currentUser?.email }}</span>
             </div>
+            <a *ngIf="currentUser?.role === 'admin'" routerLink="/admin/dashboard" class="lb-header__dropdown-item" style="color: #0b422e; font-weight: 700;">Quản trị viên (Admin)</a>
             <a routerLink="/PersonalAccount" class="lb-header__dropdown-item">Tài khoản của tôi</a>
             <a routerLink="/cart" class="lb-header__dropdown-item">Đơn hàng</a>
             <button class="lb-header__dropdown-item lb-header__dropdown-logout" (click)="confirmLogout()">Đăng xuất</button>
@@ -68,11 +69,41 @@
         </div>
 
         <!-- Thông báo -->
-        <a class="lb-header__action-btn" href="#" aria-label="Thông báo">
+        <div class="lb-header__action-btn lb-header__noti-wrap" (click)="toggleNotificationsDropdown($event)" (mouseenter)="onNotiMouseEnter()" (mouseleave)="onNotiMouseLeave()" style="cursor: pointer; position: relative;">
           <span class="lb-header__icon-wrap">
             <img src="assets/icon/ic_bell.png" alt="Thông báo" />
+            <span class="lb-header__badge" *ngIf="notiService.unreadCount() > 0" style="position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; font-size: 9px; font-weight: 800; border-radius: 50%; padding: 2px 5px; line-height: 1;">{{ notiService.unreadCount() }}</span>
           </span>
-        </a>
+
+          <!-- Dropdown -->
+          <div class="lb-header__noti-dropdown" *ngIf="isNotiDropdownOpen" (click)="$event.stopPropagation()" style="position: absolute; right: 0; top: calc(100% - 2px); width: 360px; background: #1a202c; border: 1px solid #2d3748; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000; padding: 16px; color: white; cursor: default;">
+            <div class="noti-dropdown-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2d3748; padding-bottom: 8px; margin-bottom: 12px;">
+              <span style="font-weight: 700; font-size: 15px; color: #fff;">Thông báo</span>
+              <button class="mark-read-btn" (click)="markAllAsRead($event)" style="background: transparent; border: none; color: #4fd1c5; font-size: 12px; cursor: pointer; font-weight: 600; padding: 0;">Đánh dấu đã đọc tất cả</button>
+            </div>
+            
+            <div class="noti-dropdown-body" style="max-height: 360px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
+              <div class="noti-item" *ngFor="let noti of notiService.notifications()" [class.unread]="!noti.read" style="display: flex; gap: 12px; padding: 10px; border-radius: 8px; transition: background 0.2s;" [style.background]="!noti.read ? 'rgba(79, 209, 197, 0.08)' : 'rgba(255,255,255,0.02)'">
+                <div class="noti-icon-box" style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #a0aec0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                </div>
+                <div class="noti-content" style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
+                  <span class="noti-time" style="font-size: 10px; color: #718096;">{{ getRelativeTime(noti.createdAt) }}</span>
+                  <div class="noti-title" style="font-weight: 700; font-size: 13px; color: #fff;">{{ noti.title }}</div>
+                  <div class="noti-text" style="font-size: 11px; color: #cbd5e0; line-height: 1.4;">{{ noti.content }}</div>
+                </div>
+              </div>
+              <div class="noti-empty" *ngIf="notiService.notifications().length === 0" style="padding: 24px; text-align: center; color: #718096; font-size: 13px;">
+                Không có thông báo nào
+              </div>
+            </div>
+
+            <!-- Dropdown Footer View All Link -->
+            <div class="noti-footer" style="text-align: center; border-top: 1px solid #2d3748; padding-top: 10px; margin-top: 12px;">
+              <a routerLink="/PersonalAccount/notifications" (click)="isNotiDropdownOpen = false" style="color: #4fd1c5; font-size: 12px; font-weight: 700; text-decoration: none;">Xem tất cả thông báo</a>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>

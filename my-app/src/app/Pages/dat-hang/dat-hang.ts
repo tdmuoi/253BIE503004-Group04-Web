@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,6 +25,9 @@ export class DatHang implements OnInit {
   private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
   private readonly authService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  settings: any = null;
 
   // Order Details State
   selectedShipping: string = 'standard'; // 'standard' or 'express'
@@ -108,6 +111,9 @@ export class DatHang implements OnInit {
         }
       });
     }
+
+    // 3. Load system settings to toggle payment gateways
+    this.loadSystemSettings();
   }
 
   loadCartFromLocalStorage() {
@@ -226,6 +232,20 @@ export class DatHang implements OnInit {
         alert(`Vui lòng sao chép thủ công: ${text}`);
       }
       document.body.removeChild(textarea);
+    });
+  }
+
+  loadSystemSettings() {
+    this.http.get<any>('http://localhost:3002/api/admin/settings').subscribe({
+      next: (res) => {
+        if (res) {
+          this.settings = res;
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Lỗi khi tải cấu hình thanh toán:', err);
+      }
     });
   }
 }

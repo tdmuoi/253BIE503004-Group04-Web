@@ -100,6 +100,23 @@ router.post('/', async (req, res) => {
         const createdOrder = await Order.createOrder(safeUserId, orderData);
         console.log('[Order POST] Đã lưu đơn hàng, userId trong DB:', createdOrder.userId);
 
+        // Insert notification for admin
+        try {
+            const db = req.app.locals.db;
+            if (db) {
+                await db.collection('notifications').insertOne({
+                    userId: 'admin',
+                    title: 'Đơn hàng mới chờ duyệt',
+                    content: `Đơn hàng #${createdOrder.id || createdOrder.orderId} vừa được tạo bởi ${orderData.fullname || 'Khách vãng lai'} và đang chờ bạn phê duyệt.`,
+                    type: 'order_new',
+                    read: false,
+                    createdAt: new Date()
+                });
+            }
+        } catch (e) {
+            console.error('Failed to create admin notification:', e);
+        }
+
         // 4. Xóa giỏ hàng trên DB nếu user đã đăng nhập
         if (safeUserId) {
             try {

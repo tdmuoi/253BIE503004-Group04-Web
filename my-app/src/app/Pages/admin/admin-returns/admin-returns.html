@@ -1,0 +1,126 @@
+<div class="returns-wrapper">
+  <!-- Page Header -->
+  <div class="admin-page-header">
+    <div class="breadcrumb">Admin &rsaquo; Duyệt yêu cầu thanh lý</div>
+    <h1 class="admin-page-title">Quản lý thanh lý sách</h1>
+  </div>
+
+  <div *ngIf="data">
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="card-top">
+          <span class="summary-label">CẦN DUYỆT</span>
+          <span class="trend-badge text-green">HÔM NAY</span>
+        </div>
+        <h2 class="summary-value text-green">{{ data.summary.pendingReturns }}</h2>
+        <div class="progress-track"><div class="progress-fill" style="width: 45%;"></div></div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-top">
+          <span class="summary-label">ĐÃ DUYỆT</span>
+          <span class="trend-badge text-green">TUẦN NÀY</span>
+        </div>
+        <h2 class="summary-value text-green">{{ data.summary.approvedRequests }}</h2>
+        <div class="progress-track"><div class="progress-fill" style="width: 75%;"></div></div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-top">
+          <span class="summary-label">TỪ CHỐI</span>
+          <span class="trend-badge text-red">TỔNG</span>
+        </div>
+        <h2 class="summary-value text-red">{{ data.summary.rejectedItems }}</h2>
+        <div class="progress-track"><div class="progress-fill fill-red" style="width: 15%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content-card">
+      <div class="table-toolbar">
+        <div class="title-row">
+          <span class="card-indicator"></span>
+          <h2>DANH SÁCH DUYỆT THANH LÝ</h2>
+        </div>
+        <div class="toolbar-actions">
+          <div class="tabs">
+            <button class="tab-btn" *ngFor="let tab of tabs" [class.active]="activeTab === tab" (click)="setTab(tab)">
+              {{ tab }}
+            </button>
+          </div>
+          <button class="filter-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+            Bộ lọc
+          </button>
+        </div>
+      </div>
+
+      <table class="returns-table" *ngIf="getFilteredRequests().length > 0; else emptyState">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>NGƯỜI GỬI</th>
+            <th>TÊN SÁCH</th>
+            <th>TÌNH TRẠNG</th>
+            <th>NGÀY GỬI</th>
+            <th>TRẠNG THÁI</th>
+            <th>THAO TÁC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let req of getFilteredRequests()">
+            <td class="font-bold text-dark">{{ req.formattedId }}</td>
+            <td class="font-semibold">{{ req.customer.name }}</td>
+            <td class="book-title-cell">{{ req.product.name }}</td>
+            <td>
+              <span class="condition-badge" [ngClass]="{
+                'cond-new': req.reason.toLowerCase().includes('mới'),
+                'cond-good': req.reason.toLowerCase().includes('tốt'),
+                'cond-fair': !req.reason.toLowerCase().includes('mới') && !req.reason.toLowerCase().includes('tốt')
+              }">
+                {{ req.reason }}
+              </span>
+            </td>
+            <td class="text-gray">{{ req.createdAt | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="req.status.toLowerCase()">
+                <span class="status-dot"></span>
+                {{ req.status === 'Completed' ? 'ĐÃ DUYỆT' : (req.status === 'Rejected' ? 'TỪ CHỐI' : 'CHỜ DUYỆT') }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons-row" *ngIf="req.status === 'Pending'">
+                <button class="btn-action approve" (click)="updateStatus(req.id, 'approved')">Duyệt</button>
+                <button class="btn-action reject" (click)="updateStatus(req.id, 'rejected')">Từ chối</button>
+              </div>
+              <span class="action-locked-text" *ngIf="req.status !== 'Pending'">
+                {{ req.status === 'Completed' ? 'Đã phê duyệt' : 'Đã từ chối' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <p>Không có yêu cầu thanh lý nào ở trạng thái này.</p>
+        </div>
+      </ng-template>
+
+      <!-- Pagination -->
+      <div class="pagination-container">
+        <span class="showing-text">Hiển thị 1-{{ getFilteredRequests().length }} trong {{ getFilteredRequests().length }} yêu cầu</span>
+        <div class="pagination-controls">
+          <button class="page-btn disabled">&lt;</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn disabled">&gt;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+</div>
