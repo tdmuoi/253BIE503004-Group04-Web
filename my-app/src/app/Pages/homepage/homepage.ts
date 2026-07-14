@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit, signal, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { BookService } from '../../Services/book.service';
+import { AuthService } from '../../Services/auth.service';
 
 
 interface Product {
@@ -22,6 +24,8 @@ interface Product {
 export class Homepage implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly bookService = inject(BookService);
+  private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService);
 
   // ── Flash sale countdown ──
   readonly hh = signal('00');
@@ -162,5 +166,62 @@ export class Homepage implements OnInit, OnDestroy {
     this.hh.set(String(h).padStart(2, '0'));
     this.mm.set(String(m).padStart(2, '0'));
     this.ss.set(String(s).padStart(2, '0'));
+  }
+
+  addToCart(product: any, event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    this.bookService.getBooks().subscribe({
+      next: (books) => {
+        const fullBook = books.find(b => b._id === product._id || (b as any).id === product._id);
+        if (fullBook) {
+          const cartItem = {
+            _id: fullBook._id,
+            title: fullBook.title,
+            author: fullBook.author,
+            price: fullBook.price_current,
+            img: fullBook.image || fullBook.url || '',
+            qty: 1,
+            quantity: 1
+          };
+          this.saveToCart(cartItem);
+        }
+      }
+    });
+  }
+
+  private saveToCart(cartItem: any): void {
+    let raw = null;
+    if (typeof window !== 'undefined') {
+      raw = localStorage.getItem('cart_items');
+    }
+    let items: any[] = [];
+    try { items = raw ? JSON.parse(raw) : []; } catch { items = []; }
+
+    const existing = items.findIndex((i: any) => i._id && i._id === cartItem._id);
+    if (existing >= 0) {
+      items[existing].qty = (items[existing].qty || 0) + 1;
+      items[existing].quantity = items[existing].qty;
+    } else {
+      items.push(cartItem);
+    }
+    localStorage.setItem('cart_items', JSON.stringify(items));
+
+    const user = this.authService.currentUser();
+    if (user) {
+      this.http.post('http://localhost:3002/api/carts', { items }, {
+        headers: { Authorization: `Bearer ${this.authService.getAccessToken()}` }
+      }).subscribe({
+        next: () => console.log('Đã đồng bộ giỏ hàng lên server'),
+        error: (err) => console.error('Lỗi đồng bộ giỏ hàng:', err)
+      });
+    }
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('cart:updated'));
+    }
+
+    alert('✅ Đã thêm vào giỏ hàng thành công!');
   }
 }

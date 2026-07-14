@@ -163,14 +163,14 @@
     </div>
 
     @if (featuredBook) {
-      <a [routerLink]="['/book-detail', featuredBook._id]" class="featured-card">
+      <a [routerLink]="['/book-detail', featuredBook._id]" class="featured-card" style="text-decoration: none;">
         <span class="featured-tag">LƯU CHỌN MỖI NGÀY</span>
         <h3 class="featured-title">Dành riêng<br/>cho bạn ngày<br/>hôm nay</h3>
         <div class="featured-actions">
-          <button class="btn-light">Thêm vào giỏ hàng</button>
+          <button class="btn-light" (click)="addToCart(featuredBook, $event)">Thêm vào giỏ hàng</button>
           <span class="featured-price">{{ featuredBook.price }}</span>
         </div>
-        <button class="btn-best">Bán chạy nhất</button>
+        <span class="btn-best">Bán chạy nhất</span>
         <img [src]="featuredBook.img" [alt]="featuredBook.title" class="featured-img" />
       </a>
     }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ReactiveFormsModule, Validators, FormBuilder, FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../Services/auth.service';
 import { BookService } from '../../Services/book.service';
@@ -9,7 +9,7 @@ import { BookService } from '../../Services/book.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -19,6 +19,7 @@ export class LoginPage implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly bookService = inject(BookService);
   private readonly http = inject(HttpClient);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   // OTP Sending indicator
   readonly otpSending = signal<boolean>(false);
@@ -60,6 +61,8 @@ export class LoginPage implements OnInit {
 
   // Recommendation Book List
   books: any[] = [];
+  allRecommendations: any[] = [];
+  visibleLimit = 5;
 
   ngOnInit(): void {
     // Redirect immediately if already logged in
@@ -75,8 +78,9 @@ export class LoginPage implements OnInit {
     // Load recommendations from database
     this.bookService.getBooks().subscribe({
       next: (data) => {
-        this.books = data.slice(0, 5).map(book => ({
-          image: book.image,
+        this.allRecommendations = data.map(book => ({
+          _id: book._id,
+          image: book.image || book.url || '',
           badge: book.discount_percent && book.discount_percent < 0 
             ? { text: `${book.discount_percent}%`, type: 'discount' } 
             : null,
@@ -85,11 +89,22 @@ export class LoginPage implements OnInit {
           price: book.price_current.toLocaleString('vi-VN') + 'đ',
           originalPrice: book.price_old ? book.price_old.toLocaleString('vi-VN') + 'đ' : null
         }));
+        this.updateVisibleBooks();
       },
       error: (err) => {
         console.error('Không thể lấy danh sách sách cho trang login:', err);
       }
     });
+  }
+
+  updateVisibleBooks(): void {
+    this.books = this.allRecommendations.slice(0, this.visibleLimit);
+    this.cdr.detectChanges();
+  }
+
+  loadMoreRecommendations(): void {
+    this.visibleLimit += 5;
+    this.updateVisibleBooks();
   }
 
   // Getters for Login Form

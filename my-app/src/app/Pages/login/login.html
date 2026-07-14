@@ -236,7 +236,7 @@
     <div class="title-underline"></div>
 
     <div class="books-grid">
-      <div class="book-card" *ngFor="let book of books">
+      <a [routerLink]="['/book-detail', book._id]" class="book-card" *ngFor="let book of books" style="text-decoration: none; color: inherit; display: block; cursor: pointer;">
         <div class="book-badge-container" *ngIf="book.badge">
           <span class="book-badge" [class]="book.badge.type">
             {{ book.badge.text }}
@@ -258,12 +258,12 @@
             <span class="original-price" *ngIf="book.originalPrice">{{ book.originalPrice }}</span>
           </div>
         </div>
-      </div>
+      </a>
     </div>
 
     <!-- More Recommendations Button -->
-    <div class="more-btn-wrapper">
-      <button type="button" class="more-btn">XEM THÊM ĐỀ XUẤT</button>
+    <div class="more-btn-wrapper" *ngIf="books.length < allRecommendations.length">
+      <button type="button" class="more-btn" (click)="loadMoreRecommendations()">XEM THÊM ĐỀ XUẤT</button>
     </div>
   </div>
 </div>
