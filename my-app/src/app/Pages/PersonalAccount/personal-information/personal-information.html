@@ -5,7 +5,7 @@
     <!-- User Profile Header Card -->
     <div class="profile-card">
       <div class="avatar-row">
-        <img [src]="user.avatar" alt="Avatar" class="avatar-img" />
+        <img [src]="avatarUrl" alt="Avatar" class="avatar-img" />
         <div class="user-meta">
           <h2 class="user-name">{{ user.username }}</h2>
           <div class="vip-badge-row">
@@ -95,8 +95,9 @@
           
           <!-- Avatar Uploader Row -->
           <div class="avatar-uploader-row">
-            <div class="avatar-edit-circle">
-              <img [src]="user.avatar" alt="User Avatar" class="editable-avatar-img" />
+            <input type="file" #avatarInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+            <div class="avatar-edit-circle" (click)="avatarInput.click()" style="cursor: pointer;">
+              <img [src]="avatarUrl" alt="User Avatar" class="editable-avatar-img" />
               <div class="camera-badge">
                 <span class="material-symbols-rounded">photo_camera</span>
               </div>
